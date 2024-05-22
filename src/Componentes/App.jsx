@@ -28,7 +28,7 @@ const App = () => {
 
     const login = async (usuario) => {
         try {
-         console.log(usuario.json())
+          
           const Url = '/api/Usuario/' + usuario.mail + "/" + usuario.Pass;
           console.log(Url)
           const response = await fetch(Url);
