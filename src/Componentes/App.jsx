@@ -34,6 +34,11 @@ const App = () => {
                 headers: { 'Content-Type': 'application/json' }
             };
             fetch(url, requestOptions)
+                .then(response => {
+                    if(!response){
+                        return response.json()
+                    }
+                })
                 .then(response => response.json())
                 .then(result => {
                     console.log('e?')
