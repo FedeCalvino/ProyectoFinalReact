@@ -1,0 +1,9 @@
+.container_nav{
+    
+}
+.brand-custom{
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+    font-weight:500; /* Haz que el texto sea más grueso */
+    color: #000000; /* Cambia el color del texto (este es un ejemplo de un color atractivo) */
+    font-family: 'Arial', sans-serif; /* Puedes cambiar la familia de fuentes según tus necesidades */
+}
