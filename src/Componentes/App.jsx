@@ -26,6 +26,29 @@ const App = () => {
         localStorage.setItem('user', JSON.stringify(User));
     }, [User]);
 
+    const login = async () => {
+        try {
+          const Url = '/api/Usuario/' + usuario.mail + "/" + usuario.Pass;
+          console.log(Url)
+          const response = await fetch(Url);
+          console.log("Response:", response);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+      
+          const contentType = response.headers.get("content-type");
+          console.log("Content-Type:", contentType);
+          if (!contentType || !contentType.includes("application/json")) {
+            throw new TypeError("Expected JSON response");
+          }
+      
+          const data = await response.json();
+          console.log("Data:", data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+    };
+    /*
     const login = async (usuario) => {
         try {
             const url = '/api/Usuario/' + usuario.mail + "/" + usuario.Pass
@@ -54,7 +77,7 @@ const App = () => {
         } catch (error) {
             console.log('errorrr')
         }
-    }
+    }*/
 
     const handleLogout = () => {
         setUser(null);
