@@ -20,12 +20,11 @@ const App = () => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
 
-    console.log("url:",urlIP)
 
     useEffect(() => {
         localStorage.setItem('user', JSON.stringify(User));
     }, [User]);
-
+    /*
     const login = async (usuario) => {
         try {
           
@@ -49,20 +48,16 @@ const App = () => {
           console.error("Error fetching data:", error);
         }
     };
-    /*
+    */
     const login = async (usuario) => {
         try {
-            const url = '/api/Usuario/' + usuario.mail + "/" + usuario.Pass
+            const url = 'https://localhost:8085/Usuario/' + usuario.mail + "/" + usuario.Pass
+            console.log(url)
             const requestOptions = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             };
             fetch(url, requestOptions)
-                .then(response => {
-                    if(!response){
-                        return response.json()
-                    }
-                })
                 .then(response => response.json())
                 .then(result => {
                     console.log('e?')
@@ -78,7 +73,7 @@ const App = () => {
         } catch (error) {
             console.log('errorrr')
         }
-    }*/
+    }
 
     const handleLogout = () => {
         setUser(null);
