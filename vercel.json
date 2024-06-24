@@ -1,8 +1,8 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/:path*",
-        "destination": "https://67bd-2800-a4-1408-fd00-30f9-b75c-5d46-f19e.ngrok-free.app/:path*"
-      }
-    ]
+  "rewrites": [
+    {
+      "source": "/Ventas/Dto",
+      "destination": "http://20.84.111.102:8085/Ventas/Dto"
+    }
+  ]
 }
