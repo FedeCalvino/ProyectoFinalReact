@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import Accordion from 'react-bootstrap/Accordion';
 import './VentasCss.css';
 import { NavBar } from '../Componentes/NavBar';
+import { Loading } from '../Componentes/Loading';
 
 const StyledTableRow = styled.tr`
 &:hover {
@@ -15,9 +16,10 @@ const StyledTableRow = styled.tr`
 }
 `;
 
-export const Ventas = () => {
+export const Ventas = ({IdVentaView}) => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
+    const [loading, setloading] = useState(true)
 
     const [IdVenta, setIdVenta] = useState(null)
     const [ClienteVenta, setClienteVenta] = useState(null)
@@ -33,18 +35,8 @@ export const Ventas = () => {
     const UrlVentasLike = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto/"
     const Factura = "http://"+{urlIP}.urlIP+":8085/Factura/";
 
-    useEffect(() => {
-        console.log(UrlVentas)
-        FetchVentas();
-    }, []);
+    
 
-    useEffect(() => {
-        FetchVentaCortinas();
-    }, [IdVenta]);
-
-    useEffect(() => {
-        FetchVentas();
-    }, [SearchText]);
 
     function MostrarVenta(venta) {
         console.log("click");
@@ -54,12 +46,20 @@ export const Ventas = () => {
     }
 
 
+    if(loading){
+      return (
+        <Loading tipo="all"/>
+      )  
+    }
+
+
     const FetchVentas = async () => {
         if (SearchText == "") {
             try {
                 const res = await fetch(UrlVentas)
                 const data = await res.json()
                 setVentas(data);
+                setloading(false)
                 console.log(data);
             } catch (error) {
                 console.log(error)
@@ -76,6 +76,29 @@ export const Ventas = () => {
         }
     };
 
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                console.log("entr")
+                await FetchVentas();
+                if(IdVentaView){
+                    setActiveKey(IdVentaView);
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        FetchVentas();
+    }, [SearchText]);
+
     const FetchVentaCortinas = async () => {
         if (IdVenta != null) {
             try {
@@ -88,6 +111,9 @@ export const Ventas = () => {
             }
         }
     };
+    useEffect(() => {
+        FetchVentaCortinas();
+    }, [IdVenta]);
 
     const FetchFactura = async (VentaId) => {
         try {
