@@ -46,11 +46,7 @@ export const Ventas = ({IdVentaView}) => {
     }
 
 
-    if(loading){
-      return (
-        <Loading tipo="all"/>
-      )  
-    }
+    
 
 
     const FetchVentas = async () => {
@@ -59,7 +55,6 @@ export const Ventas = ({IdVentaView}) => {
                 const res = await fetch(UrlVentas)
                 const data = await res.json()
                 setVentas(data);
-                setloading(false)
                 console.log(data);
             } catch (error) {
                 console.log(error)
@@ -89,7 +84,7 @@ export const Ventas = ({IdVentaView}) => {
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false);
+                setloading(false);
             }
         };
         fetchData();
@@ -115,16 +110,13 @@ export const Ventas = ({IdVentaView}) => {
         FetchVentaCortinas();
     }, [IdVenta]);
 
-    const FetchFactura = async (VentaId) => {
-        try {
-            const res = await fetch(Factura + VentaId)
-            const data = await res.json()
-            setVentas(data);
-            console.log(data);
-        } catch (error) {
-            console.log(error)
-        }
-    };
+
+    if(loading){
+        return (
+          <Loading tipo="all"/>
+        )  
+    }
+
     return (
         <>
             <Row className="text-center mt-4 mb-4">
