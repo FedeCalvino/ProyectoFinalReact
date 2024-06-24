@@ -69,7 +69,7 @@ export const CrearVenta = () => {
     useEffect(() => {
         FetchTelas();
     }, []);
-    const UrlTelas = "http://"+{urlIP}.urlIP+":8085/TipoTela"
+    const UrlTelas = "/TipoTela"
 
     function AgregarRoller() {
         const nuevaCortinaRoler = {
