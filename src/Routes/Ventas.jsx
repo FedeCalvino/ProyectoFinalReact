@@ -101,7 +101,6 @@ export const Ventas = () => {
     };
     return (
         <>
-            <NavBar/>
             <Row className="text-center mt-4 mb-4">
                 <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
                     VENTAS
