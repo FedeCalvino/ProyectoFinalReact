@@ -298,7 +298,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch("http://"+{urlIP}.urlIP+":8085/Ventas", requestOptionsVenta)
+                fetch("/Ventas", requestOptionsVenta)
                     .then(response => response.json())
                     .then(result => {
                         console.log(result)
@@ -333,7 +333,7 @@ export const CrearVenta = () => {
                     )
                 };
 
-                fetch('http://localhost:8085/Cliente', requestOptionsCliente)
+                fetch('/Cliente', requestOptionsCliente)
                     .then(response => response.json())
                     .then(result => {
                         const requestOptionsVenta = {
@@ -347,7 +347,7 @@ export const CrearVenta = () => {
                                 }
                             )
                         };
-                        fetch("http://"+{urlIP}.urlIP+":8085/Ventas", requestOptionsVenta)
+                        fetch("/Ventas", requestOptionsVenta)
                             .then(response => response.json())
                             .then(result => {
                                 console.log(result)
