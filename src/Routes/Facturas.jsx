@@ -7,12 +7,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import Accordion from 'react-bootstrap/Accordion';
+import { Loading } from '../Componentes/Loading';
 
 
 export const Facturas = () => {
 
     const [SearchText, setSearchText] = useState("")
-
+    const [loading, setloading] = useState(true)
     const [IdVenta, setIdVenta] = useState(null)
     const [ClienteVenta, setClienteVenta] = useState(null)
     const [FechaVenta, setFechaVenta] = useState(null)
@@ -36,18 +37,7 @@ export const Facturas = () => {
     const FacturaUrl = "/Factura/";
     const UrlVentas = "/Ventas/Dto"
     const UrlRecibos = "/Factura/Recibos/";
-    useEffect(() => {
-        FetchVentas();
-    }, [SearchText]);
-
-    useEffect(() => {
-        FetchVentas();
-    }, []);
-
-    useEffect(() => {
-        FetchFacturaVenta();
-        FetchRecibosVenta();
-    }, [IdVenta]);
+    
 
 
     function MostrarVenta(venta) {
@@ -139,6 +129,33 @@ export const Facturas = () => {
                 FetchFacturaVenta()
             });
     }
+
+    useEffect(() => {
+        FetchVentas();
+    }, [SearchText]);
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                console.log("entr")
+                await FetchVentas();
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setloading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        FetchFacturaVenta();
+        FetchRecibosVenta();
+    }, [IdVenta]);
+
+
     const CrearRecibo = () => {
         const requestOptions = {
             method: 'POST',
@@ -217,6 +234,12 @@ export const Facturas = () => {
                 </Row>
             </>
         )
+    }
+
+    if(loading){
+        return (
+          <Loading tipo="all"/>
+        )  
     }
 
 
