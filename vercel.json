@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/CrearVenta",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Ventas/Dto",
       "destination": "http://20.84.111.102:8085/Ventas/Dto"
     },
