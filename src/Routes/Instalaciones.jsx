@@ -270,7 +270,7 @@ export const Instalaciones = () => {
             .then(response => response.json())
             .then(result => {
                 console.log(result)
-                window.location.reload();
+                //window.location.reload();
             });
     }
 
