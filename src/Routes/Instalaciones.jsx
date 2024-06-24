@@ -47,8 +47,8 @@ export const Instalaciones = () => {
         p: 4,
     };
 
-    const UrlVentas = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto"
-    const InstalacionUrl = "http://"+{urlIP}.urlIP+":8085/Instalacion"
+    const UrlVentas = "/Ventas/Dto"
+    const InstalacionUrl = "/Instalacion"
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
