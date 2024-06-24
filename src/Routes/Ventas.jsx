@@ -28,7 +28,7 @@ export const Ventas = () => {
     const [Venta, setVenta] = useState([])
     const [Cortinas, setCortinas] = useState([])
 
-    const UrlVentas = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto"
+    const UrlVentas = "/Ventas/Dto"
     const UrlVenta = "http://"+{urlIP}.urlIP+":8085/Ventas/DtoVentaCor/"
     const UrlVentasLike = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto/"
     const Factura = "http://"+{urlIP}.urlIP+":8085/Factura/";
