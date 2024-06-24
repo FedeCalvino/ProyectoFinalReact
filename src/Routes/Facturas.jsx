@@ -33,9 +33,9 @@ export const Facturas = () => {
     const [NroFactura, setNroFactura] = useState('')
     const [FechaFinalPago, setFechaFinalPago] = useState('')
     const urlIP = import.meta.env.REACT_APP__IPSQL;
-    const FacturaUrl = "http://"+{urlIP}.urlIP+":8085/Factura";
-    const UrlVentas = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto"
-    const UrlRecibos = "http://"+{urlIP}.urlIP+":8085/Factura/Recibos/";
+    const FacturaUrl = "/Factura/";
+    const UrlVentas = "/Ventas/Dto"
+    const UrlRecibos = "/Factura/Recibos/";
     useEffect(() => {
         FetchVentas();
     }, [SearchText]);

@@ -35,6 +35,22 @@
     {
       "source": "/Ventas/DtoVentaCor/:IdVenta",
       "destination": "http://20.84.111.102:8085/Ventas/DtoVentaCor/:IdVenta"
+    },
+    {
+      "source": "/Factura/:IdVenta",
+      "destination": "http://20.84.111.102:8085/Factura/:IdVenta"
+    },
+    {
+      "source": "/Ventas/Dto",
+      "destination": "http://20.84.111.102:8085/Ventas/Dto"
+    },
+    {
+      "source": "/Factura/Recibos/:IdVenta",
+      "destination": "http://20.84.111.102:8085/Factura/Recibos/:IdVenta"
     }
   ]
 }
+
+const FacturaUrl = "/Factura";
+    const UrlVentas = "/Ventas/Dto"
+    const UrlRecibos = "/Factura/Recibos/
