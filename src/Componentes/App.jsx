@@ -51,13 +51,13 @@ const App = () => {
     */
     const login = async (usuario) => {
         try {
-            const url = 'https://localhost:8085/Usuario/' + usuario.mail + "/" + usuario.Pass
+            const url = 'http://20.84.111.102:8085/Usuario/' + usuario.mail + "/" + usuario.Pass
             console.log(url)
             const requestOptions = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             };
-            fetch(url, requestOptions)
+            fetch("http://20.84.111.102:8085/Cliente", requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log('e?')

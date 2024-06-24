@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import Accordion from 'react-bootstrap/Accordion';
 import './VentasCss.css';
+import { NavBar } from '../Componentes/NavBar';
 
 const StyledTableRow = styled.tr`
 &:hover {
@@ -33,6 +34,7 @@ export const Ventas = () => {
     const Factura = "http://"+{urlIP}.urlIP+":8085/Factura/";
 
     useEffect(() => {
+        console.log(UrlVentas)
         FetchVentas();
     }, []);
 
@@ -99,6 +101,7 @@ export const Ventas = () => {
     };
     return (
         <>
+            <NavBar/>
             <Row className="text-center mt-4 mb-4">
                 <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
                     VENTAS
