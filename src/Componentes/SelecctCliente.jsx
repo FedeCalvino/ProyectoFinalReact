@@ -12,8 +12,10 @@ import { useRef } from 'react';
 import { BuscadorClientes } from './BuscadorClientes';
 import Card from 'react-bootstrap/Card';
 import Placeholder from 'react-bootstrap/Placeholder';
-
-
+import Spinner from 'react-bootstrap/Spinner';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import Container from 'react-bootstrap/Container'
 export const SelecctCliente = React.memo(({ ClienteData }) => {
     const [IdCli, setIdCli] = useState(null);
 
@@ -25,7 +27,7 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
     const [DireccCliN, setCliDireccN] = useState(''); const [ClienteSeleccBoolean, SetClienteSeleccBoolean] = useState(false);
     const [ClienteCrearSelecc, setClienteCrearSelecc] = useState(false);
     const [NroCuentaCli, setNroCuentaCli] = useState('');
-
+    const [loadingSearch, setloadingSearch] = useState(false);
     //SeleccCliente
 
     const [NombreCli, setCliNom] = useState('');
@@ -35,13 +37,13 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
 
 
 
-    const UrlClientes = "http://localhost:8085/Cliente"
-    const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
+    const UrlClientes = "/Cliente"
+    const UrlCLientesLike = "/Cliente/strL/"
 
     const [SearchText, setSearchText] = useState('');
 
     //const {data,isLoading,error} = useFecth(UrlClientes)
-
+    console.log("loading", loadingSearch)
     useEffect(() => {
         FetchClientesLike();
     }, [SearchText]);
@@ -53,9 +55,11 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
     const FetchClientesLike = async () => {
         try {
             if (SearchText.trim() !== '') {
+                setloadingSearch(true)
                 const res = await fetch(UrlCLientesLike + SearchText)
                 const data = await res.json()
                 setClientes(data);
+                setloadingSearch(false)
                 console.log(data);
             } else {
                 setClientes([]);
@@ -80,11 +84,6 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
 
 
 
-    function SeleccionarCliente() {
-        ClienteData(Cliente)
-        setClienteCrearSelecc(false)
-        SetClienteSeleccBoolean(true)
-    }
 
 
     const handleSearchTextChange = (e) => {
@@ -160,7 +159,9 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
         setCliRut(Cli.rut)
         setCliDirecc(Cli.direccion)
         setCliTel(Cli.numeroTelefono)
-        setSearchText("")
+        ClienteData(Cli)
+        setClienteCrearSelecc(false)
+        SetClienteSeleccBoolean(true)
     };
 
     return (
@@ -173,120 +174,126 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                 </>
                 :
                 <>
-                    <Row>
-                        <Form.Group as={Col} md="8">
-                            <h3 style={{ marginLeft: "7em" }}>Selecciona Cliente</h3>
-                        </Form.Group>
-                        <Form.Group as={Col} md="4">
-                            <h3>Crear Cliente</h3>
-                        </Form.Group>
-                    </Row>
-                    <Form.Group as={Col} md="2" noValidate>
-                        <Form.Control
-                            type="text"
-                            value={SearchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            placeholder="Buscar..."
-                        />
-                    </Form.Group>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} md="2" noValidate>
-                            <ListGroup>
-                                {(Clientes.map(Cli =>
-                                    <ListGroup.Item
-                                        key={Cli.id}
-                                        action
-                                        value={Cli.id}
-                                        onClick={() => SelecctCliFromList(Cli)}
-                                    >
-                                        {Cli.nombre}
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Form.Group>
-                        <Form.Group as={Col} md="1" noValidate>
-                            <Form.Label>Nombre</Form.Label>
-                            <Form.Control
-                                type="text"
-                                readOnly={true}
-                                value={NombreCli}
-                                placeholder="Nombre"
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="1" noValidate>
-                            <Form.Label>Telefono</Form.Label>
-                            <Form.Control
-                                required
-                                value={TelefonoCli}
-                                readOnly={true}
-                                placeholder="telefono"
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="2">
-                        </Form.Group>
-
-                        <Form.Group style={{ borderLeft: "4px solid black" }} as={Col} md="3" noValidate>
-                            <Form.Label>Nombre</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={NombreCliN}
-                                onChange={(e) => (setCliNomN(e.target.value))}
-                                placeholder="Nombre"
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3" noValidate>
-                            <Form.Label>Telefono</Form.Label>
-                            <Form.Control
-                                required
-                                type="number"
-                                value={TelefonoCliN}
-                                onChange={(e) => (setCliTelN(e.target.value))}
-                                placeholder="telefono"
-                            />
-                        </Form.Group>
-                    </Row>
-
-                    <Row className="mb-3">
-                        <Form.Group as={Col} md="2">
-                        </Form.Group>
-                        <Form.Group as={Col} md="1" noValidate>
-                            <Form.Label>RUT</Form.Label>
-                            <Form.Control type="number" readOnly={true} value={RutCli} placeholder="Rut" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="2" noValidate>
-                            <Form.Label>Direccion</Form.Label>
-                            <Form.Control type="text" readOnly={true} value={DireccCli} placeholder="Direccion" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="1" controlId="NA" noValidate>
-                        </Form.Group>
-                        <Form.Group style={{ borderLeft: "4px solid black" }} as={Col} md="3" noValidate>
-                            <Form.Label>RUT</Form.Label>
-                            <Form.Control value={RutCliN} onChange={(e) => (setCliRutN(e.target.value))} type="number" placeholder="Rut" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3" noValidate>
-                            <Form.Label>Direccion</Form.Label>
-                            <Form.Control value={DireccCliN} onChange={(e) => (setCliDireccN(e.target.value))} type="text" placeholder="Direccion" />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group as={Col} md="4" controlId="NA">
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group style={{marginBottom:"40px",marginLeft:" 1200px"}} as={Col} md="3" noValidate>
-                            <Form.Label>Nro Cuenta</Form.Label>
-                            <Form.Control value={NroCuentaCli} onChange={(e) => (setNroCuentaCli(e.target.value))} type="text" placeholder="Nro Cuenta" />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group as={Col} md="2" controlId="NA">
-                        </Form.Group>
-                        <Button type="submit" as={Col} md="1" onClick={SeleccionarCliente}>Seleccionar Cliente</Button>
-                        <Form.Group as={Col} md="5" controlId="NA">
-                        </Form.Group>
-                        <Button type="submit" as={Col} md="1" onClick={CrearCliente}>Crear Cliente</Button>
-                    </Row>
-                </>}
+                    <Tabs
+                        defaultActiveKey="Selecc"
+                        id="fill-tab-example"
+                        as={Col}
+                        className="mb-2"
+                        style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <Tab eventKey="Selecc" title="Seleccionar Cliente">
+                            <Row className="justify-content-center mb-3">
+                                <Col md="3" noValidate>
+                                    <Form.Control
+                                        type="text"
+                                        value={SearchText}
+                                        onChange={(e) => setSearchText(e.target.value)}
+                                        placeholder="Buscar..."
+                                    />
+                                </Col>
+                                {loadingSearch ? (
+                                    <Col md="1" className="text-center">
+                                        <Spinner animation="border" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </Spinner>
+                                    </Col>
+                                ) : null}
+                            </Row>
+                            <Row className="justify-content-center mb-3">
+                                <Col md="4" noValidate>
+                                    <ListGroup>
+                                        {Clientes.map(Cli => (
+                                            <ListGroup.Item
+                                                key={Cli.id}
+                                                action
+                                                value={Cli.id}
+                                                onClick={() => SelecctCliFromList(Cli)}
+                                            >
+                                                {Cli.nombre}
+                                            </ListGroup.Item>
+                                        ))}
+                                    </ListGroup>
+                                </Col>
+                            </Row>
+                        </Tab>
+                        <Tab eventKey="Crear" title="Crear Cliente">
+                            <Container>
+                                <Row className="justify-content-center mb-3">
+                                    <Col md="4">
+                                        <h3 className="text-center">Crear Cliente</h3>
+                                    </Col>
+                                </Row>
+                                <Form>
+                                    <Row className="justify-content-center mb-3">
+                                        <Col md="5" className="border-start">
+                                            <Form.Group controlId="Nombre">
+                                                <Form.Label>Nombre</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    value={NombreCliN}
+                                                    onChange={(e) => setCliNomN(e.target.value)}
+                                                    placeholder="Nombre"
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md="5">
+                                            <Form.Group controlId="Telefono">
+                                                <Form.Label>Telefono</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="number"
+                                                    value={TelefonoCliN}
+                                                    onChange={(e) => setCliTelN(e.target.value)}
+                                                    placeholder="Telefono"
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className="justify-content-center mb-3">
+                                        <Col md="5" className="border-start">
+                                            <Form.Group controlId="Rut">
+                                                <Form.Label>RUT</Form.Label>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={RutCliN}
+                                                    onChange={(e) => setCliRutN(e.target.value)}
+                                                    placeholder="RUT"
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md="5">
+                                            <Form.Group controlId="Direccion">
+                                                <Form.Label>Direccion</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    value={DireccCliN}
+                                                    onChange={(e) => setCliDireccN(e.target.value)}
+                                                    placeholder="Direccion"
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className="justify-content-center mb-3">
+                                        <Col md="5" className="border-start border-2">
+                                            <Form.Group controlId="NroCuenta">
+                                                <Form.Label>Nro Cuenta</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    value={NroCuentaCli}
+                                                    onChange={(e) => setNroCuentaCli(e.target.value)}
+                                                    placeholder="Nro Cuenta"
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className="justify-content-center">
+                                        <Col md="2">
+                                            <Button type="submit" onClick={CrearCliente} className="w-100">Crear Cliente</Button>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            </Container>
+                        </Tab>
+                    </Tabs></>}
         </>
     );
 
