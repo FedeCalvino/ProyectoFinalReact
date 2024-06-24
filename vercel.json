@@ -5,6 +5,26 @@
       "destination": "/index.html"
     },
     {
+      "source": "/Ventas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Clientes",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/WareHouse",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Facturas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Instalaciones",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Ventas/Dto",
       "destination": "http://20.84.111.102:8085/Ventas/Dto"
     },
