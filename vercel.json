@@ -29,6 +29,10 @@
       "destination": "http://20.84.111.102:8085/Ventas/Dto"
     },
     {
+      "source": "/Clientes",
+      "destination": "http://20.84.111.102:8085/Clientes"
+    },
+    {
       "source": "/Ventas/DtoVentaCor/:IdVenta",
       "destination": "http://20.84.111.102:8085/Ventas/DtoVentaCor/:IdVenta"
     }

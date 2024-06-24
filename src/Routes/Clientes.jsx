@@ -10,7 +10,7 @@ import './ClienteList.css'
 export const Clientes = () => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
-    const UrlClientes = "http://"+{urlIP}.urlIP+":8085/Cliente"
+    const UrlClientes = "/Cliente"
     const [Clientes, setClientes] = useState([]);
     useEffect(() => {
         FetchClientes();
