@@ -50,7 +50,3 @@
     }
   ]
 }
-
-const FacturaUrl = "/Factura";
-    const UrlVentas = "/Ventas/Dto"
-    const UrlRecibos = "/Factura/Recibos/
