@@ -378,6 +378,7 @@ export const CrearVenta = () => {
     };
 
     async function AgregarCortinasRollers(idVenta) {
+        console.log("add cortina")
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
@@ -396,6 +397,7 @@ export const CrearVenta = () => {
                 "Posicion": Cor.posicion,
                 "LadoCadena": Cor.ladoC
             };
+            console.log("boady",bodyData)
             requestOptions.body = JSON.stringify(bodyData);
             fetch('/Cortinas/Roller', requestOptions)
                 .then(response => response.json())
