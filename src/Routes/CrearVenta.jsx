@@ -282,7 +282,7 @@ export const CrearVenta = () => {
             ok = false;
         }
 
-        if (ok) {
+        if(ok){
             const precioFinalInt = parseInt({ Precio }.Precio, 10);
             setloading(true)
             if (DataCli.id) {
@@ -333,7 +333,6 @@ export const CrearVenta = () => {
                         if (!response.ok) {
                             throw new Error('Error en la solicitud de cliente');
                         }
-                        return response.json();
                     })
                     .then(result => {
                         const requestOptionsVenta = {
