@@ -13,12 +13,15 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert';
 import { Navigate } from 'react-router-dom';
+import { Loading } from '../Componentes/Loading';
+import { Ventas } from './Ventas';
 
 
 export const CrearVenta = () => {
-    const urlIP = import.meta.env.REACT_APP__IPSQL;
-    const [isValid, setisValid] = useState(null)
+    const [IdVentaView, setIdVentaView] = useState(null);
 
+    const [isValid, setisValid] = useState(null)
+    const [loading, setloading] = useState(false)
     //Cliente selecc
     const [DataCli, setDataCli] = useState(null);
     const [Obra, setObra] = useState('')
@@ -69,6 +72,7 @@ export const CrearVenta = () => {
     useEffect(() => {
         FetchTelas();
     }, []);
+
     const UrlTelas = "/TipoTela"
 
     function AgregarRoller() {
@@ -92,7 +96,6 @@ export const CrearVenta = () => {
 
     const FetchTelas = async () => {
         try {
-            console.log(UrlTelas)
             const res = await fetch(UrlTelas)
             const data = await res.json()
             setTelas(data);
@@ -101,6 +104,9 @@ export const CrearVenta = () => {
             console.log(error)
         }
     };
+    if (loading) {
+        return <div><Loading tipo="all" /></div>;
+    }
 
     const FormCortinaTradicional = () => {
         return (
@@ -255,38 +261,25 @@ export const CrearVenta = () => {
     };
 
 
-
-
-
-
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        setValidated(true);
-    };
-
-
     function BorrarCor(id) {
         console.log(id);
         const nuevasCortinas = Cortinas.filter(cortina => cortina.Id !== id);
         setCortinas(nuevasCortinas);
     }
 
-    function CrearNuevaVenta() {
-
-        const precioFinalInt = parseInt({ Precio }.Precio, 10);
-        if (DataCli && Object.keys(DataCli).length === 0) {
+    function CrearNuevaVenta(){
+        
+        console.log("data cli",DataCli)
+        if (!DataCli || Object.keys(DataCli).length === 0) {
             setAlertaClienteNotSelecc(true)
             setTimeout(() => {
                 setAlertaClienteNotSelecc(false);
             }, 8000);
         } else {
-            console.log(DataCli)
-
+            setloading(true)
+            console.log("Cliente", DataCli)
             if (DataCli.id) {
+                const precioFinalInt = parseInt({ Precio }.Precio, 10);
                 const requestOptionsVenta = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -294,27 +287,20 @@ export const CrearVenta = () => {
                         {
                             "IdCliente": DataCli.id,
                             "PrecioFinal": precioFinalInt,
-                            "Obra": {Obra}.Obra
+                            "Obra": { Obra }.Obra
                         }
                     )
                 };
-                fetch("/Ventas", requestOptionsVenta)
+                fetch('/Ventas', requestOptionsVenta)
                     .then(response => response.json())
                     .then(result => {
-                        console.log(result)
-                        setVentaCreada(true)
-                        AgregarCortinasRollers(result.id)
-                        setTimeout(() => {
-                            setVentaCreada(false);
-                        }, 8000);
+                        handleResult(result)
                     });
-
             } else {
                 console.log(DataCli)
                 //Creo el Cliente antes de la venta
                 const IdRutParse = parseInt(DataCli.Rut.RutCliN, 10);
                 const IdTelParse = parseInt(DataCli.Tel, 10);
-
                 /*console.log(DataCli.Rut.RutCliN)
                 console.log(DataCli.Name.NombreCliN)
                 console.log(DataCli.Tel.TelefonoCliN)
@@ -334,34 +320,59 @@ export const CrearVenta = () => {
                 };
 
                 fetch('/Cliente', requestOptionsCliente)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error en la solicitud de cliente');
+                        }
+                        return response.json();
+                    })
                     .then(result => {
                         const requestOptionsVenta = {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(
-                                {
-                                    "IdCliente": result.id,
-                                    "PrecioFinal": precioFinalInt,
-                                    "Obra": {Obra}.Obra
-                                }
-                            )
+                            body: JSON.stringify({
+                                "IdCliente": result.id,
+                                "PrecioFinal": precioFinalInt,
+                                "Obra": { Obra }.Obra
+                            })
                         };
-                        fetch("/Ventas", requestOptionsVenta)
-                            .then(response => response.json())
+                        fetch('/Ventas', requestOptionsVenta)
+                            .then(response => {
+                                if (!response.ok) {
+                                    setloading(false)
+
+                                }
+                                return response.json();
+                            })
                             .then(result => {
-                                console.log(result)
-                                setVentaCreada(true)
-                                AgregarCortinasRollers(result.id)
-                                setTimeout(() => {
+                                handleResult(result);
+                                /* setTimeout(() => {
                                     setVentaCreada(false);
-                                }, 8000);
+                                }, 8000);*/
+                            })
+                            .catch(error => {
+                                console.error('Error en la solicitud de ventas:', error);
+                                // Manejar el error de la solicitud de ventas aquí
                             });
+                    })
+                    .catch(error => {
+                        console.error('Error en la solicitud de cliente:', error);
+                        // Manejar el error de la solicitud de cliente aquí
                     });
             }
 
         }
     }
+
+    const handleResult = (result) => {
+        console.log(result);
+        AgregarCortinasRollers(result.id);
+        setIdVentaView(result.id);
+        /*setTimeout(() => {
+            setVentaCreada(false);
+        }, 8000);*/
+        setloading(false)
+    };
 
     async function AgregarCortinasRollers(idVenta) {
         const requestOptions = {
@@ -383,7 +394,7 @@ export const CrearVenta = () => {
                 "LadoCadena": Cor.ladoC
             };
             requestOptions.body = JSON.stringify(bodyData);
-            fetch("http://"+{urlIP}.urlIP+":8085/Cortinas/Roller", requestOptions)
+            fetch('/Cortinas/Roller', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result)
@@ -399,9 +410,8 @@ export const CrearVenta = () => {
         };
         const IdcorParse = parseInt(cortinaid, 10);
         const IdVentParse = parseInt(idVenta, 10);
-        const url = "http://"+{urlIP}.urlIP+":8085/Ventas/" + IdcorParse + "/" + IdVentParse
         console.log(url)
-        fetch("http://"+{urlIP}.urlIP+":8085/Ventas/" + IdcorParse + "/" + IdVentParse, requestOptions)
+        fetch('/Ventas/' + IdcorParse + "/" + IdVentParse, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
@@ -426,22 +436,18 @@ export const CrearVenta = () => {
     };
 
     const setCliCall = (NewData) => {
-        const newDataWithObra = { ...NewData, obra: { Obra } };
-        setDataCli(newDataWithObra)
-        console.log(newDataWithObra)
-        console.log(newDataWithObra.obra.Obra)
+        setDataCli(NewData)
+        console.log(NewData)
     }
 
 
-    const AlertaCliente = () => {
+    const Alerta = ({ Mensaje }) => {
         return (
-            <>
-                <Alert variant="danger">
-                    Selecciona un cliente primero
-                </Alert>
-            </>
-        )
-    }
+            <Alert variant="danger">
+                {Mensaje}
+            </Alert>
+        );
+    };
     const AlertaVentaCreada = () => {
         return (
             <>
@@ -461,102 +467,104 @@ export const CrearVenta = () => {
         )
     }
 
-
-    return (
-        <>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                {AlertaClienteNotSelecc ? <AlertaCliente /> : null}
-                {VentaCreada ? <AlertaVentaCreada /> : null}
-                <SelecctCliente ClienteData={setCliCall} />
-                <InputGroup>
-                    <Form.Group as={Col} md="3" controlId="validationCustom01">
-                        <h3>Obra</h3>
-                        <Form.Control
-                            type="text"
-                            value={Obra}
-                            onChange={(e) => setObra(e.target.value)}
-                        />
-                    </Form.Group>
-                </InputGroup>
-                <Row style={{ marginBottom: "2em" }}>
-                    <h2>Crear Ambientes</h2>
-                    <Form.Group as={Col} md="4" controlId="validationCustom01">
-                        {AmbienteIgual ? <AlertaAmbienteIgual /> : null}
-                        <InputGroup>
-                            <InputGroup.Text>Nuevo Ambiente</InputGroup.Text>
+    if (!IdVentaView) {
+        return (
+            <>
+                <Form noValidate validated={validated}>
+                {AlertaClienteNotSelecc ? <Alerta Mensaje="Selecciona un cliente primero" /> : null}
+                    {VentaCreada ? <AlertaVentaCreada /> : null}
+                    <SelecctCliente ClienteData={setCliCall} />
+                    <InputGroup>
+                        <Form.Group as={Col} md="3" controlId="validationCustom01">
+                            <h3>Obra</h3>
                             <Form.Control
                                 type="text"
-                                value={NombreNuevoAmbiente}
-                                onChange={(e) => setNuevoNombreAmbiente(e.target.value)}
+                                value={Obra}
+                                onChange={(e) => setObra(e.target.value)}
                             />
-                            <Button style={{ marginLeft: "1em" }} onClick={CrearAmbiente}>Crear</Button>
-                        </InputGroup>
+                        </Form.Group>
+                    </InputGroup>
+                    <Row style={{ marginBottom: "2em" }}>
+                        <h2>Crear Ambientes</h2>
+                        <Form.Group as={Col} md="4" controlId="validationCustom01">
+                            {AmbienteIgual ? <AlertaAmbienteIgual /> : null}
+                            <InputGroup>
+                                <InputGroup.Text>Nuevo Ambiente</InputGroup.Text>
+                                <Form.Control
+                                    type="text"
+                                    value={NombreNuevoAmbiente}
+                                    onChange={(e) => setNuevoNombreAmbiente(e.target.value)}
+                                />
+                                <Button style={{ marginLeft: "1em" }} onClick={CrearAmbiente}>Crear</Button>
+                            </InputGroup>
 
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Tabs
-                        defaultActiveKey="profile"
-                        id="fill-tab-example"
-                        as={Col}
-                        className="mb-2"
-                    >
-                        <Tab eventKey="Roll" title="Roller">
-                            {FormCortinaRoller()}
-                            <Row style={{ marginTop: "1em" }}>
-                                <Form.Group controlId="validationCustom01">
-                                    <Button style={{ marginTop: "1em" }} type="submit" as={Col} md="1" onClick={AgregarRoller}>Agregar Roller</Button>
-                                </Form.Group>
-                            </Row>
-                        </Tab>
-                        <Tab eventKey="Tra" title="Tradicional">
-                            {FormCortinaTradicional()}
-                        </Tab>
-                        <Tab eventKey="Pan" title="Panel">
-                            Tab content for Panel
-                        </Tab>
-                    </Tabs>
-                    <ListGroup as={Col} md="8">
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Tabs
+                            defaultActiveKey="profile"
+                            id="fill-tab-example"
+                            as={Col}
+                            className="mb-2"
+                        >
+                            <Tab eventKey="Roll" title="Roller">
+                                {FormCortinaRoller()}
+                                <Row style={{ marginTop: "1em" }}>
+                                    <Form.Group controlId="validationCustom01">
+                                        <Button style={{ marginTop: "1em" }} type="submit" as={Col} md="1" onClick={AgregarRoller}>Agregar Roller</Button>
+                                    </Form.Group>
+                                </Row>
+                            </Tab>
+                            <Tab eventKey="Tra" title="Tradicional">
+                                {FormCortinaTradicional()}
+                            </Tab>
+                            <Tab eventKey="Pan" title="Panel">
+                                Tab content for Panel
+                            </Tab>
+                        </Tabs>
+                    </Row>
 
-                    </ListGroup>
-                </Row>
-
-            </Form>
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>Area</th>
-                        <th>Tela</th>
-                        <th>Ancho</th>
-                        <th>Largo</th>
-                        <th>Caño</th>
-                        <th>Lado Cadena</th>
-                        <th>Posicion</th>
-                        <th>Motorizada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Cortinas.map((Cor, index) => (
-                        <tr key={index} style={{ marginBottom: "1em" }}>
-                            <td>{Cor.Ambiente}</td>
-                            <td>{Cor.tela.Nombre}</td>
-                            <td>{Cor.ancho}</td>
-                            <td>{Cor.largoRoller}</td>
-                            <td>{Cor.Cano}</td>
-                            <td>{Cor.ladoC}</td>
-                            <td>{Cor.posicion}</td>
-                            {Cor.motorizada ? <td> Si</td> : <td>No</td>}
-                            <td>
-                                <Button type="submit" onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
-                            </td>
+                </Form>
+                <Table responsive>
+                    <thead>
+                        <tr>
+                            <th>Area</th>
+                            <th>Tela</th>
+                            <th>Ancho</th>
+                            <th>Largo</th>
+                            <th>Caño</th>
+                            <th>Lado Cadena</th>
+                            <th>Posicion</th>
+                            <th>Motorizada</th>
                         </tr>
-                    ))}
+                    </thead>
+                    <tbody>
+                        {Cortinas.map((Cor, index) => (
+                            <tr key={index} style={{ marginBottom: "1em" }}>
+                                <td>{Cor.Ambiente}</td>
+                                <td>{Cor.tela.Nombre}</td>
+                                <td>{Cor.ancho}</td>
+                                <td>{Cor.largoRoller}</td>
+                                <td>{Cor.Cano}</td>
+                                <td>{Cor.ladoC}</td>
+                                <td>{Cor.posicion}</td>
+                                {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                <td>
+                                    <Button type="submit" onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
+                                </td>
+                            </tr>
+                        ))}
 
-                </tbody>
-            </Table>
-            <Row>
-                <Button type="submit" as={Col} md="1" onClick={() => CrearNuevaVenta()}>Crear Venta</Button>
-            </Row>
-        </>
-    )
+                    </tbody>
+                </Table>
+                <Row>
+                    <Button type="submit" as={Col} md="1" onClick={() => CrearNuevaVenta()}>Crear Venta</Button>
+                </Row>
+            </>
+        )
+    }
+    if (IdVentaView) {
+        return <Ventas IdVentaView={IdVentaView} />
+    }
+
 }

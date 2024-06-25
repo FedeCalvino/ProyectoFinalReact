@@ -75,6 +75,14 @@
     {
       "source": "/Ventas/Dto/:Search",
       "destination": "http://20.84.111.102:8085/Ventas/Dto/:Search"
+    },
+    {
+      "source": "/Ventas/:IdCor/:IdVent",
+      "destination": "http://20.84.111.102:8085/Ventas/:IdCor/:IdVent"
+    },
+    {
+      "source": "/Cortinas/Roller",
+      "destination": "http://20.84.111.102:8085/Cortinas/Roller"
     }
   ]
 }
