@@ -31,8 +31,7 @@
     {
       "source": "/Ventas",
       "destination": "http://20.84.111.102:8085/Ventas",
-      "methods": ["POST"],
-      "permanent": false
+      "methods": ["POST"]
     },
     {
       "source": "/Cliente",
