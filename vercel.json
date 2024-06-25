@@ -9,6 +9,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/Provedores",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Clientes",
       "destination": "/index.html"
     },
