@@ -402,7 +402,7 @@ export const CrearVenta = () => {
             fetch('/Cortinas/Roller', requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
+                    console.log("result de cortina",result)
                     AgregarCortinaRollerAVenta(result.id, idVenta);
                 });
         }));
@@ -581,8 +581,8 @@ export const CrearVenta = () => {
             </>
         )
     }
-    if (IdVentaView) {
+    /*if (IdVentaView) {
         return <Ventas IdVentaView={IdVentaView} />
-    }
+    }*/
 
 }
