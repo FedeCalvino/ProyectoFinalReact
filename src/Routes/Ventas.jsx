@@ -186,7 +186,7 @@ export const Ventas = ({IdVentaView}) => {
                     </>
                 )}
             </Accordion>:
-            <h1>Seguramente lo escribiste mal bolu</h1>
+            <h1>nada....</h1>
             }
         </>
     );

@@ -66,7 +66,7 @@ export const CrearVenta = () => {
 
     const [idCor, setidCor] = useState(0)
 
-    const [Precio, setPrecio] = useState(0)
+    const [Precio, setPrecio] = useState("")
 
 
     useEffect(() => {
@@ -268,19 +268,25 @@ export const CrearVenta = () => {
     }
 
     function CrearNuevaVenta() {
+        let ok = true;
 
         console.log("data cli", DataCli)
         if (!DataCli || Object.keys(DataCli).length === 0) {
+            ok = false;
             setAlertaClienteNotSelecc(true)
             setTimeout(() => {
                 setAlertaClienteNotSelecc(false);
             }, 8000);
-        } else {
-            setloading(true)
+        }
+        if (!Precio) {
+            ok = false;
+        }
 
+        if (ok) {
+            const precioFinalInt = parseInt({ Precio }.Precio, 10);
+            setloading(true)
             if (DataCli.id) {
                 console.log("Cliente con id", DataCli)
-                const precioFinalInt = parseInt({ Precio }.Precio, 10);
                 console.log(precioFinalInt)
                 const requestOptionsVenta = {
                     method: 'POST',
@@ -397,12 +403,12 @@ export const CrearVenta = () => {
                 "Posicion": Cor.posicion,
                 "LadoCadena": Cor.ladoC
             };
-            console.log("boady",bodyData)
+            console.log("boady", bodyData)
             requestOptions.body = JSON.stringify(bodyData);
             fetch('/Cortinas/Roller', requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    console.log("result de cortina",result)
+                    console.log("result de cortina", result)
                     AgregarCortinaRollerAVenta(result.id, idVenta);
                 });
         }));
@@ -561,22 +567,28 @@ export const CrearVenta = () => {
 
                     </tbody>
                 </Table>
-                <Row>
-                    <Form.Group as={Col} md="3" controlId="validationCustom01" style={{ width: "10%" }} noValidate>
-                        <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Precio</Form.Label>
-                        <Form.Control
-                            type="number"
-                            value={Precio}
-                            style={{ textAlign: "center" }}
-                            onChange={(e) => { setPrecio(e.target.value) }}
-                            placeholder="Precio"
-                            isValid={isValid}
-                        />
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Button type="submit" as={Col} md="1" onClick={() => CrearNuevaVenta()}>Crear Venta</Button>
-                </Row>
+                <div className="d-flex flex-column align-items-center">
+                    <Row className="w-150 mb-4">
+                        <Col className="d-flex justify-content-center">
+                            <Form.Group controlId="validationCustom01" noValidate>
+                            <Form.Label style={{ fontSize: "20px", fontWeight: "bold" }} className="text-center w-100">Precio</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={Precio}
+                                    style={{ textAlign: "center" ,borderWidth:"3PX",borderColor:"black"}}
+                                    onChange={(e) => setPrecio(e.target.value)}
+                                    placeholder="Precio"
+                                    isValid={isValid}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className="w-100">
+                        <Col className="d-flex justify-content-center">
+                            <Button type="submit" onClick={CrearNuevaVenta}>Crear Venta</Button>
+                        </Col>
+                    </Row>
+                </div>
             </>
         )
     }
