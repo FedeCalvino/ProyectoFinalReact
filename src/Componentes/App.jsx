@@ -9,6 +9,7 @@ import { Warehouse } from '../Routes/Warehouse';
 import { Instalaciones } from '../Routes/Instalaciones';
 import { ProtectedRoute } from '../Routes/ProtectedRoute';
 import { Login } from '../Routes/Login';
+import { Provedores } from '../Routes/Provedores';
 const App = () => {
 
     const [Loginerror,SetLoginerror]= useState(false)
@@ -92,6 +93,11 @@ const App = () => {
                     </ProtectedRoute>
                 } >
                 </Route>
+                <Route path='/Provedores' element={
+                    <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                        <Provedores/>
+                    </ProtectedRoute>
+                } ></Route>
                 <Route path='/Clientes' element={
                     <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
                         <Clientes />
