@@ -1,9 +1,37 @@
-.container_nav{
-    
+.bg-body-tertiary{
+    padding-top: 0px;
 }
 .brand-custom{
     font-size: 1.5rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+    height: auto;
     font-weight:500; /* Haz que el texto sea más grueso */
     color: #000000; /* Cambia el color del texto (este es un ejemplo de un color atractivo) */
     font-family: 'Arial', sans-serif; /* Puedes cambiar la familia de fuentes según tus necesidades */
 }
+.nav-link-custom {
+    padding-left: 5px;
+    border-radius: 0px 0px 10px 10px;
+    transition: all 0.3s ease-in-out;
+}
+  
+  .nav-link-custom:hover 
+  {
+    transition:all 0.3s ease-in-out;
+    background: #007bff;
+    border: 0px;
+    color: #ffffff !important;
+  }
+
+ /* Añadir una transición suave y efecto de alargamiento hacia abajo */
+.nav-link-custom {
+  display: inline-block;
+  transition: margin 0.3s ease, background-color 0.3s ease;
+  margin: 5px 0; /* Margen inicial */
+}
+
+/* Mantener el mismo estilo para los elementos del dropdown */
+.nav-link-custom .dropdown-item {
+  transition: margin 0.3s ease, background-color 0.3s ease;
+  margin: 5px 0; /* Margen inicial */
+}
+
