@@ -329,10 +329,7 @@ export const CrearVenta = () => {
                 };
 
                 fetch('/Cliente', requestOptionsCliente)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la solicitud de cliente');
-                        }
+                    .then(response => { response => response.json()
                     })
                     .then(result => {
                         console.log("result cli",result)
