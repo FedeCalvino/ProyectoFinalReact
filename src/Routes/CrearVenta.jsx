@@ -267,9 +267,9 @@ export const CrearVenta = () => {
         setCortinas(nuevasCortinas);
     }
 
-    function CrearNuevaVenta(){
-        
-        console.log("data cli",DataCli)
+    function CrearNuevaVenta() {
+
+        console.log("data cli", DataCli)
         if (!DataCli || Object.keys(DataCli).length === 0) {
             setAlertaClienteNotSelecc(true)
             setTimeout(() => {
@@ -277,8 +277,9 @@ export const CrearVenta = () => {
             }, 8000);
         } else {
             setloading(true)
-            console.log("Cliente", DataCli)
+
             if (DataCli.id) {
+                console.log("Cliente con id", DataCli)
                 const precioFinalInt = parseInt({ Precio }.Precio, 10);
                 const requestOptionsVenta = {
                     method: 'POST',
@@ -295,9 +296,10 @@ export const CrearVenta = () => {
                     .then(response => response.json())
                     .then(result => {
                         handleResult(result)
+                        console.log("Venta?", result)
                     });
             } else {
-                console.log(DataCli)
+                console.log("Cliente sin id", DataCli)
                 //Creo el Cliente antes de la venta
                 const IdRutParse = parseInt(DataCli.Rut.RutCliN, 10);
                 const IdTelParse = parseInt(DataCli.Tel, 10);
@@ -471,7 +473,7 @@ export const CrearVenta = () => {
         return (
             <>
                 <Form noValidate validated={validated}>
-                {AlertaClienteNotSelecc ? <Alerta Mensaje="Selecciona un cliente primero" /> : null}
+                    {AlertaClienteNotSelecc ? <Alerta Mensaje="Selecciona un cliente primero" /> : null}
                     {VentaCreada ? <AlertaVentaCreada /> : null}
                     <SelecctCliente ClienteData={setCliCall} />
                     <InputGroup>
@@ -557,6 +559,19 @@ export const CrearVenta = () => {
 
                     </tbody>
                 </Table>
+                <Row>
+                    <Form.Group as={Col} md="3" controlId="validationCustom01" style={{ width: "10%" }} noValidate>
+                        <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Precio</Form.Label>
+                        <Form.Control
+                            type="number"
+                            value={Precio}
+                            style={{ textAlign: "center" }}
+                            onChange={(e) => { setPrecio(e.target.value) }}
+                            placeholder="Precio"
+                            isValid={isValid}
+                        />
+                    </Form.Group>
+                </Row>
                 <Row>
                     <Button type="submit" as={Col} md="1" onClick={() => CrearNuevaVenta()}>Crear Venta</Button>
                 </Row>
