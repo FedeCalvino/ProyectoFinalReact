@@ -275,7 +275,8 @@ export const Instalaciones = () => {
                     "start": { fechaInstalacion }.fechaInstalacion + "T" + timeStringInicio,
                     "end": { fechaInstalacion }.fechaInstalacion + "T" + timeStringFinal,
                     "aclaraciones": Detalles,
-                    "titulo": Titulo
+                    "titulo": Titulo,
+                    "dia":{fechaInstalacion}.fechaInstalacion
                 }
             )
         };
@@ -304,7 +305,7 @@ export const Instalaciones = () => {
             console.log("El ID de la instalación no es válido.");
         }
         setOpen(false)
-       // window.location.reload();
+        window.location.reload();
     }
 
 
