@@ -44,6 +44,7 @@ export const Ventas = ({IdVentaView}) => {
         setIdVenta(venta.IdVenata)
         setClienteVenta(venta.NombreCliente)
         setFechaVenta(venta.FechaVenta)
+        setloadingTable(false)
     }
 
 
