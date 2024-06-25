@@ -29,9 +29,8 @@
       "destination": "http://20.84.111.102:8085/Ventas/Dto"
     },
     {
-      "source": "/Ventas",
-      "destination": "http://20.84.111.102:8085/Ventas",
-      "methods": ["POST"]
+      "source": "/Ventas/Post",
+      "destination": "http://20.84.111.102:8085/Ventas"
     },
     {
       "source": "/Cliente",

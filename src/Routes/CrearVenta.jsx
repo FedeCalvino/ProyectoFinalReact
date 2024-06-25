@@ -293,7 +293,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch('/Ventas', requestOptionsVenta)
+                fetch('/Ventas/Post', requestOptionsVenta)
                     .then(response => response.json())
                     .then(result => {
                         handleResult(result)
