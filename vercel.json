@@ -69,6 +69,10 @@
       "destination": "http://20.84.111.102:8085/Cliente"
     },
     {
+      "source": "/Cliente",
+      "destination": "http://20.84.111.102:8085/Cliente"
+    },
+    {
       "source": "/Cliente/strL/:Search",
       "destination": "http://20.84.111.102:8085/Cliente/strL/:Search"
     },
