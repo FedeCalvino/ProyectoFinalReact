@@ -281,6 +281,7 @@ export const CrearVenta = () => {
             if (DataCli.id) {
                 console.log("Cliente con id", DataCli)
                 const precioFinalInt = parseInt({ Precio }.Precio, 10);
+                console.log(precioFinalInt)
                 const requestOptionsVenta = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
