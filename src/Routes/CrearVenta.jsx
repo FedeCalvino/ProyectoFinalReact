@@ -335,6 +335,7 @@ export const CrearVenta = () => {
                         }
                     })
                     .then(result => {
+                        console.log("result cli",result)
                         const requestOptionsVenta = {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -344,13 +345,8 @@ export const CrearVenta = () => {
                                 "Obra": { Obra }.Obra
                             })
                         };
-                        fetch('/Ventas', requestOptionsVenta)
-                            .then(response => {
-                                if (!response.ok) {
-                                    setloading(false)
-
-                                }
-                                return response.json();
+                        fetch('/Ventas/Post', requestOptionsVenta)
+                            .then(response => {response.json()
                             })
                             .then(result => {
                                 handleResult(result);
