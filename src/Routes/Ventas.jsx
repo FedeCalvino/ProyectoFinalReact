@@ -40,7 +40,6 @@ export const Ventas = ({IdVentaView}) => {
 
     function MostrarVenta(venta) {
         console.log("click");
-        setloadingTable(true)
         setIdVenta(venta.IdVenata)
         setClienteVenta(venta.NombreCliente)
         setFechaVenta(venta.FechaVenta)
@@ -96,6 +95,7 @@ export const Ventas = ({IdVentaView}) => {
     }, [SearchText]);
 
     const FetchVentaCortinas = async () => {
+        setloadingTable(true)
         if (IdVenta != null) {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
