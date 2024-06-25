@@ -329,7 +329,8 @@ export const CrearVenta = () => {
                 };
 
                 fetch('/Cliente', requestOptionsCliente)
-                    .then(response => { response => response.json()
+                    .then(response => {
+                          response.json()
                     })
                     .then(result => {
                         console.log("result cli",result)
