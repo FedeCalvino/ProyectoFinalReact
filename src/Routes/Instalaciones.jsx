@@ -107,7 +107,6 @@ export const Instalaciones = () => {
         };
 
         const timeoutId = setTimeout(() => {
-            setAlertaClienteNotSelecc(false);
             fetchData();
         }, 2000);
 
