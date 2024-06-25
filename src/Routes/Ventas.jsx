@@ -33,8 +33,7 @@ export const Ventas = ({IdVentaView}) => {
 
     const UrlVentas = "/Ventas/Dto"
     const UrlVenta = "/Ventas/DtoVentaCor/"
-    const UrlVentasLike = "http://"+{urlIP}.urlIP+":8085/Ventas/Dto/"
-    const Factura = "http://"+{urlIP}.urlIP+":8085/Factura/";
+    const UrlVentasLike = "/Ventas/Dto/"
 
     
 
