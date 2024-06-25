@@ -415,7 +415,6 @@ export const CrearVenta = () => {
         };
         const IdcorParse = parseInt(cortinaid, 10);
         const IdVentParse = parseInt(idVenta, 10);
-        console.log(url)
         fetch('/Ventas/' + IdcorParse + "/" + IdVentParse, requestOptions)
             .then(response => response.json())
             .then(result => {
