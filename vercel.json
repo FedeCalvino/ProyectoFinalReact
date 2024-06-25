@@ -57,6 +57,10 @@
       "destination": "http://20.84.111.102:8085/Instalacion"
     },
     {
+      "source": "/Instalacion/:IdInstalacion",
+      "destination": "http://20.84.111.102:8085/Instalacion/:IdInstalacion"
+    },
+    {
       "source": "/TipoTela",
       "destination": "http://20.84.111.102:8085/TipoTela"
     },

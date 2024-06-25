@@ -298,13 +298,13 @@ export const Instalaciones = () => {
             fetch(InstalacionUrl + "/" + idInstalacion, requestOptions)
                 .then(response => response.json())
                 .then(result => {
-
+                    console.log(result)
                 });
         } else {
             console.log("El ID de la instalación no es válido.");
         }
         setOpen(false)
-        window.location.reload();
+       // window.location.reload();
     }
 
 
