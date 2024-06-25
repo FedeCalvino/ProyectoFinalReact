@@ -24,6 +24,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import { Loading } from '../Componentes/Loading';
 
 import "dayjs/locale/es"
 dayjs.locale("es");
@@ -54,7 +55,6 @@ export const Instalaciones = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
     const [Ventas, setVentas] = useState([]);
     const [Venta, setVenta] = useState([]);
     const [VentaSelecc, setVentaSelecc] = useState(false);
@@ -63,7 +63,7 @@ export const Instalaciones = () => {
 
     const [VentaModal, setVentaModal] = useState([]);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setloading] = useState(true);
 
     const AM1 = [dayjs('0000-00-T08:00'), dayjs('0000-00-00T10:00')]
     const AM2 = [dayjs('0000-00-00T10:00'), dayjs('0000-00-00T12:00')]
@@ -227,9 +227,6 @@ export const Instalaciones = () => {
         setFechaInstalacion(formattedDateOk);
     }
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     function CrearInstalacion() {
 
@@ -295,6 +292,11 @@ export const Instalaciones = () => {
     }
 
 
+    if(loading){
+        return (
+          <Loading tipo="all"/>
+        )  
+    }
     const localizar = dayjsLocalizer(dayjs)
     return (
         <>
