@@ -1,6 +1,6 @@
 .custom-card {
     background: rgb(42,40,40);
-background: linear-gradient(83deg, rgba(42,40,40,1) 35%, rgba(103,101,101,1) 80%, rgba(249,249,249,1) 99%);
+background: linear-gradient(83deg, rgb(104, 96, 96) 35%, rgb(192, 187, 187) 80%, rgba(249,249,249,1) 99%);
     color: #ffffff;  
     font-size: larger;
     transition: box-shadow 0.3s ease; 
