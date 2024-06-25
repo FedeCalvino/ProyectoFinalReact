@@ -44,7 +44,6 @@ export const Ventas = ({IdVentaView}) => {
         setIdVenta(venta.IdVenata)
         setClienteVenta(venta.NombreCliente)
         setFechaVenta(venta.FechaVenta)
-        setloadingTable(false)
     }
 
 
@@ -107,6 +106,9 @@ export const Ventas = ({IdVentaView}) => {
             } catch (error) {
                 console.log(error)
             }
+        }
+        else{
+            setloadingTable(false)
         }
     };
     useEffect(() => {
