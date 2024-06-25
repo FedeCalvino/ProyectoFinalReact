@@ -6,12 +6,12 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import './ClienteList.css'
+import { Loading } from '../Componentes/Loading';
 
 export const Clientes = () => {
-
-    const urlIP = import.meta.env.REACT_APP__IPSQL;
     const UrlClientes = "/Cliente"
     const [Clientes, setClientes] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         FetchClientes();
     }, []);
@@ -21,12 +21,18 @@ export const Clientes = () => {
             const res = await fetch(UrlClientes)
             const data = await res.json()
             setClientes(data);
+            setLoading(false)
             console.log(data);
         } catch (error) {
             console.log(error)
         }
     };
 
+    if (loading) {
+        return (
+            <Loading tipo="all"/>
+        );
+    }
     return (
         <Row className="justify-content-center">
             {Clientes.map((Cli) => (
