@@ -29,6 +29,7 @@ export const Ventas = ({IdVentaView}) => {
     const [Ventas, setVentas] = useState([])
     const [Venta, setVenta] = useState([])
     const [Cortinas, setCortinas] = useState([])
+    const [loadingTable, setloadingTable] = useState(true)
 
     const UrlVentas = "/Ventas/Dto"
     const UrlVenta = "/Ventas/DtoVentaCor/"
@@ -40,6 +41,7 @@ export const Ventas = ({IdVentaView}) => {
 
     function MostrarVenta(venta) {
         console.log("click");
+        setloadingTable(true)
         setIdVenta(venta.IdVenata)
         setClienteVenta(venta.NombreCliente)
         setFechaVenta(venta.FechaVenta)
@@ -100,6 +102,7 @@ export const Ventas = ({IdVentaView}) => {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
                 const data = await res.json()
                 setCortinas(data);
+                setloadingTable(false)
                 console.log(data);
             } catch (error) {
                 console.log(error)
@@ -144,39 +147,42 @@ export const Ventas = ({IdVentaView}) => {
                                 </div>
                             </Accordion.Header>
                             <Accordion.Body >
-                                <Table responsive>
-                                    <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
-                                        <tr>
-                                            <th>Ancho AF-AF</th>
-                                            <th>Ancho tela</th>
-                                            <th>Ancho Caño</th>
-                                            <th>caño</th>
-                                            <th>Alto Cortina</th>
-                                            <th>Alto Tela</th>
-                                            <th>cant</th>
-                                            <th>Cadena</th>
-                                            <th>posicion</th>
-                                            <th>Detalles</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {Cortinas.map(Cor =>
-                                            <tr key={Cor.idCortina}>
-                                                <td>{Cor.anchoAfuerAfuera}</td>
-                                                <td>{Cor.anchoCortina}</td>
-                                                <td>{Cor.anchoCaño}</td>
-                                                <td>{Cor.cano}</td>
-                                                <td>{Cor.altoCortina}</td>
-                                                <td>{Cor.altoTela}</td>
-                                                <td>1</td>
-                                                <td>{Cor.cadena}</td>
-                                                <td>{Cor.posicion}</td>
-                                                <td>Detalles</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </Table>
-                            </Accordion.Body>
+                                    {loadingTable ?
+                                        <Loading tipo="tab" /> :
+                                        <Table responsive>
+                                            <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                <tr>
+                                                    <th>Ancho AF-AF</th>
+                                                    <th>Ancho tela</th>
+                                                    <th>Ancho Caño</th>
+                                                    <th>caño</th>
+                                                    <th>Alto Cortina</th>
+                                                    <th>Alto Tela</th>
+                                                    <th>cant</th>
+                                                    <th>Cadena</th>
+                                                    <th>posicion</th>
+                                                    <th>Detalles</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {Cortinas.map(Cor =>
+                                                    <tr key={Cor.idCortina}>
+                                                        <td>{Cor.anchoAfuerAfuera}</td>
+                                                        <td>{Cor.anchoCortina}</td>
+                                                        <td>{Cor.anchoCaño}</td>
+                                                        <td>{Cor.cano}</td>
+                                                        <td>{Cor.altoCortina}</td>
+                                                        <td>{Cor.altoTela}</td>
+                                                        <td>1</td>
+                                                        <td>{Cor.cadena}</td>
+                                                        <td>{Cor.posicion}</td>
+                                                        <td>Detalles</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    }
+                                </Accordion.Body>
                         </Accordion.Item>
                     </>
                 )}
