@@ -102,11 +102,16 @@ export const Instalaciones = () => {
             } catch (error) {
                 console.log(error);
             } finally {
-                setloading(false);
+                setLoading(false);
             }
         };
 
-        fetchData();
+        const timeoutId = setTimeout(() => {
+            setAlertaClienteNotSelecc(false);
+            fetchData();
+        }, 2000);
+
+        return () => clearTimeout(timeoutId); // Limpiar timeout si el componente se desmonta
     }, []);
 
     const FetchVentas = async () => {
@@ -284,7 +289,7 @@ export const Instalaciones = () => {
             .then(response => response.json())
             .then(result => {
                 console.log(result)
-                //window.location.reload();
+                window.location.reload();
             });
     }
 
