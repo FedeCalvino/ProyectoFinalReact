@@ -18,6 +18,8 @@ export const Facturas = () => {
     const [ClienteVenta, setClienteVenta] = useState(null)
     const [FechaVenta, setFechaVenta] = useState(null)
 
+    const [loadingtab, setloadingtab] = useState(true)
+
     const [Factura, setFactura] = useState([])
     const [FacturaExiste, setFacturaExiste] = useState(false)
     const [Recibos, setRecibos] = useState([])
@@ -75,18 +77,22 @@ export const Facturas = () => {
     const FetchFacturaVenta = async () => {
         try {
             if (IdVenta != null) {
+                setloadingtab(true)
                 const res = await fetch(FacturaUrl+"/" + IdVenta)
                 const data = await res.json()
                 console.log(data)
                 if (res.ok && data) {
                     setFacturaExiste(true)
                     setFactura(data);
+                    setloadingtab(false)
                     console.log(data)
                 } else {
                     setFacturaExiste(false)
+                    setloadingtab(false)
                 }
             }
         } catch (error) {
+            setloadingtab(false)
             setFacturaExiste(false)
             console.log(error)
         }
@@ -105,6 +111,7 @@ export const Facturas = () => {
         }
     };
     const CrearNewFactura = () => {
+        setloadingtab(true)
         console.log(IdVenta)
         console.log({ FechaFinalPago }.FechaFinalPago)
         console.log({ NroFactura }.NroFactura)
@@ -157,6 +164,7 @@ export const Facturas = () => {
 
 
     const CrearRecibo = () => {
+        setloadingtab(true)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -272,131 +280,132 @@ export const Facturas = () => {
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            {FacturaExiste ?
-                                                <>
-                                                    <Table responsive bordered style={{ borderCollapse: 'collapse', border: '1px solid black' }}>
-                                                        <thead style={{ justifyContent: 'center', fontFamily: 'Arial, sans-serif' }}>
-                                                            <tr>
-                                                                <th>Fecha Creada</th>
-                                                                <th>Nro_FACTURA</th>
-                                                                <th>Fecha final</th>
-                                                                <th>Monto Total</th>
-                                                                <th>Pagado</th>
-                                                                <th>Saldo</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>{Factura.fechaFactura}</td>
-                                                                <td>{Factura.numeroFactura}</td>
-                                                                <td>{Factura.fechaFinaL}</td>
-                                                                <td>{Factura.montoTotal}</td>
-                                                                <td>{Factura.montoPagado}</td>
-                                                                <td>{Factura.saldo}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </Table>
-
-                                                    <Row>
-                                                        <h3 style={{ alignItems: 'center', textAlign: 'center', fontSize: '20px' }}>RECIBOS</h3>
-                                                    </Row>
-
-                                                    <Table responsive bordered style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                                        <thead style={{ justifyContent: 'center', fontFamily: 'Arial, sans-serif' }}>
-                                                            <tr>
-                                                                <th style={{ width: '33%', textAlign: 'center' }}>Número Recibo</th>
-                                                                <th style={{ width: '33%', textAlign: 'center' }}>Fecha Recibo</th>
-                                                                <th style={{ width: '33%', textAlign: 'center' }}>Monto</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {Recibos.map(rec =>
-                                                                <tr key={rec.idRecibo}>
-                                                                    <td>{rec.numeroRecibo}</td>
-                                                                    <td>{rec.fecha}</td>
-                                                                    <td>{rec.monto}</td>
-                                                                    <td><Button onClick={()=>DeleteRecibo(rec.idRecibo)}>Eliminar</Button></td>
+                                            {loadingtab ? (
+                                                <Loading tipo="tab"/>
+                                            ) : (
+                                                FacturaExiste ? (
+                                                    <>
+                                                        <Table responsive bordered style={{ borderCollapse: 'collapse', border: '1px solid black' }}>
+                                                            <thead style={{ justifyContent: 'center', fontFamily: 'Arial, sans-serif' }}>
+                                                                <tr>
+                                                                    <th>Fecha Creada</th>
+                                                                    <th>Nro_FACTURA</th>
+                                                                    <th>Fecha final</th>
+                                                                    <th>Monto Total</th>
+                                                                    <th>Pagado</th>
+                                                                    <th>Saldo</th>
                                                                 </tr>
-                                                            )}
-                                                        </tbody>
-                                                    </Table>
-                                                    <Row style={{ textAlign: "center", justifyContent: 'center' }}>
-                                                        <h3>Agregar Recibo</h3>
-                                                    </Row>
-                                                    <Row style={{ justifyContent: 'center' }}>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>{Factura.fechaFactura}</td>
+                                                                    <td>{Factura.numeroFactura}</td>
+                                                                    <td>{Factura.fechaFinaL}</td>
+                                                                    <td>{Factura.montoTotal}</td>
+                                                                    <td>{Factura.montoPagado}</td>
+                                                                    <td>{Factura.saldo}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </Table>
+
+                                                        <Row>
+                                                            <h3 style={{ alignItems: 'center', textAlign: 'center', fontSize: '20px' }}>RECIBOS</h3>
+                                                        </Row>
+
+                                                        <Table responsive bordered style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                                            <thead style={{ justifyContent: 'center', fontFamily: 'Arial, sans-serif' }}>
+                                                                <tr>
+                                                                    <th style={{ width: '33%', textAlign: 'center' }}>Número Recibo</th>
+                                                                    <th style={{ width: '33%', textAlign: 'center' }}>Fecha Recibo</th>
+                                                                    <th style={{ width: '33%', textAlign: 'center' }}>Monto</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {Recibos.map(rec => (
+                                                                    <tr key={rec.idRecibo}>
+                                                                        <td>{rec.numeroRecibo}</td>
+                                                                        <td>{rec.fecha}</td>
+                                                                        <td>{rec.monto}</td>
+                                                                        <td><Button onClick={() => DeleteRecibo(rec.idRecibo)}>Eliminar</Button></td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </Table>
+                                                        <Row style={{ textAlign: "center", justifyContent: 'center' }}>
+                                                            <h3>Agregar Recibo</h3>
+                                                        </Row>
+                                                        <Row style={{ justifyContent: 'center' }}>
+                                                            <Form.Group as={Col} md="2" controlId="validationCustom01">
+                                                                <Form.Label>Numero recibo</Form.Label>
+                                                                <Form.Control
+                                                                    required
+                                                                    type="number"
+                                                                    value={NumeroRecibo}
+                                                                    onChange={(e) => { setNumeroRecibo(e.target.value) }}
+                                                                    placeholder="Numero Recibo"
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group as={Col} md="2" controlId="validationCustom01">
+                                                                <Form.Label>Fecha recibo</Form.Label>
+                                                                <Form.Control
+                                                                    required
+                                                                    type="date"
+                                                                    value={DateRecibo}
+                                                                    onChange={(e) => { setDateRecibo(e.target.value) }}
+                                                                    placeholder="Fecha Recibo"
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group as={Col} md="2" controlId="validationCustom01">
+                                                                <Form.Label>Monto</Form.Label>
+                                                                <Form.Control
+                                                                    required
+                                                                    type="number"
+                                                                    value={MontoRecibo}
+                                                                    onChange={(e) => { setMontoRecibo(e.target.value) }}
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group as={Col} md="2" controlId="validationCustom01">
+                                                                <Button style={{ marginTop: "30px", marginLeft: "1em" }} onClick={CrearRecibo}>Crear Recibo</Button>
+                                                            </Form.Group>
+                                                        </Row>
+                                                    </>
+                                                ) : (
+                                                    <Row style={{ alignItems: "center", justifyContent: "center" }}>
                                                         <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                            <Form.Label>Numero recibo</Form.Label>
+                                                            <Form.Label>Nro Factura</Form.Label>
                                                             <Form.Control
                                                                 required
                                                                 type="number"
-                                                                value={NumeroRecibo}
-                                                                onChange={(e) => { setNumeroRecibo(e.target.value) }}
-                                                                placeholder="NumeroFactura"
+                                                                value={NroFactura}
+                                                                onChange={(e) => { setNroFactura(e.target.value) }}
+                                                                placeholder="Numero Factura"
                                                             />
                                                         </Form.Group>
                                                         <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                            <Form.Label>Fecha recibo</Form.Label>
+                                                            <Form.Label>Fecha final de pago</Form.Label>
                                                             <Form.Control
                                                                 required
                                                                 type="date"
-                                                                value={DateRecibo}
-                                                                onChange={(e) => { setDateRecibo(e.target.value) }}
-                                                                placeholder="NumeroFactura"
+                                                                value={FechaFinalPago}
+                                                                onChange={(e) => { setFechaFinalPago(e.target.value) }}
                                                             />
                                                         </Form.Group>
                                                         <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                            <Form.Label>Monto</Form.Label>
+                                                            <Form.Label>Monto Total</Form.Label>
                                                             <Form.Control
                                                                 required
                                                                 type="number"
-                                                                value={MontoRecibo}
-                                                                onChange={(e) => { setMontoRecibo(e.target.value) }}
+                                                                value={Precio}
+                                                                onChange={(e) => { setPrecio(e.target.value) }}
+                                                                placeholder="Precio"
                                                             />
                                                         </Form.Group>
                                                         <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                            <Button style={{ marginTop: "30px", marginLeft: "1em" }} onClick={CrearRecibo}>Crear Recibo</Button>
+                                                            <Button style={{ marginTop: "30px", marginLeft: "1em" }} onClick={CrearNewFactura}>Crear Factura</Button>
                                                         </Form.Group>
                                                     </Row>
-
-
-                                                </>
-                                                :
-                                                <Row style={{ alignItems: "center", justifyContent: "center" }}>
-                                                    <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                        <Form.Label>Nro Factura</Form.Label>
-                                                        <Form.Control
-                                                            required
-                                                            type="number"
-                                                            value={NroFactura}
-                                                            onChange={(e) => { setNroFactura(e.target.value) }}
-                                                            placeholder="NumeroFactura"
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                        <Form.Label>Fecha final de pago</Form.Label>
-                                                        <Form.Control
-                                                            required
-                                                            type="date"
-                                                            value={FechaFinalPago}
-                                                            onChange={(e) => { setFechaFinalPago(e.target.value) }}
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                        <Form.Label>Monto Total</Form.Label>
-                                                        <Form.Control
-                                                            required
-                                                            type="number"
-                                                            value={Precio}
-                                                            onChange={(e) => { setPrecio(e.target.value) }}
-                                                            placeholder="Precio"
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group as={Col} md="2" controlId="validationCustom01">
-                                                        <Button style={{ marginTop: "30px", marginLeft: "1em" }} onClick={CrearNewFactura}>Crear Factura</Button>
-                                                    </Form.Group>
-
-                                                </Row>
-                                            }
+                                                )
+                                            )}
                                         </Accordion.Body>
                                     </Accordion.Item>
                                 </>
