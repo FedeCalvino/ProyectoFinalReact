@@ -25,6 +25,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import { Loading } from '../Componentes/Loading';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 
 import "dayjs/locale/es"
 dayjs.locale("es");
@@ -157,6 +160,19 @@ export const Instalaciones = () => {
         console.log(event)
         setEventSeleccted(event)
         setOpen(true)
+    }
+
+    const GeneratePdfIns = () =>{
+        const input = document.getElementById('pdf-content');
+
+        html2canvas(input).then((canvas) => {
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    
+            //pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save("download.pdf");
+        });
     }
 
 
@@ -360,6 +376,9 @@ export const Instalaciones = () => {
                         </div>
                         <div>
                             <Button onClick={() => DeleteInstalacion()} variant="danger">Eliminiar Instalacion</Button>
+                        </div>
+                        <div>
+                            <Button onClick={() => GeneratePdfIns()} variant="Success">Gen PDF</Button>
                         </div>
                     </Box>
                 </Modal>
