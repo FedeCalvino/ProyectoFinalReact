@@ -94,6 +94,47 @@ export const Instalaciones = () => {
     }, [Horas]);
 
 
+    const FetchVentas = async () => {
+        try {
+            const res = await fetch(UrlVentas);
+            const data = await res.json();
+            setVentas(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const FetchInstalaciones = async () => {
+        const Events = [];
+        try {
+            const response = await fetch(InstalacionUrl);
+            const result = await response.json();
+            result.forEach(res => {
+                const startDayjs = dayjs(res.start);
+                const endDayjs = dayjs(res.end);
+                const startDate = startDayjs.toDate();
+                const endDate = endDayjs.toDate();
+                const NewEvent = {
+                    Telefono: res.telefono,
+                    Direccion: res.direccion,
+                    IdInstalacion: res.idinstalacion,
+                    Aclaraciones: res.aclaraciones,
+                    obra: res.obra,
+                    IdVenta: res.idVenta,
+                    start: startDate,
+                    end: endDate,
+                    title: res.titulo,
+                    cortinas: res.cortinas
+                };
+                Events.push(NewEvent);
+            });
+            setEvents(Events);
+            console.log(Events);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -102,69 +143,17 @@ export const Instalaciones = () => {
             } catch (error) {
                 console.log(error);
             } finally {
-                setloading(false);
+                setLoading(false);
             }
         };
-
-        const timeoutId = setTimeout(() => {
-            fetchData();
-        }, 2000);
-
-        return () => clearTimeout(timeoutId); // Limpiar timeout si el componente se desmonta
+        fetchData();
     }, []);
 
-    const FetchVentas = async () => {
-        try {
-            const res = await fetch(UrlVentas)
-            const data = await res.json()
-            setVentas(data);
-            console.log(data);
-        } catch (error) {
-            console.log(error)
-        }
-    };
-
-    const FetchInstalaciones = async () => {
-        const Events = [];
-        try {
-            fetch(InstalacionUrl)
-                .then(response => response.json())
-                .then(result => {
-                    result.forEach(res => {
-                        console.log("res", res)
-                        const startDayjs = dayjs(res.start);
-                        const endDayjs = dayjs(res.end);
-
-                        const startDate = startDayjs.toDate();
-                        const endDate = endDayjs.toDate();
-                        console.log(res.acalaraciones)
-                        const NewEvent = {
-                            Telefono: res.telefono,
-                            Direccion: res.direccion,
-                            IdInstalacion: res.idinstalacion,
-                            Aclaraciones: res.aclaraciones,
-                            obra: res.obra,
-                            IdVenta: res.idVenta,
-                            start: startDate,
-                            end: endDate,
-                            title: res.titulo,
-                            cortinas: res.cortinas
-                        };
-                        console.log(NewEvent);
-                        Events.push(NewEvent);
-                        console.log(result)
-                    });
-                });
-        } catch (error) {
-            console.log(error);
-        }
-        setEvents(Events)
-    };
     const handleSelect = (event) => {
-        console.log(event)
-        setEventSeleccted(event)
-        setOpen(true)
-    }
+        console.log(event);
+        setEventSeleccted(event);
+        setOpen(true);
+    };
 
     const GeneratePdfIns = () =>{
         const input = document.getElementById('pdf-content');
@@ -182,26 +171,23 @@ export const Instalaciones = () => {
 
     const Calendario = () => {
         return (
-            <>
-                <DragAndDropCalendar
-                    style={{ height: '90vh' }}
-                    localizer={localizar}
-                    //views={["week", "day"]}
-                    defaultView='month'
-                    selectable={true}
-                    onSelectEvent={handleSelect}
-                    draggableAccessor="isDraggable"
-                    eventPropGetter={eventPropGetter}
-                    onEventResize={onEventResize}
-                    onEventDrop={onEventDrop}
-                    resizable
-                    min={new Date(0, 0, 0, 8, 0, 0)}
-                    max={new Date(0, 0, 0, 18, 0, 0)}
-                    events={Events}
-                />
-            </>
-        )
-    }
+            <DragAndDropCalendar
+                style={{ height: '90vh' }}
+                localizer={localizar}
+                defaultView='month'
+                selectable={true}
+                onSelectEvent={handleSelect}
+                draggableAccessor="isDraggable"
+                eventPropGetter={eventPropGetter}
+                onEventResize={onEventResize}
+                onEventDrop={onEventDrop}
+                resizable
+                min={new Date(0, 0, 0, 8, 0, 0)}
+                max={new Date(0, 0, 0, 18, 0, 0)}
+                events={Events}
+            />
+        );
+    };
     const handleDragStart = useCallback((event) => setDraggedEvent(event), [])
 
     const eventPropGetter = useCallback(
