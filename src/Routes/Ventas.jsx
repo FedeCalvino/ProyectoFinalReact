@@ -166,9 +166,9 @@ export const Ventas = ({IdVentaView}) => {
                                             <tbody>
                                                 {Cortinas.map(Cor =>
                                                     <tr key={Cor.idCortina}>
-                                                        <td>{Cor.anchoAfuerAfuera}</td>
-                                                        <td>{Cor.anchoCortina}</td>
                                                         <td>{Cor.anchoCaño}</td>
+                                                        <td>{Cor.anchoCortina}</td>
+                                                        <td>{Cor.anchoAfuerAfuera}</td>
                                                         <td>{Cor.cano}</td>
                                                         <td>{Cor.altoCortina}</td>
                                                         <td>{Cor.altoTela}</td>
