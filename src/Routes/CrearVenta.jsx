@@ -331,9 +331,7 @@ export const CrearVenta = () => {
                         return response.json()
                     })
                     .then(result => {
-                        console.log("result cli", result)
                                 console.log("result", result);
-                                /*
                                 const requestOptionsVenta = {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
@@ -350,12 +348,12 @@ export const CrearVenta = () => {
                                         handleResult(result);
                                         /* setTimeout(() => {
                                             setVentaCreada(false);
-                                        }, 8000);
+                                        }, 8000);*/
                                     })
                                     .catch(error => {
                                         console.error('Error en la solicitud de ventas:', error);
                                         // Manejar el error de la solicitud de ventas aquí
-                                    });*/
+                                    });
                             })
                             .catch(error => {
                                 console.error('Error en la solicitud de cliente:', error);
