@@ -66,7 +66,6 @@ const App = () => {
 
     return (
         <>
-            { User ? <NavBar logged={User !== null} onLogout={handleLogout}/>: null } 
             <Routes>
                 <Route path='/Ventas' element={
                     <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
