@@ -1,4 +1,5 @@
-/import React from 'react'
+import React from 'react'
+import './MesaCorte.css';
 import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
@@ -6,9 +7,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import Accordion from 'react-bootstrap/Accordion';
-import './VentasCss.css';
-import { NavBar } from '../Componentes/NavBar';
 import { Loading } from '../Componentes/Loading';
+
 
 export const MesaCorteTela = () => {
     const urlIP = import.meta.env.REACT_APP__IPSQL;
@@ -23,6 +23,9 @@ export const MesaCorteTela = () => {
     const [Venta, setVenta] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
+
+
+    const [selectedVentaId, setSelectedVentaId] = useState(null);
     
           const UrlVentas = "/Ventas/Dto"
           const UrlVenta = "/Ventas/DtoVentaCor/"
@@ -120,6 +123,11 @@ export const MesaCorteTela = () => {
         )
     }
 
+    const handleSelectVenta = (Ven) => {
+        setSelectedVentaId(Ven.IdVenata);
+        MostrarVenta(Ven);
+    };
+
     return (
         <>
             <Row className="text-center mt-4 mb-4">
@@ -130,36 +138,19 @@ export const MesaCorteTela = () => {
             <Row className="text-center mt-4 mb-4" style={{ height: "60vh" }}>
                 <Col style={{ borderRight: "2px solid black" }}>
                     {Ventas.length !== 0 ? (
-                        <Accordion>
-                            {Ventas.map((Ven, index) => {
-                                return (
-                                    <div
-                                        key={Ven.IdVenata}
-                                        className="rectangulo"
-                                        onClick={() => MostrarVenta(Ven)}
-                                        style={{
-                                            border: "1px solid #000",
-                                            borderRadius: "5px",
-                                            padding: "10px",
-                                            margin: "10px 0",
-                                            cursor: "pointer",
-                                            backgroundColor: "#f9f9f9",
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                fontSize: "23px",
-                                                fontWeight: "bold",
-                                                whiteSpace: "pre-line",
-                                            }}
-                                        >
-                                            {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
-                                        </div>
+                        <div>
+                            {Ventas.map((Ven) => (
+                                <div
+                                    key={Ven.IdVenata}
+                                    className={`rectangulo ${selectedVentaId === Ven.IdVenata ? 'selected' : ''}`}
+                                    onClick={() => handleSelectVenta(Ven)}
+                                >
+                                    <div className="rectangulo-header">
+                                        {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
                                     </div>
-                                );
-                            })}
-                        </Accordion>
+                                </div>
+                            ))}
+                        </div>
                     ) : (
                         <h1>nada....</h1>
                     )}

@@ -1,0 +1,26 @@
+
+.rectangulo {
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.rectangulo:hover {
+    background-color: rgb(94, 183, 212); /* Cambia el color al hacer hover */
+}
+
+.rectangulo.selected {
+    background-color: rgb(56, 56, 230);
+    color: white;
+}
+
+.rectangulo-header {
+    font-size: 23px;
+    font-weight: bold;
+    white-space: pre-line;
+}
