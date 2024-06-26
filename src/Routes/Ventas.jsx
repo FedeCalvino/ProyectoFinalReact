@@ -31,12 +31,12 @@ export const Ventas = ({IdVentaView}) => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
 
-    /*const UrlVentas = "/Ventas/Dto"
-    const UrlVenta = "/Ventas/DtoVentaCor/"*/
-
+    const UrlVentas = "/Ventas/Dto"
+    const UrlVenta = "/Ventas/DtoVentaCor/"
+/*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
-
+*/
 
     function MostrarVenta(venta) {
         console.log("click");
