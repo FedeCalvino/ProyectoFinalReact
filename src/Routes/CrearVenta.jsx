@@ -371,6 +371,7 @@ export const CrearVenta = () => {
                         
             
         
+            }
         }
     }
 
