@@ -20,7 +20,7 @@ export const Ventas = ({IdVentaView}) => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
     const [loading, setloading] = useState(true)
-
+    const [Day, setDay] = useState("")
     const [IdVenta, setIdVenta] = useState(null)
     const [ClienteVenta, setClienteVenta] = useState(null)
     const [FechaVenta, setFechaVenta] = useState(null)
@@ -73,7 +73,6 @@ export const Ventas = ({IdVentaView}) => {
 
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 console.log("entr")
@@ -87,8 +86,10 @@ export const Ventas = ({IdVentaView}) => {
                 setloading(false);
             }
         };
+
         fetchData();
     }, []);
+
 
     useEffect(() => {
         FetchVentas();
@@ -111,16 +112,27 @@ export const Ventas = ({IdVentaView}) => {
             setloadingTable(false)
         }
     };
+
+    const MostrarDia = () => {
+        return (
+            <h3>{Day}</h3>
+        );
+    }
+
     useEffect(() => {
         FetchVentaCortinas();
     }, [IdVenta]);
 
+    const SetDia=(Dia)=>{
+        setDay(Dia);
+    }
 
     if(loading){
         return (
           <Loading tipo="all"/>
         )  
     }
+
 
     return (
         <>
@@ -138,59 +150,69 @@ export const Ventas = ({IdVentaView}) => {
                     placeholder="Buscar..."
                 />
             </Form.Group>
-            {Ventas.length !== 0 ? 
-            <Accordion>
-                {Ventas.map(Ven =>
-                    <>
-                        <Accordion.Item key={Ven.IdVenata} eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
-                            <Accordion.Header key={`header_${Ven.IdVenata}`}>
-                                <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
-                                    {Ven.NombreCliente}{'\n'} Fecha: {Ven.FechaVenta} {'\n'}{Ven.Obra ? Ven.Obra : null}
-                                </div>
-                            </Accordion.Header>
-                            <Accordion.Body >
-                                    {loadingTable ?
-                                        <Loading tipo="tab" /> :
-                                        <Table responsive>
-                                            <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
-                                                <tr>
-                                                    <th>Ancho AF-AF</th>
-                                                    <th>Ancho tela</th>
-                                                    <th>Ancho Caño</th>
-                                                    <th>caño</th>
-                                                    <th>Alto Cortina</th>
-                                                    <th>Alto Tela</th>
-                                                    <th>cant</th>
-                                                    <th>Cadena</th>
-                                                    <th>posicion</th>
-                                                    <th>Detalles</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {Cortinas.map(Cor =>
-                                                    <tr key={Cor.idCortina}>
-                                                        <td>{Cor.anchoCaño}</td>
-                                                        <td>{Cor.anchoCortina}</td>
-                                                        <td>{Cor.anchoAfuerAfuera}</td>
-                                                        <td>{Cor.cano}</td>
-                                                        <td>{Cor.altoCortina}</td>
-                                                        <td>{Cor.altoTela}</td>
-                                                        <td>1</td>
-                                                        <td>{Cor.cadena}</td>
-                                                        <td>{Cor.posicion}</td>
-                                                        <td>Detalles</td>
+            {Ventas.length !== 0 ? (
+                <Accordion>
+                    {Ventas.map((Ven, index) => {
+                        const shouldShowDay = Day !== Ven.FechaVenta;
+                        if (shouldShowDay) {
+                            SetDia(Ven.FechaVenta);
+                        }
+
+                        return (
+                            <React.Fragment key={Ven.IdVenata}>
+                                {shouldShowDay && <MostrarDia />}
+                                <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
+                                    <Accordion.Header key={`header_${Ven.IdVenata}`}>
+                                        <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
+                                            {Ven.NombreCliente}{'\n'} Fecha: {Ven.FechaVenta} {'\n'}{Ven.Obra ? Ven.Obra : null}
+                                        </div>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        {loadingTable ? (
+                                            <Loading tipo="tab" />
+                                        ) : (
+                                            <Table responsive>
+                                                <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                    <tr>
+                                                        <th>Ancho AF-AF</th>
+                                                        <th>Ancho tela</th>
+                                                        <th>Ancho Caño</th>
+                                                        <th>caño</th>
+                                                        <th>Alto Cortina</th>
+                                                        <th>Alto Tela</th>
+                                                        <th>cant</th>
+                                                        <th>Cadena</th>
+                                                        <th>posicion</th>
+                                                        <th>Detalles</th>
                                                     </tr>
-                                                )}
-                                            </tbody>
-                                        </Table>
-                                    }
-                                </Accordion.Body>
-                        </Accordion.Item>
-                    </>
-                )}
-            </Accordion>:
-            <h1>nada....</h1>
-            }
+                                                </thead>
+                                                <tbody>
+                                                    {Cortinas.map(Cor => (
+                                                        <tr key={Cor.idCortina}>
+                                                            <td>{Cor.anchoCaño}</td>
+                                                            <td>{Cor.anchoCortina}</td>
+                                                            <td>{Cor.anchoAfuerAfuera}</td>
+                                                            <td>{Cor.cano}</td>
+                                                            <td>{Cor.altoCortina}</td>
+                                                            <td>{Cor.altoTela}</td>
+                                                            <td>1</td>
+                                                            <td>{Cor.cadena}</td>
+                                                            <td>{Cor.posicion}</td>
+                                                            <td>Detalles</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </Table>
+                                        )}
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </React.Fragment>
+                        );
+                    })}
+                </Accordion>
+            ) : (
+                <h1>nada....</h1>
+            )}
         </>
     );
 }
