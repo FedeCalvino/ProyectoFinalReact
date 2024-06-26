@@ -30,7 +30,7 @@ export const NavBar = ({ logged, onLogout }) => {
                         <Nav.Link href="Instalaciones" className="nav-link-custom">Instalaciones</Nav.Link>
                         <NavDropdown title="Seguimiento Estaciones" id="basic-nav-dropdown" className="nav-link-custom">
                             <NavDropdown.Item href="MesaCorteTela">Tela</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Caño</NavDropdown.Item>
+                            <NavDropdown.Item href="MesaCorteCano">Caño</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Armado</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
