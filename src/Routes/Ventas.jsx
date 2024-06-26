@@ -192,6 +192,7 @@ export const Ventas = ({ IdVentaView }) => {
                                             <Table responsive>
                                                 <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                                     <tr>
+                                                        <th>Ambiente</th>
                                                         <th>Ancho AF-AF</th>
                                                         <th>Ancho tela</th>
                                                         <th>Ancho Caño</th>
@@ -208,6 +209,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                     {Cortinas.map(Cor => (
                                                         <tr key={Cor.idCortina}>
                                                             <td>{Cor.anchoCaño}</td>
+                                                            <td>{Cor.ambiente}</td>
                                                             <td>{Cor.anchoCortina}</td>
                                                             <td>{Cor.anchoAfuerAfuera}</td>
                                                             <td>{Cor.cano}</td>

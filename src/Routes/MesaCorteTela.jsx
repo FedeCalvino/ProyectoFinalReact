@@ -23,14 +23,14 @@ export const MesaCorteTela = () => {
     const [Venta, setVenta] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
-  
-        const UrlVentas = "/Ventas/Dto"
-        const UrlVenta = "/Ventas/DtoVentaCor/"
-   
-/*
+    /*
+          const UrlVentas = "/Ventas/Dto"
+          const UrlVenta = "/Ventas/DtoVentaCor/"
+     */
+
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
-*/
+
 
     function MostrarVenta(venta) {
         console.log("click");
@@ -171,30 +171,22 @@ export const MesaCorteTela = () => {
                         <Table responsive>
                             <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                 <tr>
-                                    <th>Ancho AF-AF</th>
+                                    <th>Tela</th>
+                                    <th>Color</th>
                                     <th>Ancho tela</th>
-                                    <th>Ancho Caño</th>
-                                    <th>caño</th>
-                                    <th>Alto Cortina</th>
                                     <th>Alto Tela</th>
                                     <th>cant</th>
-                                    <th>Cadena</th>
-                                    <th>posicion</th>
                                     <th>Detalles</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {Cortinas.map(Cor => (
                                     <tr key={Cor.idCortina}>
-                                        <td>{Cor.anchoCaño}</td>
+                                        <td>{Cor.nombreTela}</td>
+                                        <td>{Cor.colorTela}</td>
                                         <td>{Cor.anchoCortina}</td>
-                                        <td>{Cor.anchoAfuerAfuera}</td>
-                                        <td>{Cor.cano}</td>
                                         <td>{Cor.altoCortina}</td>
-                                        <td>{Cor.altoTela}</td>
                                         <td>1</td>
-                                        <td>{Cor.cadena}</td>
-                                        <td>{Cor.posicion}</td>
                                         <td>Detalles</td>
                                     </tr>
                                 ))}
