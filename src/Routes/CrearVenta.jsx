@@ -327,7 +327,7 @@ export const CrearVenta = () => {
 
                 fetch('/Cliente/Post', requestOptionsCliente)
                     .then(response => {
-                        console.log("response", response)
+                        console.log("response cliente", response)
                         return response.json()
                     })
                     .then(result => {
@@ -343,6 +343,7 @@ export const CrearVenta = () => {
                                 };
                                 fetch('/Ventas/Post', requestOptionsVenta)
                                     .then(response => {
+                                        console.log("response venta", response)
                                         return response.json()
                                     })
                                     .then(result => {
@@ -366,7 +367,7 @@ export const CrearVenta = () => {
     }
 
     const handleResult = (result) => {
-        console.log(result);
+        console.log("handle",result);
         AgregarCortinasRollers(result.id);
         setIdVentaView(result.id);
         /*setTimeout(() => {
