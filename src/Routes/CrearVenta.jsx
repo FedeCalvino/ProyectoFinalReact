@@ -282,7 +282,7 @@ export const CrearVenta = () => {
             ok = false;
         }
 
-        if(ok){
+        if (ok) {
             const precioFinalInt = parseInt({ Precio }.Precio, 10);
             setloading(true)
             if (DataCli.id) {
@@ -327,50 +327,57 @@ export const CrearVenta = () => {
 
                 fetch('/Cliente/Post', requestOptionsCliente)
                     .then(response => {
-                        console.log("response",response)
+                        console.log("response", response)
                         response.json()
                     })
                     .then(result => {
-                        console.log("result cli",result)
-                        fetch('/Cliente/str/'+ DataCli.Name.NombreCliN).then(response => {
-                            console.log("response del fetch",response)
-                            response.json()
-                        }).then(result => {
-                            console.log("result",result)
-                            /*
-                            const requestOptionsVenta = {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    "IdCliente": result.id,
-                                    "PrecioFinal": precioFinalInt,
-                                    "Obra": { Obra }.Obra
-                                })
-                            };
-                            fetch('/Ventas/Post', requestOptionsVenta)
-                                .then(response => {response.json()
-                                })
-                                .then(result => {
-                                    handleResult(result);
-                                    /* setTimeout(() => {
-                                        setVentaCreada(false);
-                                    }, 8000);
-                                })
-                                .catch(error => {
-                                    console.error('Error en la solicitud de ventas:', error);
-                                    // Manejar el error de la solicitud de ventas aquí
-                                });*/
-                        })
-                        .catch(error => {
-                            console.error('Error en la solicitud de cliente:', error);
-                            // Manejar el error de la solicitud de cliente aquí
-                        }
+                        console.log("result cli", result)
+                        fetch('/Cliente/str/' + DataCli.Name.NombreCliN)
+                            .then(response => {
+                                console.log("response del fetch", response);
+                                // Verifica si la respuesta tiene contenido antes de convertirla a JSON
+                                if (response.ok) {
+                                    return response.text().then(text => {
+                                        console.log("Raw response text:", text); // Muestra el texto bruto de la respuesta
+                                        return JSON.parse(text); // Intenta convertir el texto a JSON manualmente
+                                    });
+                                } else {
+                                    throw new Error('Network response was not ok');
+                                }
+                            })
+                            .then(result => {
+                                console.log("result", result);
+                                /*
+                                const requestOptionsVenta = {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        "IdCliente": result.id,
+                                        "PrecioFinal": precioFinalInt,
+                                        "Obra": { Obra }.Obra
+                                    })
+                                };
+                                fetch('/Ventas/Post', requestOptionsVenta)
+                                    .then(response => {response.json()
+                                    })
+                                    .then(result => {
+                                        handleResult(result);
+                                        /* setTimeout(() => {
+                                            setVentaCreada(false);
+                                        }, 8000);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error en la solicitud de ventas:', error);
+                                        // Manejar el error de la solicitud de ventas aquí
+                                    });*/
+                            })
+                            .catch(error => {
+                                console.error('Error en la solicitud de cliente:', error);
+                                // Manejar el error de la solicitud de cliente aquí
+                            }
                             );
-                        
-                        })
-                        
-            
-        
+
+                    })
             }
         }
     }
@@ -573,11 +580,11 @@ export const CrearVenta = () => {
                     <Row className="w-150 mb-4">
                         <Col className="d-flex justify-content-center">
                             <Form.Group controlId="validationCustom01" noValidate>
-                            <Form.Label style={{ fontSize: "20px", fontWeight: "bold" }} className="text-center w-100">Precio</Form.Label>
+                                <Form.Label style={{ fontSize: "20px", fontWeight: "bold" }} className="text-center w-100">Precio</Form.Label>
                                 <Form.Control
                                     type="number"
                                     value={Precio}
-                                    style={{ textAlign: "center" ,borderWidth:"3PX",borderColor:"black"}}
+                                    style={{ textAlign: "center", borderWidth: "3PX", borderColor: "black" }}
                                     onChange={(e) => setPrecio(e.target.value)}
                                     placeholder="Precio"
                                     isValid={isValid}
