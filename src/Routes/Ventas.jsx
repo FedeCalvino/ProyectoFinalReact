@@ -9,14 +9,13 @@ import Accordion from 'react-bootstrap/Accordion';
 import './VentasCss.css';
 import { NavBar } from '../Componentes/NavBar';
 import { Loading } from '../Componentes/Loading';
-
 const StyledTableRow = styled.tr`
 &:hover {
     background-color: beige;
 }
 `;
 
-export const Ventas = ({IdVentaView}) => {
+export const Ventas = ({ IdVentaView }) => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
     const [loading, setloading] = useState(true)
@@ -30,9 +29,10 @@ export const Ventas = ({IdVentaView}) => {
     const [Venta, setVenta] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
-
-    const UrlVentas = "/Ventas/Dto"
-    const UrlVenta = "/Ventas/DtoVentaCor/"
+    
+        const UrlVentas = "/Ventas/Dto"
+        const UrlVenta = "/Ventas/DtoVentaCor/"
+    
 /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
@@ -46,7 +46,7 @@ export const Ventas = ({IdVentaView}) => {
     }
 
 
-    
+
 
 
     const FetchVentas = async () => {
@@ -59,9 +59,9 @@ export const Ventas = ({IdVentaView}) => {
             } catch (error) {
                 console.log(error)
             }
-        }else{
+        } else {
             try {
-                const res = await fetch(UrlVentas+"/"+SearchText)
+                const res = await fetch(UrlVentas + "/" + SearchText)
                 const data = await res.json()
                 setVentas(data);
                 console.log(data);
@@ -77,7 +77,7 @@ export const Ventas = ({IdVentaView}) => {
             try {
                 console.log("entr")
                 await FetchVentas();
-                if(IdVentaView){
+                if (IdVentaView) {
                     setActiveKey(IdVentaView);
                 }
             } catch (error) {
@@ -93,7 +93,7 @@ export const Ventas = ({IdVentaView}) => {
 
     useEffect(() => {
         FetchVentas();
-        lastDay=""
+        lastDay = ""
     }, [SearchText]);
 
     const FetchVentaCortinas = async () => {
@@ -109,34 +109,34 @@ export const Ventas = ({IdVentaView}) => {
                 console.log(error)
             }
         }
-        else{
+        else {
             setloadingTable(false)
         }
     };
     let lastDay = null;
-    const MostrarDia = ({Day}) => {
+    const MostrarDia = ({ Day }) => {
         let Ok = false;
-        if(lastDay!==Day){
-            console.log("antes",lastDay)
-            console.log("Day",{Day}.Day)
-            Ok=true
-            lastDay={Day}.Day
-            console.log("desp",lastDay)
+        if (lastDay !== Day) {
+            console.log("antes", lastDay)
+            console.log("Day", { Day }.Day)
+            Ok = true
+            lastDay = { Day }.Day
+            console.log("desp", lastDay)
         }
         return (
             <>
-            {Ok ? <div style={{ 
-                border: '1px solid #ccc', 
-                padding: '10px', 
-                textAlign: 'center', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '5px'
-            }}>
-                <h3 style={{ margin: 0 }}>{Day}</h3>
-            </div>
-            :
-             null
-            }
+                {Ok ? <div style={{
+                    border: '1px solid #ccc',
+                    padding: '10px',
+                    textAlign: 'center',
+                    backgroundColor: '#f9f9f9',
+                    borderRadius: '5px'
+                }}>
+                    <h3 style={{ margin: 0 }}>{Day}</h3>
+                </div>
+                    :
+                    null
+                }
             </>
         );
     }
@@ -146,12 +146,12 @@ export const Ventas = ({IdVentaView}) => {
         FetchVentaCortinas();
     }, [IdVenta]);
 
-    if(loading){
+    if (loading) {
         return (
-          <Loading tipo="all"/>
-        )  
+            <Loading tipo="all" />
+        )
     }
-    
+
     return (
         <>
             <Row className="text-center mt-4 mb-4">
@@ -173,11 +173,16 @@ export const Ventas = ({IdVentaView}) => {
                     {Ventas.map((Ven, index) => {
                         return (
                             <React.Fragment key={Ven.IdVenata}>
-                                <MostrarDia Day={Ven.FechaVenta}/>
+                                <MostrarDia Day={Ven.FechaVenta} />
                                 <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
-                                    <Accordion.Header key={`header_${Ven.IdVenata}`}>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
-                                            {Ven.NombreCliente}{'\n'} Fecha: {Ven.FechaVenta} {'\n'}{Ven.Obra ? Ven.Obra : null}
+                                    <Accordion.Header key={`header_${Ven.IdVenata}`} className="centered-header">
+                                        <div style={{
+                                            fontSize: "23px",
+                                            fontWeight: "bold",
+                                            whiteSpace: "pre-line",
+                                            // Añade más estilos inline según sea necesario
+                                        }}>
+                                            {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
                                         </div>
                                     </Accordion.Header>
                                     <Accordion.Body>
