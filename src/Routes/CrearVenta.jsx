@@ -584,8 +584,8 @@ export const CrearVenta = () => {
             </>
         )
     }
-    /*if (IdVentaView) {
+    if (IdVentaView) {
         return <Ventas IdVentaView={IdVentaView} />
-    }*/
+    }
 
 }
