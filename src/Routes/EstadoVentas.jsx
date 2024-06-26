@@ -13,9 +13,9 @@ import { Loading } from '../Componentes/Loading';
 
 export const EstadoVentas = () => {
     const [loading, setloading] = useState(true)
-    const [IdVenta, setIdVenta] = useState(null)
-    const [ClienteVenta, setClienteVenta] = useState(null)
-    const [FechaVenta, setFechaVenta] = useState(null)
+    const [IdVentaSinArmar, setIdVentaSinArmar] = useState(null)
+    const [IdVentaArmada, setIdVentaArmada] = useState(null)
+    const [IdVentaProbada, setIdVentaProbada] = useState(null)
     const [SearchText, setSearchText] = useState("")
 
     
@@ -23,22 +23,29 @@ export const EstadoVentas = () => {
     const [VentasSinArmar, setVentasSinArmar] = useState([])
     const [VentasProbadas, setVentasProbadas] = useState([])
     const [Venta, setVenta] = useState([])
-    const [Cortinas, setCortinas] = useState([])
-    const [loadingTable, setloadingTable] = useState(true)
+    const [CortinasSinArmar, setCortinasSinArmar] = useState([])
+    const [CortinasArmada, setCortinasArmada] = useState([])
+    const [CortinasProbada, setCortinasProbada] = useState([])
+    const [loadingTableSinArmada, setloadingTablesinArmada] = useState(true)
+    const [loadingTableArmada, setloadingTableArmada] = useState(true)
+    const [loadingTableProbada, setloadingTableProbada] = useState(true)
     
-        const UrlVentas = "/Ventas/Dto"
-        const UrlVenta = "/Ventas/DtoVentaCor/"
+    const UrlVentas = "/Ventas/Dto"
+    const UrlVenta = "/Ventas/DtoVentaCor/"
     
     /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
     */
 
-    function MostrarVenta(venta) {
-        console.log("click");
-        setIdVenta(venta.IdVenata)
-        setClienteVenta(venta.NombreCliente)
-        setFechaVenta(venta.FechaVenta)
+    function MostrarVentaSinArmar(venta) {
+        setIdVentaSinArmar(venta.IdVenata)
+    }
+    function MostrarVentaArmada(venta) {
+        setIdVentaArmada(venta.IdVenata)
+    }
+    function MostrarVentaProbada(venta) {
+        setIdVentaProbada(venta.IdVenata)
     }
 
 
@@ -95,29 +102,69 @@ export const EstadoVentas = () => {
 
     }, [SearchText]);
 
-    const FetchVentaCortinas = async () => {
-        setloadingTable(true)
-        if (IdVenta != null) {
+    const FetchVentaSinArmarCortinas = async () => {
+        setloadingTablesinArmada(true)
+        if (IdVentaSinArmar != null) {
             try {
-                const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
+                const res = await fetch(UrlVenta + {IdVentaSinArmar}.IdVentaSinArmar)
                 const data = await res.json()
-                setCortinas(data);
-                setloadingTable(false)
+                setCortinasSinArmar(data);
+                setloadingTablesinArmada(false)
                 console.log(data);
             } catch (error) {
                 console.log(error)
             }
         }
         else {
-            setloadingTable(false)
+            setloadingTablesinArmada(false)
+        }
+    };
+    const FetchVentaArmadaCortinas = async () => {
+        setloadingTableArmada(true)
+        if (IdVentaArmada != null) {
+            try {
+                const res = await fetch(UrlVenta + {IdVentaArmada}.IdVentaArmada)
+                const data = await res.json()
+                setCortinasArmada(data);
+                setloadingTableArmada(false)
+                console.log(data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        else {
+            setloadingTableArmada(false)
+        }
+    };
+    const FetchVentaProbadaCortinas = async () => {
+        setloadingTableProbada(true)
+        if (IdVentaProbada != null) {
+            try {
+                const res = await fetch(UrlVenta + {IdVentaProbada}.IdVentaProbada)
+                const data = await res.json()
+                setCortinasProbada(data);
+                setloadingTableProbada(false)
+                console.log(data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        else {
+            setloadingTableProbada(false)
         }
     };
 
 
 
     useEffect(() => {
-        FetchVentaCortinas();
-    }, [IdVenta]);
+        FetchVentaSinArmarCortinas();
+    }, [IdVentaSinArmar]);
+    useEffect(() => {
+        FetchVentaArmadaCortinas();
+    }, [IdVentaArmada]);
+    useEffect(() => {
+        FetchVentaProbadaCortinas();
+    }, [IdVentaProbada]);
 
     if (loading) {
         return (
@@ -127,20 +174,6 @@ export const EstadoVentas = () => {
 
     return (
         <>
-            <Row className="text-center mt-4 mb-4">
-                <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
-                    ESTADO VENTAS
-                </h1>
-            </Row>
-            <Form.Group style={{ marginBottom: "30px" }} as={Col} md="2" noValidate>
-                <Form.Text>Buscar por cliente</Form.Text>
-                <Form.Control
-                    type="text"
-                    value={SearchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="Buscar..."
-                />
-            </Form.Group>
             <Row>
                 <Col>
                     <h3 style={{textAlign:"center"}}>Sin Armar</h3>
@@ -149,7 +182,7 @@ export const EstadoVentas = () => {
                             {VentasSinArmar.map((Ven, index) => {
                                 return (
                                     <React.Fragment key={Ven.IdVenata}>
-                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
+                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVentaSinArmar(Ven)}>
                                             <Accordion.Header key={`header_${Ven.IdVenata}`} className="centered-header">
                                                 <div style={{
                                                     fontSize: "23px",
@@ -161,36 +194,24 @@ export const EstadoVentas = () => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
-                                                {loadingTable ? (
+                                                {loadingTableSinArmada ? (
                                                     <Loading tipo="tab" />
                                                 ) : (
                                                     <Table responsive>
                                                         <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                                             <tr>
-                                                                <th>Ancho AF-AF</th>
-                                                                <th>Ancho tela</th>
-                                                                <th>Ancho Caño</th>
-                                                                <th>caño</th>
+                                                                <th>Ancho AF-AF</th>                                                               
                                                                 <th>Alto Cortina</th>
-                                                                <th>Alto Tela</th>
-                                                                <th>cant</th>
-                                                                <th>Cadena</th>
-                                                                <th>posicion</th>
+                                                                <th>Estado</th>
                                                                 <th>Detalles</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {Cortinas.map(Cor => (
+                                                            {CortinasSinArmar.map(Cor => (
                                                                 <tr key={Cor.idCortina}>
-                                                                    <td>{Cor.anchoCaño}</td>
-                                                                    <td>{Cor.anchoCortina}</td>
-                                                                    <td>{Cor.anchoAfuerAfuera}</td>
-                                                                    <td>{Cor.cano}</td>
+                                                                    <td>{Cor.anchoCaño}</td> 
                                                                     <td>{Cor.altoCortina}</td>
-                                                                    <td>{Cor.altoTela}</td>
-                                                                    <td>1</td>
-                                                                    <td>{Cor.cadena}</td>
-                                                                    <td>{Cor.posicion}</td>
+                                                                    <td>{Cor.estadoCortina}</td>
                                                                     <td>Detalles</td>
                                                                 </tr>
                                                             ))}
@@ -213,7 +234,7 @@ export const EstadoVentas = () => {
                             {VentasArmadas.map((Ven, index) => {
                                 return (
                                     <React.Fragment key={Ven.IdVenata}>
-                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
+                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVentaArmada(Ven)}>
                                             <Accordion.Header key={`header_${Ven.IdVenata}`} className="centered-header">
                                                 <div style={{
                                                     fontSize: "23px",
@@ -225,7 +246,7 @@ export const EstadoVentas = () => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
-                                                {loadingTable ? (
+                                                {loadingTableArmada ? (
                                                     <Loading tipo="tab" />
                                                 ) : (
                                                     <Table responsive>
@@ -244,7 +265,7 @@ export const EstadoVentas = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {Cortinas.map(Cor => (
+                                                            {CortinasArmada.map(Cor => (
                                                                 <tr key={Cor.idCortina}>
                                                                     <td>{Cor.anchoCaño}</td>
                                                                     <td>{Cor.anchoCortina}</td>
@@ -277,7 +298,7 @@ export const EstadoVentas = () => {
                             {VentasProbadas.map((Ven, index) => {
                                 return (
                                     <React.Fragment key={Ven.IdVenata}>
-                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
+                                        <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVentaProbada(Ven)}>
                                             <Accordion.Header key={`header_${Ven.IdVenata}`} className="centered-header">
                                                 <div style={{
                                                     fontSize: "23px",
@@ -289,7 +310,7 @@ export const EstadoVentas = () => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
-                                                {loadingTable ? (
+                                                {loadingTableProbada ? (
                                                     <Loading tipo="tab" />
                                                 ) : (
                                                     <Table responsive>
@@ -308,7 +329,7 @@ export const EstadoVentas = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {Cortinas.map(Cor => (
+                                                            {CortinasProbada.map(Cor => (
                                                                 <tr key={Cor.idCortina}>
                                                                     <td>{Cor.anchoCaño}</td>
                                                                     <td>{Cor.anchoCortina}</td>
