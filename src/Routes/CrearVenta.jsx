@@ -328,24 +328,10 @@ export const CrearVenta = () => {
                 fetch('/Cliente/Post', requestOptionsCliente)
                     .then(response => {
                         console.log("response", response)
-                        response.json()
+                        return response.json()
                     })
                     .then(result => {
                         console.log("result cli", result)
-                        fetch('/Cliente/str/' + DataCli.Name.NombreCliN)
-                            .then(response => {
-                                console.log("response del fetch", response);
-                                // Verifica si la respuesta tiene contenido antes de convertirla a JSON
-                                if (response.ok) {
-                                    return response.text().then(text => {
-                                        console.log("Raw response text:", text); // Muestra el texto bruto de la respuesta
-                                        return JSON.parse(text); // Intenta convertir el texto a JSON manualmente
-                                    });
-                                } else {
-                                    throw new Error('Network response was not ok');
-                                }
-                            })
-                            .then(result => {
                                 console.log("result", result);
                                 /*
                                 const requestOptionsVenta = {
@@ -376,8 +362,6 @@ export const CrearVenta = () => {
                                 // Manejar el error de la solicitud de cliente aquí
                             }
                             );
-
-                    })
             }
         }
     }
