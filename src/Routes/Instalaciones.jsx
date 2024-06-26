@@ -172,7 +172,7 @@ export const Instalaciones = () => {
     const Calendario = () => {
         return (
             <DragAndDropCalendar
-                style={{ height: '90vh' }}
+                style={{ height: '80vh' }}
                 localizer={localizar}
                 defaultView='month'
                 selectable={true}
