@@ -10,6 +10,7 @@ import { Instalaciones } from '../Routes/Instalaciones';
 import { ProtectedRoute } from '../Routes/ProtectedRoute';
 import { Login } from '../Routes/Login';
 import { Provedores } from '../Routes/Provedores';
+import { EstadoVentas } from '../Routes/EstadoVentas';
 const App = () => {
 
     const [Loginerror,SetLoginerror]= useState(false)
@@ -121,6 +122,12 @@ const App = () => {
                 </Route>
                 <Route path='/Instalaciones' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
                     <Instalaciones />
+                </ProtectedRoute>} >
+
+                </Route>
+                
+                <Route path='/EstadoVentas' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                    <EstadoVentas/>
                 </ProtectedRoute>} >
 
                 </Route>

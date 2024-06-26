@@ -21,6 +21,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/EstadoVentas",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Facturas",
       "destination": "/index.html"
     },
