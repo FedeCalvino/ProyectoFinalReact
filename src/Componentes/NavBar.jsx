@@ -25,7 +25,7 @@ export const NavBar = ({ logged, onLogout }) => {
                         <Nav.Link href="Ventas" className="nav-link-custom">Ventas</Nav.Link>
                         <Nav.Link href="CrearVenta" className="nav-link-custom">Crear Venta</Nav.Link>
                         <Nav.Link href="Facturas" className="nav-link-custom">Facturas</Nav.Link>
-                        <Nav.Link href="WareHouse" className="nav-link-custom">WareHouse</Nav.Link>
+                        <Nav.Link href="Deposito" className="nav-link-custom">Deposito</Nav.Link>
                         <Nav.Link href="Instalaciones" className="nav-link-custom">Instalaciones</Nav.Link>
                         <NavDropdown title="Seguimiento Estaciones" id="basic-nav-dropdown" className="nav-link-custom">
                             <NavDropdown.Item href="#action/3.1">Tela</NavDropdown.Item>

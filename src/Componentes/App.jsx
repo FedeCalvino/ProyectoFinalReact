@@ -109,7 +109,7 @@ const App = () => {
                 </ProtectedRoute>} >
 
                 </Route>
-                <Route path='/WareHouse' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                <Route path='/Deposito' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
                     <Warehouse />
                 </ProtectedRoute>} >
 
