@@ -31,11 +31,11 @@ export const Ventas = ({IdVentaView}) => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
 
-    const UrlVentas = "/Ventas/Dto"
-    const UrlVenta = "/Ventas/DtoVentaCor/"
-    const UrlVentasLike = "/Ventas/Dto/"
+    /*const UrlVentas = "/Ventas/Dto"
+    const UrlVenta = "/Ventas/DtoVentaCor/"*/
 
-    
+    const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
+    const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
 
 
     function MostrarVenta(venta) {
@@ -61,7 +61,7 @@ export const Ventas = ({IdVentaView}) => {
             }
         }else{
             try {
-                const res = await fetch(UrlVentasLike+SearchText)
+                const res = await fetch(UrlVentas+SearchText)
                 const data = await res.json()
                 setVentas(data);
                 console.log(data);
@@ -112,28 +112,45 @@ export const Ventas = ({IdVentaView}) => {
             setloadingTable(false)
         }
     };
-
-    const MostrarDia = () => {
+    let lastDay = null;
+    const MostrarDia = ({Day}) => {
+        let Ok = false;
+        if(lastDay!==Day){
+            console.log("antes",lastDay)
+            console.log("Day",{Day}.Day)
+            Ok=true
+            lastDay={Day}.Day
+            console.log("desp",lastDay)
+        }
         return (
-            <h3>{Day}</h3>
+            <>
+            {Ok ? <div style={{ 
+                border: '1px solid #ccc', 
+                padding: '10px', 
+                textAlign: 'center', 
+                backgroundColor: '#f9f9f9', 
+                borderRadius: '5px'
+            }}>
+                <h3 style={{ margin: 0 }}>{Day}</h3>
+            </div>
+            :
+             null
+            }
+            </>
         );
     }
+
 
     useEffect(() => {
         FetchVentaCortinas();
     }, [IdVenta]);
-
-    const SetDia=(Dia)=>{
-        setDay(Dia);
-    }
 
     if(loading){
         return (
           <Loading tipo="all"/>
         )  
     }
-
-
+    
     return (
         <>
             <Row className="text-center mt-4 mb-4">
@@ -153,14 +170,9 @@ export const Ventas = ({IdVentaView}) => {
             {Ventas.length !== 0 ? (
                 <Accordion>
                     {Ventas.map((Ven, index) => {
-                        const shouldShowDay = Day !== Ven.FechaVenta;
-                        if (shouldShowDay) {
-                            SetDia(Ven.FechaVenta);
-                        }
-
                         return (
                             <React.Fragment key={Ven.IdVenata}>
-                                {shouldShowDay && <MostrarDia />}
+                                <MostrarDia Day={Ven.FechaVenta}/>
                                 <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
                                     <Accordion.Header key={`header_${Ven.IdVenata}`}>
                                         <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
@@ -215,4 +227,4 @@ export const Ventas = ({IdVentaView}) => {
             )}
         </>
     );
-}
+};
