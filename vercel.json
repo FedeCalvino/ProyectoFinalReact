@@ -25,6 +25,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/MesaCorteTela",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Facturas",
       "destination": "/index.html"
     },
