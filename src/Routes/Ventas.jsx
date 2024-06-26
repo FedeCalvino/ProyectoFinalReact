@@ -61,7 +61,7 @@ export const Ventas = ({IdVentaView}) => {
             }
         }else{
             try {
-                const res = await fetch(UrlVentas+SearchText)
+                const res = await fetch(UrlVentas+"/"+SearchText)
                 const data = await res.json()
                 setVentas(data);
                 console.log(data);
@@ -93,6 +93,7 @@ export const Ventas = ({IdVentaView}) => {
 
     useEffect(() => {
         FetchVentas();
+        lastDay=""
     }, [SearchText]);
 
     const FetchVentaCortinas = async () => {
