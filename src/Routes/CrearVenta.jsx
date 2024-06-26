@@ -377,12 +377,12 @@ export const CrearVenta = () => {
     };
 
     async function AgregarCortinasRollers(idVenta) {
-        console.log("add cortina")
+        console.log("add cortina");
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         };
-
+    
         // Usar Promise.all para enviar todas las Cortinas en paralelo y esperar su finalización
         await Promise.all(Cortinas.map(async (Cor) => {
             const bodyData = {
@@ -396,28 +396,48 @@ export const CrearVenta = () => {
                 "Posicion": Cor.posicion,
                 "LadoCadena": Cor.ladoC
             };
-            console.log("boady", bodyData)
+            console.log("body", bodyData);
+    
             requestOptions.body = JSON.stringify(bodyData);
-            fetch('/Cortinas/Roller', requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    console.log("result de cortina", result)
-                    AgregarCortinaRollerAVenta(result.id, idVenta);
-                });
+    
+            try {
+                const response = await fetch('/Cortinas/Roller', requestOptions);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                console.log("result de cortina", result);
+                AgregarCortinaRollerAVenta(result.id, idVenta);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Manejar el error según sea necesario
+            }
         }));
     }
 
     function AgregarCortinaRollerAVenta(cortinaid, idVenta) {
+        const IdcorParse = parseInt(cortinaid, 10);
+        const IdVentParse = parseInt(idVenta, 10);
+        
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         };
-        const IdcorParse = parseInt(cortinaid, 10);
-        const IdVentParse = parseInt(idVenta, 10);
-        fetch('/Ventas/' + IdcorParse + "/" + IdVentParse, requestOptions)
-            .then(response => response.json())
+    
+        fetch(`/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(result => {
-                console.log(result)
+                console.log(result);
+                // Aquí puedes manejar el resultado según sea necesario
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // Manejar errores de red u otros errores aquí
             });
     }
 
