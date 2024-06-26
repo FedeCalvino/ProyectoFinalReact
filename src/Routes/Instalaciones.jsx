@@ -143,7 +143,7 @@ export const Instalaciones = () => {
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false);
+                setloading(false);
             }
         };
         fetchData();
