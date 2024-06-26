@@ -308,12 +308,9 @@ export const CrearVenta = () => {
             } else {
                 console.log("Cliente sin id", DataCli)
                 //Creo el Cliente antes de la venta
+
                 const IdRutParse = parseInt(DataCli.Rut.RutCliN, 10);
                 const IdTelParse = parseInt(DataCli.Tel, 10);
-                /*console.log(DataCli.Rut.RutCliN)
-                console.log(DataCli.Name.NombreCliN)
-                console.log(DataCli.Tel.TelefonoCliN)
-                console.log(DataCli.Direcc.DireccCliN)*/
 
                 const requestOptionsCliente = {
                     method: 'POST',
@@ -330,40 +327,50 @@ export const CrearVenta = () => {
 
                 fetch('/Cliente/Post', requestOptionsCliente)
                     .then(response => {
-                            console.log("response",response)
-                          response.json()
+                        console.log("response",response)
+                        response.json()
                     })
                     .then(result => {
                         console.log("result cli",result)
-                        const requestOptionsVenta = {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                "IdCliente": result.id,
-                                "PrecioFinal": precioFinalInt,
-                                "Obra": { Obra }.Obra
-                            })
-                        };
-                        fetch('/Ventas/Post', requestOptionsVenta)
-                            .then(response => {response.json()
-                            })
-                            .then(result => {
-                                handleResult(result);
-                                /* setTimeout(() => {
-                                    setVentaCreada(false);
-                                }, 8000);*/
-                            })
-                            .catch(error => {
-                                console.error('Error en la solicitud de ventas:', error);
-                                // Manejar el error de la solicitud de ventas aquí
-                            });
-                    })
-                    .catch(error => {
-                        console.error('Error en la solicitud de cliente:', error);
-                        // Manejar el error de la solicitud de cliente aquí
-                    });
-            }
-
+                        fetch('/Cliente/str/'+ DataCli.Name.NombreCliN).then(response => {
+                            console.log("response del fetch",response)
+                            response.json()
+                        }).then(result => {
+                            console.log("result",result)
+                            /*
+                            const requestOptionsVenta = {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    "IdCliente": result.id,
+                                    "PrecioFinal": precioFinalInt,
+                                    "Obra": { Obra }.Obra
+                                })
+                            };
+                            fetch('/Ventas/Post', requestOptionsVenta)
+                                .then(response => {response.json()
+                                })
+                                .then(result => {
+                                    handleResult(result);
+                                    /* setTimeout(() => {
+                                        setVentaCreada(false);
+                                    }, 8000);
+                                })
+                                .catch(error => {
+                                    console.error('Error en la solicitud de ventas:', error);
+                                    // Manejar el error de la solicitud de ventas aquí
+                                });*/
+                        })
+                        .catch(error => {
+                            console.error('Error en la solicitud de cliente:', error);
+                            // Manejar el error de la solicitud de cliente aquí
+                        }
+                            );
+                        
+                        })
+                        
+            
+        
         }
     }
 
