@@ -20,17 +20,16 @@ export const Ventas = ({ IdVentaView }) => {
     const [Ventas, setVentas] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
-
-        const UrlVentas = "/Ventas/Dto"
-        const UrlVenta = "/Ventas/DtoVentaCor/"
-
-/*
+  
+            const UrlVentas = "/Ventas/Dto"
+            const UrlVenta = "/Ventas/DtoVentaCor/"
+   /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
 */
 
     function MostrarVenta(venta) {
-        console.log("click");
+
         setIdVenta(venta.IdVenata)
     }
 
@@ -79,11 +78,21 @@ export const Ventas = ({ IdVentaView }) => {
 
         fetchData();
     }, []);
-    const cambiarLargoCano =(data)=>{
-        data.map(cortina=>{
-
-        })
-    }
+    const cambiarLargoCano = (data) => {
+        data.forEach(cortina => {
+            // Convertir el string a un número
+                const decimalPartLength = (cortina.anchoAfuerAfuera.split('.')[1] || '').length;
+                if(decimalPartLength==1){
+                    console.log(cortina.anchoAfuerAfuera+0)
+                }
+                const anchoAfuerAfuera = parseFloat(cortina.anchoAfuerAfuera);
+                // Realizar la operación matemática
+                let nuevoAnchoCaño = anchoAfuerAfuera - 0.03;
+                // Asegurar que el resultado tenga dos decimales y asignar el valor actualizado
+                cortina.anchoCaño = nuevoAnchoCaño.toFixed(2);
+            
+        });
+    };
 
 
     useEffect(() => {
@@ -113,11 +122,8 @@ export const Ventas = ({ IdVentaView }) => {
     const MostrarDia = ({ Day }) => {
         let Ok = false;
         if (lastDay !== Day) {
-            console.log("antes", lastDay)
-            console.log("Day", { Day }.Day)
             Ok = true
             lastDay = { Day }.Day
-            console.log("desp", lastDay)
         }
         return (
             <>
@@ -184,43 +190,43 @@ export const Ventas = ({ IdVentaView }) => {
                                             <Loading tipo="tab" />
                                         ) : (
                                             <>
-                                            <Table responsive>
-                                                <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
-                                                    <tr>
-                                                        <th>Ambiente</th>
-                                                        <th>Ancho AF-AF</th>
-                                                        <th>Ancho tela</th>
-                                                        <th>Ancho Caño</th>
-                                                        <th>caño</th>
-                                                        <th>Alto Cortina</th>
-                                                        <th>Alto Tela</th>
-                                                        <th>cant</th>
-                                                        <th>Cadena</th>
-                                                        <th>posicion</th>
-                                                        <th>Detalles</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {Cortinas.map(Cor => (
-                                                        <tr key={Cor.idCortina}>
-                                                            <td>{Cor.ambiente}</td>
-                                                            <td>{Cor.anchoAfuerAfuera}</td>
-                                                            <td>{Cor.anchoCortina}</td>
-                                                            <td>{Cor.anchoCaño}</td>
-                                                            <td>{Cor.cano}</td>
-                                                            <td>{Cor.altoCortina}</td>
-                                                            <td>{Cor.altoTela}</td>
-                                                            <td>1</td>
-                                                            <td>{Cor.cadena}</td>
-                                                            <td>{Cor.posicion}</td>
-                                                            <td>Detalles</td>
+                                                <Table responsive>
+                                                    <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                        <tr>
+                                                            <th>Ambiente</th>
+                                                            <th>Ancho AF-AF</th>
+                                                            <th>Ancho tela</th>
+                                                            <th>Ancho Caño</th>
+                                                            <th>caño</th>
+                                                            <th>Alto Cortina</th>
+                                                            <th>Alto Tela</th>
+                                                            <th>cant</th>
+                                                            <th>Cadena</th>
+                                                            <th>posicion</th>
+                                                            <th>Detalles</th>
                                                         </tr>
-                                                    ))}
-                                                </tbody>
-                                            </Table>
-                                            <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas}/>} fileName='Pdf'>
-                                                <Button >PDF</Button>
-                                            </PDFDownloadLink>
+                                                    </thead>
+                                                    <tbody>
+                                                        {Cortinas.map(Cor => (
+                                                            <tr key={Cor.idCortina}>
+                                                                <td>{Cor.ambiente}</td>
+                                                                <td>{Cor.anchoAfuerAfuera}</td>
+                                                                <td>{Cor.anchoCortina}</td>
+                                                                <td>{Cor.anchoCaño}</td>
+                                                                <td>{Cor.cano}</td>
+                                                                <td>{Cor.altoCortina}</td>
+                                                                <td>{Cor.altoTela}</td>
+                                                                <td>1</td>
+                                                                <td>{Cor.cadena}</td>
+                                                                <td>{Cor.posicion}</td>
+                                                                <td>Detalles</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </Table>
+                                                <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
+                                                    <Button >PDF</Button>
+                                                </PDFDownloadLink>
                                             </>
                                         )}
                                     </Accordion.Body>

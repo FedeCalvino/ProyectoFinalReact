@@ -95,6 +95,7 @@ export const MesaCorteCano = () => {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
                 const data = await res.json()
+                cambiarLargoCano(data)
                 setCortinas(data);
                 setloadingTable(false)
                 console.log(data);
@@ -107,6 +108,21 @@ export const MesaCorteCano = () => {
         }
     };
 
+    const cambiarLargoCano = (data) => {
+        data.forEach(cortina => {
+            // Convertir el string a un número
+                const decimalPartLength = (cortina.anchoAfuerAfuera.split('.')[1] || '').length;
+                if(decimalPartLength==1){
+                    console.log(cortina.anchoAfuerAfuera+0)
+                }
+                const anchoAfuerAfuera = parseFloat(cortina.anchoAfuerAfuera);
+                // Realizar la operación matemática
+                let nuevoAnchoCaño = anchoAfuerAfuera - 0.03;
+                // Asegurar que el resultado tenga dos decimales y asignar el valor actualizado
+                cortina.anchoCaño = nuevoAnchoCaño.toFixed(2);
+            
+        });
+    };
 
 
     useEffect(() => {
