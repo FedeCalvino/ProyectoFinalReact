@@ -1,5 +1,5 @@
 .custom-card {
-    background: rgb(42,40,40);
+    background: rgb(42,40,40, 0.5);
     background:  #007bff;
     color: #ffffff;  
     font-size: larger;
