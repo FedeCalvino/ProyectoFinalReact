@@ -9,6 +9,7 @@ import './VentasCss.css';
 import { Loading } from '../Componentes/Loading';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { PDF } from '../Componentes/PDF';
+import { forEach } from 'lodash';
 
 export const Ventas = ({ IdVentaView }) => {
     const tableRef = useRef(null);
@@ -78,6 +79,11 @@ export const Ventas = ({ IdVentaView }) => {
 
         fetchData();
     }, []);
+    const cambiarLargoCano =(data)=>{
+        data.map(cortina=>{
+
+        })
+    }
 
 
     useEffect(() => {
@@ -91,6 +97,7 @@ export const Ventas = ({ IdVentaView }) => {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
                 const data = await res.json()
+                cambiarLargoCano(data)
                 setCortinas(data);
                 setloadingTable(false)
                 console.log(data);
@@ -196,10 +203,10 @@ export const Ventas = ({ IdVentaView }) => {
                                                 <tbody>
                                                     {Cortinas.map(Cor => (
                                                         <tr key={Cor.idCortina}>
-                                                            <td>{Cor.anchoCaño}</td>
                                                             <td>{Cor.ambiente}</td>
-                                                            <td>{Cor.anchoCortina}</td>
                                                             <td>{Cor.anchoAfuerAfuera}</td>
+                                                            <td>{Cor.anchoCortina}</td>
+                                                            <td>{Cor.anchoCaño}</td>
                                                             <td>{Cor.cano}</td>
                                                             <td>{Cor.altoCortina}</td>
                                                             <td>{Cor.altoTela}</td>
