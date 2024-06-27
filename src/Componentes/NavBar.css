@@ -1,24 +1,31 @@
-.bg-body-tertiary{
-    padding-top: 0px;
+.bg-body-tertiary {
+  padding: 0px;
+  background-color: rgb(61, 53, 42);
+  border-bottom: 10px solid transparent;
+  border-image: linear-gradient(83deg, rgba(255, 255, 255, 1) 0%, rgba(16, 25, 190, 1) 50%, rgba(249, 249, 249, 1) 100%);
+  border-image-slice: 1;
 }
 .brand-custom{
-    font-size: 1.5rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+    font-size: 1.8rem; /* Ajusta el tamaño de la fuente según tus necesidades */
     height: auto;
     font-weight:500; /* Haz que el texto sea más grueso */
     color: #000000; /* Cambia el color del texto (este es un ejemplo de un color atractivo) */
     font-family: 'Arial', sans-serif; /* Puedes cambiar la familia de fuentes según tus necesidades */
 }
 .nav-link-custom {
-    padding-left: 5px;
-    border-radius: 0px 0px 10px 10px;
-    transition: all 0.3s ease-in-out;
+  width:100%;
+  border-left: 2px solid rgba(16, 25, 190, 1);
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding-bottom: 0%;
+  border-radius: 0px 0px 10px 10px;
+  transition: all 0.3s ease-in-out;
 }
   
   .nav-link-custom:hover 
   {
     transition:all 0.3s ease-in-out;
     background: #007bff;
-    border: 0px;
     color: #ffffff !important;
   }
 
@@ -34,4 +41,25 @@
   transition: margin 0.3s ease, background-color 0.3s ease;
   margin: 5px 0; /* Margen inicial */
 }
+.container_nav{
+  padding: 0%;
+  width: 100%;
+}
+.navb{
+  width: 1200px;
+}
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  margin-bottom: 4px; /* Ajusta este margen según tus necesidades */
+}

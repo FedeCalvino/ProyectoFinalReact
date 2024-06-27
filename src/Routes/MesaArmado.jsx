@@ -22,10 +22,10 @@ export const MesaArmado = () => {
 
 
     const [selectedVentaId, setSelectedVentaId] = useState(null);
-    
+
           const UrlVentas = "/Ventas/Dto"
           const UrlVenta = "/Ventas/DtoVentaCor/"
-   
+
 /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
@@ -127,12 +127,15 @@ export const MesaArmado = () => {
     return (
         <>
             <Row className="text-center mt-4 mb-4">
-                <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
+                <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: 'blue' }}>
                     Mesa De Armado
                 </h1>
             </Row>
             <Row className="text-center mt-4 mb-4" style={{ height: "60vh" }}>
                 <Col style={{ borderRight: "2px solid black" }}>
+                <h2 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
+                    Ventas
+                </h2>
                     {Ventas.length !== 0 ? (
                         <div>
                             {Ventas.map((Ven) => (
@@ -152,6 +155,9 @@ export const MesaArmado = () => {
                     )}
                 </Col>
                 <Col xs={9}>
+                <h2 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
+                    Tela
+                </h2>
                     {loadingTable ? (
                         <Loading tipo="tab" />
                     ) : (
