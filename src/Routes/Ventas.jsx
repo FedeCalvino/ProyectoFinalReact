@@ -19,15 +19,15 @@ export const Ventas = ({ IdVentaView }) => {
     const [Ventas, setVentas] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
-   
+
         const UrlVentas = "/Ventas/Dto"
         const UrlVenta = "/Ventas/DtoVentaCor/"
-    
+
 /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
-
 */
+
     function MostrarVenta(venta) {
         console.log("click");
         setIdVenta(venta.IdVenata)
@@ -176,6 +176,7 @@ export const Ventas = ({ IdVentaView }) => {
                                         {loadingTable ? (
                                             <Loading tipo="tab" />
                                         ) : (
+                                            <>
                                             <Table responsive>
                                                 <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                                     <tr>
@@ -210,6 +211,10 @@ export const Ventas = ({ IdVentaView }) => {
                                                     ))}
                                                 </tbody>
                                             </Table>
+                                            <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas}/>} fileName='Pdf'>
+                                                <Button >PDF</Button>
+                                            </PDFDownloadLink>
+                                            </>
                                         )}
                                     </Accordion.Body>
                                 </Accordion.Item>
