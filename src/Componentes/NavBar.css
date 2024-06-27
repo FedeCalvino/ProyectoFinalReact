@@ -1,8 +1,8 @@
 .bg-body-tertiary {
   padding: 0px;
   background-color: rgb(61, 53, 42);
-  border-bottom: 10px solid transparent;
-  border-image: linear-gradient(83deg, rgba(255, 255, 255, 1) 0%, rgba(16, 25, 190, 1) 50%, rgba(249, 249, 249, 1) 100%);
+  border-bottom: 4px solid transparent;
+  border-image: linear-gradient(83deg, rgba(255, 255, 255, 1) 0%, #007bff 50%, rgba(249, 249, 249, 1) 100%);
   border-image-slice: 1;
 }
 .brand-custom{
@@ -14,7 +14,7 @@
 }
 .nav-link-custom {
   width:100%;
-  border-left: 2px solid rgba(16, 25, 190, 1);
+  border-left: 2px solid #007bff;
   font-size: 1.1rem;
   font-weight: 500;
   padding-bottom: 0%;

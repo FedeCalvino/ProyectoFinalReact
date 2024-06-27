@@ -23,8 +23,8 @@ export const MesaArmado = () => {
 
     const [selectedVentaId, setSelectedVentaId] = useState(null);
 
-          const UrlVentas = "/Ventas/Dto"
-          const UrlVenta = "/Ventas/DtoVentaCor/"
+    const UrlVentas = "/Ventas/Dto"
+    const UrlVenta = "/Ventas/DtoVentaCor/"
 
 /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
