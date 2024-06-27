@@ -12,6 +12,8 @@ import { Login } from '../Routes/Login';
 import { Provedores } from '../Routes/Provedores';
 import { EstadoVentas } from '../Routes/EstadoVentas';
 import { MesaCorteTela } from '../Routes/MesaCorteTela';
+import { MesaCorteCano } from '../Routes/MesaCorteCano';
+import { MesaArmado } from '../Routes/MesaArmado';
 const App = () => {
 
     const [Loginerror,SetLoginerror]= useState(false)
@@ -78,6 +80,18 @@ const App = () => {
                         <Provedores/>
                     </ProtectedRoute>
                 } ></Route>
+                <Route path='/MesaCorteCano' element={
+                    <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                        <MesaCorteCano/>
+                    </ProtectedRoute>
+                } >
+                </Route>
+                <Route path='/MesaArmado' element={
+                    <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                        <MesaArmado/>
+                    </ProtectedRoute>
+                } >
+                </Route>
                 <Route path='/Clientes' element={
                     <ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
                         <Clientes />

@@ -4,9 +4,6 @@ import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import styled from 'styled-components'
-import Accordion from 'react-bootstrap/Accordion';
 import { Loading } from '../Componentes/Loading';
 
 export const MesaCorteTela = () => {

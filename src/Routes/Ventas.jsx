@@ -157,65 +157,65 @@ export const Ventas = ({ IdVentaView }) => {
             </Form.Group>
             {Ventas.length !== 0 ? (
                 <Accordion>
-                    {Ventas.map((Ven) => (
-                        <React.Fragment key={Ven.IdVenata}>
-                            <MostrarDia Day={Ven.FechaVenta} />
-                            <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
-                                <Accordion.Header className="centered-header">
-                                    <div style={{ fontSize: "23px", fontWeight: "bold", whiteSpace: "pre-line" }}>
-                                        {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    {loadingTable ? (
-                                        <Loading tipo="tab" />
-                                    ) : (
-                                        <>
-                                            <div ref={tableRef}>
-                                                <Table responsive>
-                                                    <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
-                                                        <tr>
-                                                            <th>Ambiente</th>
-                                                            <th>Ancho AF-AF</th>
-                                                            <th>Ancho tela</th>
-                                                            <th>Ancho Caño</th>
-                                                            <th>caño</th>
-                                                            <th>Alto Cortina</th>
-                                                            <th>Alto Tela</th>
-                                                            <th>cant</th>
-                                                            <th>Cadena</th>
-                                                            <th>posicion</th>
-                                                            <th>Detalles</th>
+                    {Ventas.map((Ven, index) => {
+                        return (
+                            <React.Fragment key={Ven.IdVenata}>
+                                <MostrarDia Day={Ven.FechaVenta} />
+                                <Accordion.Item eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
+                                    <Accordion.Header key={`header_${Ven.IdVenata}`} className="centered-header">
+                                        <div style={{
+                                            fontSize: "23px",
+                                            fontWeight: "bold",
+                                            whiteSpace: "pre-line",
+                                            // Añade más estilos inline según sea necesario
+                                        }}>
+                                            {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
+                                        </div>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        {loadingTable ? (
+                                            <Loading tipo="tab" />
+                                        ) : (
+                                            <Table responsive>
+                                                <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                    <tr>
+                                                        <th>Ambiente</th>
+                                                        <th>Ancho AF-AF</th>
+                                                        <th>Ancho tela</th>
+                                                        <th>Ancho Caño</th>
+                                                        <th>caño</th>
+                                                        <th>Alto Cortina</th>
+                                                        <th>Alto Tela</th>
+                                                        <th>cant</th>
+                                                        <th>Cadena</th>
+                                                        <th>posicion</th>
+                                                        <th>Detalles</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {Cortinas.map(Cor => (
+                                                        <tr key={Cor.idCortina}>
+                                                            <td>{Cor.anchoCaño}</td>
+                                                            <td>{Cor.ambiente}</td>
+                                                            <td>{Cor.anchoCortina}</td>
+                                                            <td>{Cor.anchoAfuerAfuera}</td>
+                                                            <td>{Cor.cano}</td>
+                                                            <td>{Cor.altoCortina}</td>
+                                                            <td>{Cor.altoTela}</td>
+                                                            <td>1</td>
+                                                            <td>{Cor.cadena}</td>
+                                                            <td>{Cor.posicion}</td>
+                                                            <td>Detalles</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {Cortinas.map(Cor => (
-                                                            <tr key={Cor.idCortina}>
-                                                                <td>{Cor.ambiente}</td>
-                                                                <td>{Cor.anchoAfuerAfuera}</td>
-                                                                <td>{Cor.anchoCortina}</td>
-                                                                <td>{Cor.anchoCaño}</td>
-                                                                <td>{Cor.cano}</td>
-                                                                <td>{Cor.altoCortina}</td>
-                                                                <td>{Cor.altoTela}</td>
-                                                                <td>1</td>
-                                                                <td>{Cor.cadena}</td>
-                                                                <td>{Cor.posicion}</td>
-                                                                <td>Detalles</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </Table>
-                                            </div>
-                                            <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas}/>} fileName={`Venta_${Ven.IdVenata}.pdf`}>
-                                                {({ loading, url, error }) => (loading ? <Button>Cargando</Button> : <Button>Generar PDF</Button>)}
-                                            </PDFDownloadLink>
-                                        </>
-                                    )}
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </React.Fragment>
-                    ))}
+                                                    ))}
+                                                </tbody>
+                                            </Table>
+                                        )}
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </React.Fragment>
+                        );
+                    })}
                 </Accordion>
             ) : (
                 <h1>nada....</h1>

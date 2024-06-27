@@ -21,6 +21,14 @@
       "destination": "/index.html"
     },
     {
+      "source": "/MesaCorteCano",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/MesaArmado",
+      "destination": "/index.html"
+    },
+    {
       "source": "/EstadoVentas",
       "destination": "/index.html"
     },
