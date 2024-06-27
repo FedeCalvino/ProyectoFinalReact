@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Loading } from '../Componentes/Loading';
 
-export const MesaCorteCano = () => {
+export const MesaArmado = () => {
     const urlIP = import.meta.env.REACT_APP__IPSQL;
     const [loading, setloading] = useState(true)
     const [Day, setDay] = useState("")
@@ -128,7 +128,7 @@ export const MesaCorteCano = () => {
         <>
             <Row className="text-center mt-4 mb-4">
                 <h1 style={{ fontFamily: 'Arial', fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
-                    Mesa De Corte Caño
+                    Mesa De Armado
                 </h1>
             </Row>
             <Row className="text-center mt-4 mb-4" style={{ height: "60vh" }}>
@@ -158,8 +158,12 @@ export const MesaCorteCano = () => {
                         <Table responsive>
                             <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                 <tr>
-                                    <th>Ancho Caño</th>
-                                    <th>Caño</th>
+                                    <th>Ambiente</th>
+                                    <th>AF-AF</th>
+                                    <th>Alto Cortina</th>
+                                    <th>Cadena</th>
+                                    <th>Lado Cadena</th>
+                                    <th>Posicion</th>
                                     <th>Cantidad</th>
                                     <th>Detalles</th>
                                 </tr>
@@ -167,8 +171,12 @@ export const MesaCorteCano = () => {
                             <tbody>
                                 {Cortinas.map(Cor => (
                                     <tr key={Cor.idCortina}>
-                                        <td>{Cor.anchoCaño}</td>
-                                        <td>{Cor.cano}</td>
+                                        <td>{Cor.ambiente}</td>
+                                        <td>{Cor.anchoAfuerAfuera}</td>
+                                        <td>{Cor.altoCortina}</td>
+                                        <td>{Cor.cadena}</td>
+                                        <td>{Cor.ladoCadena}</td>
+                                        <td>{Cor.posicion}</td>
                                         <td>1</td>
                                         <td>Detalles</td>
                                     </tr>
@@ -181,4 +189,3 @@ export const MesaCorteCano = () => {
         </>
     );
 };
-

@@ -25,6 +25,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/MesaCorteArmado",
+      "destination": "/index.html"
+    },
+    {
       "source": "/EstadoVentas",
       "destination": "/index.html"
     },
