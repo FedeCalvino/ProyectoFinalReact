@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Loading } from '../Componentes/Loading';
+import Form from 'react-bootstrap/Form';
 
 export const MesaCorteTela = () => {
     const urlIP = import.meta.env.REACT_APP__IPSQL;
