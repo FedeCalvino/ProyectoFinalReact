@@ -18,9 +18,12 @@ export const Ventas = ({ IdVentaView }) => {
     const [IdVenta, setIdVenta] = useState(null)
     const [SearchText, setSearchText] = useState("")
     const [Ventas, setVentas] = useState([])
+    const [VentasTotales, setVentasTotales] = useState([])
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
-  
+    const [FilteredVentas, setFilteredVentas] = useState([])
+    
+
             const UrlVentas = "/Ventas/Dto"
             const UrlVenta = "/Ventas/DtoVentaCor/"
    /*
@@ -38,25 +41,15 @@ export const Ventas = ({ IdVentaView }) => {
 
 
     const FetchVentas = async () => {
-        if (SearchText == "") {
             try {
                 const res = await fetch(UrlVentas)
                 const data = await res.json()
                 setVentas(data);
+                setVentasTotales(data)
                 console.log(data);
             } catch (error) {
                 console.log(error)
             }
-        } else {
-            try {
-                const res = await fetch(UrlVentas + "/" + SearchText)
-                const data = await res.json()
-                setVentas(data);
-                console.log(data);
-            } catch (error) {
-                console.log(error)
-            }
-        }
     };
 
 
@@ -93,10 +86,19 @@ export const Ventas = ({ IdVentaView }) => {
             
         });
     };
-
+    const FiltrarVentas = () => {
+        if (SearchText && SearchText.trim() !== "") {
+            const filtered = Ventas.filter(venta => 
+                venta.NombreCliente.toLowerCase().includes(SearchText.toLowerCase())
+            );
+            setVentas(filtered);
+        } else {
+            setVentas(VentasTotales);
+        }
+    };
 
     useEffect(() => {
-        FetchVentas();
+        FiltrarVentas();
         lastDay = ""
     }, [SearchText]);
 

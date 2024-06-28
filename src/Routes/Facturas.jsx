@@ -301,7 +301,7 @@ export const Facturas = () => {
                                     <Accordion.Item key={Ven.IdVenata} eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
                                         <Accordion.Header key={`header_${Ven.IdVenata}`}>
                                             <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
-                                                {Ven.NombreCliente}{'\n'} Fecha: {Ven.FechaVenta} {'\n'}{Ven.Obra ? Ven.Obra : null}
+                                                {Ven.NombreCliente}{'\n'} {'\n'}{Ven.Obra ? Ven.Obra : null}
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
