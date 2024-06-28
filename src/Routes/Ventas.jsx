@@ -23,10 +23,9 @@ export const Ventas = ({ IdVentaView }) => {
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
     
-
             const UrlVentas = "/Ventas/Dto"
             const UrlVenta = "/Ventas/DtoVentaCor/"
-   /*
+ /*
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
 */
@@ -88,7 +87,7 @@ export const Ventas = ({ IdVentaView }) => {
     };
     const FiltrarVentas = () => {
         if (SearchText && SearchText.trim() !== "") {
-            const filtered = Ventas.filter(venta => 
+            const filtered = VentasTotales.filter(venta => 
                 venta.NombreCliente.toLowerCase().includes(SearchText.toLowerCase())
             );
             setVentas(filtered);
