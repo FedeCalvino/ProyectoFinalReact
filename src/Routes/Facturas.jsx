@@ -163,6 +163,30 @@ export const Facturas = () => {
     }, [IdVenta]);
 
 
+    const MostrarDia = ({ Day }) => {
+        let Ok = false;
+        if (lastDay !== Day) {
+            Ok = true
+            lastDay = { Day }.Day
+        }
+        return (
+            <>
+                {Ok ? <div style={{
+                    border: '1px solid #ccc',
+                    padding: '10px',
+                    textAlign: 'center',
+                    backgroundColor: '#f9f9f9',
+                    borderRadius: '5px'
+                }}>
+                    <h3 style={{ margin: 0 }}>{Day}</h3>
+                </div>
+                    :
+                    null
+                }
+            </>
+        );
+    }
+
     const CrearRecibo = () => {
         setloadingtab(true)
         const requestOptions = {
@@ -273,6 +297,7 @@ export const Facturas = () => {
                         <Accordion defaultActiveKey="0">
                             {Ventas.map(Ven =>
                                 <>
+                                    <MostrarDia Day={Ven.FechaVenta} />
                                     <Accordion.Item key={Ven.IdVenata} eventKey={Ven.IdVenata} onClick={() => MostrarVenta(Ven)}>
                                         <Accordion.Header key={`header_${Ven.IdVenata}`}>
                                             <div style={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "pre-line" }}>
