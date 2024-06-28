@@ -162,7 +162,7 @@ export const Facturas = () => {
         FetchRecibosVenta();
     }, [IdVenta]);
 
-
+    let lastDay = null;
     const MostrarDia = ({ Day }) => {
         let Ok = false;
         if (lastDay !== Day) {
