@@ -17,7 +17,7 @@ export const Facturas = () => {
     const [IdVenta, setIdVenta] = useState(null)
     const [ClienteVenta, setClienteVenta] = useState(null)
     const [FechaVenta, setFechaVenta] = useState(null)
-
+    const [VentasTotales, setVentasTotales] = useState(null)
     const [loadingtab, setloadingtab] = useState(true)
 
     const [Factura, setFactura] = useState([])
@@ -36,12 +36,15 @@ export const Facturas = () => {
     const [NroFactura, setNroFactura] = useState('')
     const [FechaFinalPago, setFechaFinalPago] = useState('')
     const urlIP = import.meta.env.REACT_APP__IPSQL;
+
     const FacturaUrl = "/Factura";
     const UrlVentas = "/Ventas/Dto"
     const UrlRecibos = "/Factura/Recibos/";
-    
-
-
+    /*
+    const FacturaUrl = "http://20.84.111.102:8085/Factura"
+    const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
+    const UrlRecibos = "http://20.84.111.102:8085/Factura/Recibos/"
+*/
     function MostrarVenta(venta) {
         console.log("click");
         setIdVenta(venta.IdVenata)
@@ -51,26 +54,17 @@ export const Facturas = () => {
 
 
     const FetchVentas = async () => {
-        if (SearchText == "") {
-            try {
+            try{
                 const res = await fetch(UrlVentas)
                 const data = await res.json()
                 setVentas(data);
-                console.log(data);
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
-            try {
-                const res = await fetch(UrlVentas + "/" + SearchText)
-                const data = await res.json()
-                setVentas(data);
+                setVentasTotales(data);
                 console.log(data);
             } catch (error) {
                 console.log(error)
             }
         }
-    };
+
 
 
 
@@ -110,6 +104,16 @@ export const Facturas = () => {
             console.log(error)
         }
     };
+    const FiltrarVentas = () => {
+        if (SearchText && SearchText.trim() !== "") {
+            const filtered = VentasTotales.filter(venta => 
+                venta.NombreCliente.toLowerCase().includes(SearchText.toLowerCase())
+            );
+            setVentas(filtered);
+        } else {
+            setVentas(VentasTotales);
+        }
+    };
     const CrearNewFactura = () => {
         setloadingtab(true)
         console.log(IdVenta)
@@ -138,7 +142,7 @@ export const Facturas = () => {
     }
 
     useEffect(() => {
-        FetchVentas();
+        FiltrarVentas();
     }, [SearchText]);
 
 
@@ -163,6 +167,7 @@ export const Facturas = () => {
     }, [IdVenta]);
 
     let lastDay = null;
+
     const MostrarDia = ({ Day }) => {
         let Ok = false;
         if (lastDay !== Day) {
@@ -186,6 +191,8 @@ export const Facturas = () => {
             </>
         );
     }
+
+    
 
     const CrearRecibo = () => {
         setloadingtab(true)
@@ -211,6 +218,7 @@ export const Facturas = () => {
                 setMontoRecibo('')
             });
     }
+    
     const DeleteRecibo = (id) => {
         console.log(id)
         const requestOptions = {
@@ -435,9 +443,11 @@ export const Facturas = () => {
                                     </Accordion.Item>
                                 </>
                             )}
-                        </Accordion> : <h1>no hay</h1>}
+                        </Accordion> : <h1>no hay</h1>
+                        }
                 </Form.Group>
             </Row>
         </>
     );
+                    
 }
