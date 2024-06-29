@@ -85,6 +85,7 @@ export const PDF = ({ Venta,Cortinas= [] }) => {
                         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Alto Tela</Text>
                         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Cadena</Text>
                         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Posición</Text>
+                        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Lado</Text>
                     </View>
                     {Cortinas.map((cortina, index) => (
                         <View style={styles.tableRow} key={index}>
@@ -97,6 +98,7 @@ export const PDF = ({ Venta,Cortinas= [] }) => {
                             <Text style={[styles.tableCell, styles.text]}>{cortina.altoTela}</Text>
                             <Text style={[styles.tableCell, styles.text]}>{cortina.cadena}</Text>
                             <Text style={[styles.tableCell, styles.text]}>{cortina.posicion}</Text>
+                            <Text style={[styles.tableCell, styles.text]}>{cortina.ladoCadena}</Text>
                         </View>
                     ))}
                 </View>

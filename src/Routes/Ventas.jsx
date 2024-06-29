@@ -203,6 +203,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <th>Alto Tela</th>
                                                             <th>cant</th>
                                                             <th>Cadena</th>
+                                                            <th>Lado</th>
                                                             <th>posicion</th>
                                                             <th>Detalles</th>
                                                         </tr>
@@ -219,6 +220,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                 <td>{Cor.altoTela}</td>
                                                                 <td>1</td>
                                                                 <td>{Cor.cadena}</td>
+                                                                <td>{Cor.ladoCadena}</td>
                                                                 <td>{Cor.posicion}</td>
                                                                 <td>Detalles</td>
                                                             </tr>
