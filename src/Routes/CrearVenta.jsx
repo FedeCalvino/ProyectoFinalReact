@@ -42,14 +42,17 @@ export const CrearVenta = () => {
     const [Ambientes, setAmbientes] = useState([])
     const [Cortinas, setCortinas] = useState([])
 
-
+    const [TelasDelTipo,SetTelasDelTipo] = useState([])
+    const [TiposTelas,SetTiposTelas] = useState([])
+    
 
 
     //Datos Cortina
     const [motorizada, setMotorizada] = useState(false)
-    const [selectedTelaRoler, setselectedTelaRoler] = useState("");
-    const [selectedTelaRolerNombre, setselectedTelaRolerNombre] = useState("");
-    const [selectedAreaRoler, setselectedAreaRoler] = useState("");
+    const [selectedTelaRoler, SetselectedTelaRoler] = useState([]);
+    const [selectedTelaMostrarRoler, SetselectedTelaMostrarRoler] = useState([]);
+    const [selectedTelaRolerNombre, SetselectedTelaRolerNombre] = useState("");
+    const [selectedAreaRoler, SetselectedAreaRoler] = useState("");
     const [AnchoRoller, setAnchoRoller] = useState('')
     const [LargoRoller, setLargoRoller] = useState('')
     const [CanoRoller, setCanoRoller] = useState('')
@@ -57,16 +60,10 @@ export const CrearVenta = () => {
     const [AdlAtr, setAdlAtr] = useState('')
     const [Cadena, setCadena] = useState('')
 
-
-
-
-
-
-
+    const [selectedColorRoler, setselectedColorRoler] = useState('')
 
     const [idCor, setidCor] = useState(0)
 
-    const [Precio, setPrecio] = useState("")
 
 
     useEffect(() => {
@@ -75,11 +72,13 @@ export const CrearVenta = () => {
 
     const UrlTelas = "/TipoTela"
 
+    //const UrlTelas = "http://20.84.111.102:8085/TipoTela"
+
     function AgregarRoller() {
         const nuevaCortinaRoler = {
             Id: idCor,
             Ambiente: { selectedAreaRoler }.selectedAreaRoler,
-            tela: { id: { selectedTelaRoler }.selectedTelaRoler, Nombre: selectedTelaRolerNombre },
+            tela: { id: selectedTelaRoler.Id, Nombre: selectedTelaRoler.Nombre,Color:selectedTelaRoler.descripcion },
             ancho: { AnchoRoller }.AnchoRoller,
             largoRoller: { LargoRoller }.LargoRoller,
             posicion: { AdlAtr }.AdlAtr,
@@ -93,11 +92,24 @@ export const CrearVenta = () => {
 
         setCortinas([...Cortinas, nuevaCortinaRoler]);
     }
+    const handleSelectTela =(e)=>{
+        //console.log(e.target.value)
+        const selectedValue = parseInt(e.target.value, 10);
+        const selectedTela = Telas.find(tela => tela.Id === selectedValue);
+        SetselectedTelaRoler(selectedTela)
+        setselectedColorRoler(e.target.value)
+        // Obtener el Nombre del objeto seleccionado
+        selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
+    };
 
     const FetchTelas = async () => {
         try {
             const res = await fetch(UrlTelas)
             const data = await res.json()
+            const tipos = data.filter((tipo, index, self) => 
+            index === self.findIndex(t => t.nombre === tipo.nombre)
+            );
+            SetTiposTelas(tipos)
             setTelas(data);
             console.log(data);
         } catch (error) {
@@ -150,19 +162,15 @@ export const CrearVenta = () => {
     };
 
     const handleSelectChange = (e) => {
-        //console.log(e.target.value)
-        setselectedTelaRoler(e.target.value);
-        console.log(e.target.value);
-        console.log(e);
         const selectedValue = parseInt(e.target.value, 10);
         const selectedTela = Telas.find(tela => tela.Id === selectedValue);
-        console.log(selectedTelaRoler)
-        // Obtener el Nombre del objeto seleccionado
-        selectedTela ? setselectedTelaRolerNombre(selectedTela.Nombre) : "";
+        SetselectedTelaMostrarRoler(e.target.value)
+       const SetTelas = Telas.filter(Tela=>Tela.Nombre===selectedTela.Nombre);
+       SetTelasDelTipo(SetTelas)
     };
 
     const handleSelectAmbienteChange = (e) => {
-        setselectedAreaRoler(e.target.value)
+        SetselectedAreaRoler(e.target.value)
     }
 
 
@@ -183,16 +191,27 @@ export const CrearVenta = () => {
                     </Form.Group>
                     <Form.Group as={Col} md="1" style={{ width: "11%" }} noValidate>
                         <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Tela</Form.Label>
-                        <Form.Select as={Col} md="1" aria-label="Default select example" onChange={handleSelectChange} value={selectedTelaRoler}>
+                        <Form.Select as={Col} md="1" aria-label="Default select example" onChange={handleSelectChange} 
+                            value={selectedTelaMostrarRoler}>
                             <option style={{ textAlign: "center" }}>Tipo de Tela</option>
-                            {Telas.map(Tel =>
+                            {TiposTelas.map(Tel =>
                                 <option style={{ textAlign: "center" }} value={Tel.id} key={Tel.id}>
                                     {Tel.Nombre}
                                 </option>
                             )}
                         </Form.Select>
                     </Form.Group>
-
+                    <Form.Group as={Col} md="1" style={{ width: "11%" }} noValidate>
+                        <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Color</Form.Label>
+                        <Form.Select as={Col} md="1" aria-label="Default select example" onChange={handleSelectTela}             value={selectedColorRoler}>
+                            <option style={{ textAlign: "center" }}>Color</option>
+                            {TelasDelTipo.map(Tel =>
+                                <option style={{ textAlign: "center" }} value={Tel.id} key={Tel.id}>
+                                    {Tel.descripcion}
+                                </option>
+                            )}
+                        </Form.Select>
+                    </Form.Group>
                     <Form.Group as={Col} md="1" style={{ width: "10%" }} noValidate>
                         <Form.Label style={{ alignItems: "center", justifyContent: "center", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Ancho</Form.Label>
                         <Form.Control
@@ -203,7 +222,6 @@ export const CrearVenta = () => {
                             placeholder="Ancho"
                             isValid={isValid}
                         />
-
                     </Form.Group>
                     <Form.Group style={{ width: "2%" }} as={Col} md="1" controlId="validationCustom01">
                         <p style={{ marginTop: "38px", marginRight: "10px" }}>X</p>
@@ -227,9 +245,9 @@ export const CrearVenta = () => {
                             <option style={{ textAlign: "center" }} value="Atr">Atras</option>
                         </Form.Select>
                     </Form.Group>
-                    <Form.Group as={Col} md="2" controlId="validationCustom01" noValidate>
+                    <Form.Group as={Col} md="1" controlId="validationCustom01" noValidate>
                         <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Lado Cadena</Form.Label>
-                        <Form.Select as={Col} md="2" aria-label="Default select example" onChange={(e) => { setIzqDer(e.target.value) }} value={IzqDer}>
+                        <Form.Select as={Col} md="1" aria-label="Default select example" onChange={(e) => { setIzqDer(e.target.value) }} value={IzqDer}>
                             <option style={{ textAlign: "center" }} value=""></option>
                             <option style={{ textAlign: "center" }} value="Izq">Izquierda</option>
                             <option style={{ textAlign: "center" }} value="Der">Derecha</option>
@@ -278,12 +296,8 @@ export const CrearVenta = () => {
                 setAlertaClienteNotSelecc(false);
             }, 8000);
         }
-        if (!Precio) {
-            ok = false;
-        }
 
         if (ok) {
-            const precioFinalInt = parseInt({ Precio }.Precio, 10);
             setloading(true)
             if (DataCli.id) {
                 console.log("Cliente con id", DataCli)
@@ -294,7 +308,7 @@ export const CrearVenta = () => {
                     body: JSON.stringify(
                         {
                             "IdCliente": DataCli.id,
-                            "PrecioFinal": precioFinalInt,
+                            "PrecioFinal": 0,
                             "Obra": { Obra }.Obra
                         }
                     )
@@ -553,6 +567,7 @@ export const CrearVenta = () => {
                         <tr>
                             <th>Area</th>
                             <th>Tela</th>
+                            <th>Color</th>
                             <th>Ancho</th>
                             <th>Largo</th>
                             <th>Caño</th>
@@ -566,6 +581,7 @@ export const CrearVenta = () => {
                             <tr key={index} style={{ marginBottom: "1em" }}>
                                 <td>{Cor.Ambiente}</td>
                                 <td>{Cor.tela.Nombre}</td>
+                                <td>{Cor.tela.Color}</td>
                                 <td>{Cor.ancho}</td>
                                 <td>{Cor.largoRoller}</td>
                                 <td>{Cor.Cano}</td>
@@ -581,21 +597,6 @@ export const CrearVenta = () => {
                     </tbody>
                 </Table>
                 <div className="d-flex flex-column align-items-center">
-                    <Row className="w-150 mb-4">
-                        <Col className="d-flex justify-content-center">
-                            <Form.Group controlId="validationCustom01" noValidate>
-                                <Form.Label style={{ fontSize: "20px", fontWeight: "bold" }} className="text-center w-100">Precio</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    value={Precio}
-                                    style={{ textAlign: "center", borderWidth: "3PX", borderColor: "black" }}
-                                    onChange={(e) => setPrecio(e.target.value)}
-                                    placeholder="Precio"
-                                    isValid={isValid}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
                     <Row className="w-100">
                         <Col className="d-flex justify-content-center">
                             <Button type="submit" onClick={CrearNuevaVenta}>Crear Venta</Button>
