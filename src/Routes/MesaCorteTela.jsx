@@ -1,11 +1,13 @@
 import React from 'react'
 import './MesaCorte.css';
-import Table from 'react-bootstrap/Table';
+import { Table, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Loading } from '../Componentes/Loading';
 import Form from 'react-bootstrap/Form';
+import { TicketCortina } from '../Componentes/TicketCortina';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 export const MesaCorteTela = () => {
     const urlIP = import.meta.env.REACT_APP__IPSQL;
@@ -17,16 +19,17 @@ export const MesaCorteTela = () => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
 
+    const [VentaImp, setVentaImp] = useState([])
 
     const [selectedVentaId, setSelectedVentaId] = useState(null);
-    
+    /*
         const UrlVentas = "/Ventas/Dto"
         const UrlVenta = "/Ventas/DtoVentaCor/"
-    
-/*
+    */
+
     const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
-*/
+
 
     function MostrarVenta(venta) {
         console.log("click");
@@ -133,6 +136,7 @@ if (loading) {
 
 const handleSelectVenta = (Ven) => {
     setSelectedVentaId(Ven.IdVenata);
+    setVentaImp(Ven)
     MostrarVenta(Ven);
 };
 
@@ -194,6 +198,9 @@ return (
                                             onChange={() => { }}
                                         />
                                     </td>
+                                    <PDFDownloadLink document={<TicketCortina Venta={VentaImp} cortina={[Cor]} />} fileName='Pdf'>
+                                        <Button>Ticket</Button>
+                                    </PDFDownloadLink>
                                 </tr>
                             ))}
                         </tbody>

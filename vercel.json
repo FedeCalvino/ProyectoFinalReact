@@ -46,70 +46,70 @@
     },
     {
       "source": "/Ventas/Dto",
-      "destination": "http://20.84.111.102:8085/Ventas/Dto"
+      "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },
     {
       "source": "/Ventas/Post",
-      "destination": "http://20.84.111.102:8085/Ventas"
+      "destination": "http://20.84.121.133:8085/Ventas"
     },
     {
       "source": "/Ventas/DtoVentaCor/:IdVenta",
-      "destination": "http://20.84.111.102:8085/Ventas/DtoVentaCor/:IdVenta"
+      "destination": "http://20.84.121.133:8085/Ventas/DtoVentaCor/:IdVenta"
     },
     {
       "source": "/Factura/:IdVenta",
-      "destination": "http://20.84.111.102:8085/Factura/:IdVenta"
+      "destination": "http://20.84.121.133:8085/Factura/:IdVenta"
     },
     {
       "source": "/Ventas/Dto",
-      "destination": "http://20.84.111.102:8085/Ventas/Dto"
+      "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },
     {
       "source": "/Factura/Recibos/:IdVenta",
-      "destination": "http://20.84.111.102:8085/Factura/Recibos/:IdVenta"
+      "destination": "http://20.84.121.133:8085/Factura/Recibos/:IdVenta"
     },
     {
       "source": "/Instalacion",
-      "destination": "http://20.84.111.102:8085/Instalacion"
+      "destination": "http://20.84.121.133:8085/Instalacion"
     },
     {
       "source": "/Instalacion/:IdInstalacion",
-      "destination": "http://20.84.111.102:8085/Instalacion/:IdInstalacion"
+      "destination": "http://20.84.121.133:8085/Instalacion/:IdInstalacion"
     },
     {
       "source": "/TipoTela",
-      "destination": "http://20.84.111.102:8085/TipoTela"
+      "destination": "http://20.84.121.133:8085/TipoTela"
     },
     {
       "source": "/Cliente/Post",
-      "destination": "http://20.84.111.102:8085/Cliente"
+      "destination": "http://20.84.121.133:8085/Cliente"
     },
     {
       "source": "/Cliente",
-      "destination": "http://20.84.111.102:8085/Cliente"
+      "destination": "http://20.84.121.133:8085/Cliente"
     },
     {
       "source": "/Cliente/strL/:Search",
-      "destination": "http://20.84.111.102:8085/Cliente/strL/:Search"
+      "destination": "http://20.84.121.133:8085/Cliente/strL/:Search"
     },
     {
       "source": "/Ventas/Dto/:Search",
-      "destination": "http://20.84.111.102:8085/Ventas/Dto/:Search"
+      "destination": "http://20.84.121.133:8085/Ventas/Dto/:Search"
     },
     {
       "source": "/Ventas/:cortinaId/:idVenta",
-      "destination": "http://20.84.111.102:8085/Ventas/:cortinaId/:idVenta"
+      "destination": "http://20.84.121.133:8085/Ventas/:cortinaId/:idVenta"
     },
     {
       "source": "/Cortinas/Roller",
-      "destination": "http://20.84.111.102:8085/Cortinas/Roller"
+      "destination": "http://20.84.121.133:8085/Cortinas/Roller"
     },
     {
       "source": "/Factura",
-      "destination": "http://20.84.111.102:8085/Factura"
+      "destination": "http://20.84.121.133:8085/Factura"
     },{
       "source": "/Cliente/str/:Nombre",
-      "destination": "http://20.84.111.102:8085/Cliente/str/:Nombre"
+      "destination": "http://20.84.121.133:8085/Cliente/str/:Nombre"
     }
   ]
 }

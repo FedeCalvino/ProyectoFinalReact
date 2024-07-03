@@ -33,8 +33,3 @@ table tr:hover {
 table tr:active {
     background-color: darkgray;
 }
-
-tbody tr.fila-verde {
-    background-color: green;
-    color: white; /* Opcional: Cambia el color del texto para mayor contraste */
-}
