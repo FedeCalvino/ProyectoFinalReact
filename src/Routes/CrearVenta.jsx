@@ -301,7 +301,6 @@ export const CrearVenta = () => {
             setloading(true)
             if (DataCli.id) {
                 console.log("Cliente con id", DataCli)
-                console.log(precioFinalInt)
                 const requestOptionsVenta = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

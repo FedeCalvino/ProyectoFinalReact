@@ -22,14 +22,14 @@ export const MesaCorteTela = () => {
     const [VentaImp, setVentaImp] = useState([])
 
     const [selectedVentaId, setSelectedVentaId] = useState(null);
-    /*
+    
         const UrlVentas = "/Ventas/Dto"
         const UrlVenta = "/Ventas/DtoVentaCor/"
-    */
-
-    const UrlVentas = "http://20.84.111.102:8085/Ventas/Dto"
-    const UrlVenta = "http://20.84.111.102:8085/Ventas/DtoVentaCor/"
-
+    
+/*
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+*/
 
     function MostrarVenta(venta) {
         console.log("click");
@@ -198,9 +198,7 @@ return (
                                             onChange={() => { }}
                                         />
                                     </td>
-                                    <PDFDownloadLink document={<TicketCortina Venta={VentaImp} cortina={[Cor]} />} fileName='Pdf'>
-                                        <Button>Ticket</Button>
-                                    </PDFDownloadLink>
+                                    <TicketCortina Venta={VentaImp} cortina={[Cor]} />
                                 </tr>
                             ))}
                         </tbody>
