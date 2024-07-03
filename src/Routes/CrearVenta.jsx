@@ -350,7 +350,7 @@ export const CrearVenta = () => {
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
                                         "IdCliente": result.id,
-                                        "PrecioFinal": precioFinalInt,
+                                        "PrecioFinal": 0,
                                         "Obra": { Obra }.Obra
                                     })
                                 };
