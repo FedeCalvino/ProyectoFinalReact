@@ -77,7 +77,7 @@ export const MesaCorteTela = () => {
 
     const SetCortadas = (Data) => {
         Data.forEach(Cor => {
-            if (Cor.EstadoActal. !== "Sin Cortar tela" || !Cor.estadoCortina == "Sin Cortar tela y caño") {
+            if (Cor.estadoCortina !== "Sin Cortar tela" || !Cor.estadoCortina == "Sin Cortar tela y caño") {
                 setSelectedRows((prevSelectedRows) => ({
                     ...prevSelectedRows,
                     [Cor.idCortina]: true,
