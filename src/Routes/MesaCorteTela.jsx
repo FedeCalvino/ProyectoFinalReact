@@ -22,14 +22,13 @@ export const MesaCorteTela = () => {
     const [VentaImp, setVentaImp] = useState([])
 
     const [selectedVentaId, setSelectedVentaId] = useState(null);
-    
+    /*
         const UrlVentas = "/Ventas/Dto"
         const UrlVenta = "/Ventas/DtoVentaCor/"
-    
-/*
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+    */
+
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/MesaTela"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
-*/
 
     function MostrarVenta(venta) {
         console.log("click");
@@ -41,16 +40,6 @@ export const MesaCorteTela = () => {
 
 
     const FetchVentas = async () => {
-        if (SearchText == "") {
-            try {
-                const res = await fetch(UrlVentas)
-                const data = await res.json()
-                setVentas(data);
-                console.log(data);
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
             try {
                 const res = await fetch(UrlVentas + "/" + SearchText)
                 const data = await res.json()
@@ -59,7 +48,6 @@ export const MesaCorteTela = () => {
             } catch (error) {
                 console.log(error)
             }
-        }
     };
 
 
@@ -89,7 +77,7 @@ export const MesaCorteTela = () => {
 
     const SetCortadas = (Data) => {
         Data.forEach(Cor => {
-            if (Cor.estadoCortina !== "Sin Cortar tela" || !Cor.estadoCortina == "Sin Cortar tela y caño") {
+            if (Cor.EstadoActal. !== "Sin Cortar tela" || !Cor.estadoCortina == "Sin Cortar tela y caño") {
                 setSelectedRows((prevSelectedRows) => ({
                     ...prevSelectedRows,
                     [Cor.idCortina]: true,
@@ -118,6 +106,7 @@ const FetchVentaCortinas = async () => {
 };
 
 const handleRowClick = (Cor) => {
+    
     setSelectedRows((prevSelectedRows) => ({
         ...prevSelectedRows,
         [Cor.idCortina]: !prevSelectedRows[Cor.idCortina],
