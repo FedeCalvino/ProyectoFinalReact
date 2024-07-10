@@ -313,9 +313,12 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch('/Ventas/Post', requestOptionsVenta)
-                    .then(response => response.json())
+                fetch('/Ventas/Save', requestOptionsVenta)
+                    .then(response => 
+                        response.json()
+                    )
                     .then(result => {
+                        
                         handleResult(result)
                         console.log("Venta?", result)
                     });
