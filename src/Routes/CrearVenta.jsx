@@ -342,7 +342,7 @@ export const CrearVenta = () => {
                     )
                 };
 
-                fetch('/Cliente/Post', requestOptionsCliente)
+                fetch('/Cliente/SaveCli', requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
                         return response.json()
