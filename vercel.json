@@ -117,6 +117,9 @@
     ,{
       "source": "/EstadoCortina/:idCortina",
       "destination": "http://localhost:8085/EstadoCortina/:idCortina"
+    },{
+      "source": "/Ventas/DtoVentaCor/MesaTela",
+      "destination": "http://localhost:8085/Ventas/DtoVentaCor/MesaTela"
     }
   ]
 }

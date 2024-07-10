@@ -56,7 +56,7 @@ export const MesaCorteTela = () => {
     };
 
     
-        const UrlVentas = "/Ventas/Dto"
+        const UrlVentas = "/Ventas/DtoVentaCor/MesaTela"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const telaCortada = "/EstadoCortina/"
 /*
@@ -75,7 +75,7 @@ export const MesaCorteTela = () => {
 
     const FetchVentas = async () => {
         try {
-            const res = await fetch(UrlVentas + "/" + SearchText)
+            const res = await fetch(UrlVentas)
             const data = await res.json()
             setVentas(data);
             console.log(data);
