@@ -313,7 +313,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch('http://localhost:8085/Ventas', requestOptionsVenta)
+                fetch('/Ventas/Post', requestOptionsVenta)
                     .then(response => response.json())
                     .then(result => {
                         handleResult(result)
@@ -339,7 +339,7 @@ export const CrearVenta = () => {
                     )
                 };
 
-                fetch('http://localhost:8085/Cliente', requestOptionsCliente)
+                fetch('/Cliente/Post', requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
                         return response.json()
@@ -355,7 +355,7 @@ export const CrearVenta = () => {
                                         "Obra": { Obra }.Obra
                                     })
                                 };
-                                fetch('http://localhost:8085/Ventas', requestOptionsVenta)
+                                fetch('/Ventas/Post', requestOptionsVenta)
                                     .then(response => {
                                         console.log("response venta", response)
                                         return response.json()
@@ -415,7 +415,7 @@ export const CrearVenta = () => {
             requestOptions.body = JSON.stringify(bodyData);
     
             try {
-                const response = await fetch('http://localhost:8085/Cortinas/Roller', requestOptions);
+                const response = await fetch('/Cortinas/Roller', requestOptions);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -438,7 +438,7 @@ export const CrearVenta = () => {
             headers: { 'Content-Type': 'application/json' },
         };
     
-        fetch(`http://localhost:8085/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
+        fetch(`/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
