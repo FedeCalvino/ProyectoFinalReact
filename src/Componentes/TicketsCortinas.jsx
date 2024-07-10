@@ -68,20 +68,20 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
       {Cortinas.map(cor => (
         <Page size={[34, 12]} style={styles.page}>
         <View style={styles.tableContainer1}>
-          <View style={styles.tableRow} key={Cortina.idCortina}>
+          <View style={styles.tableRow} key={cor.idCortina}>
             <Text style={styles.tableCell3}>{Venta.NombreCliente}</Text>
             <Text style={styles.tableCell3}>{Venta.Obra || 'N/A'}</Text>
           </View>
         </View>
         {/* Tabla de detalles de las cortinas */}
         <View style={styles.tableContainer}>
-          <View style={styles.tableRow} key={Cortina.idCortina}>
-            <Text style={[styles.tableCell5]}>{Cortina.nombreTela}{Cortina.colorTela}</Text>
-            <Text style={[styles.tableCell5]}>{Cortina.ambiente}</Text>
-            <Text style={[styles.tableCell7]}>{Cortina.anchoAfuerAfuera}</Text>
+          <View style={styles.tableRow} key={cor.idCortina}>
+            <Text style={[styles.tableCell5]}>{cor.nombreTela}{cor.colorTela}</Text>
+            <Text style={[styles.tableCell5]}>{cor.ambiente}</Text>
+            <Text style={[styles.tableCell7]}>{cor.anchoAfuerAfuera}</Text>
             <Text style={[styles.tableCell6]}>X</Text>
-            <Text style={[styles.tableCell8]}>{Cortina.altoCortina}</Text>
-            <Text style={[styles.tableCell5]}>{Cortina.ladoCadena}{Cortina.posicion}</Text>
+            <Text style={[styles.tableCell8]}>{cor.altoCortina}</Text>
+            <Text style={[styles.tableCell5]}>{cor.ladoCadena}{cor.posicion}</Text>
           </View>
         </View>
       </Page>
