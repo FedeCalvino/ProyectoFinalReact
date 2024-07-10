@@ -70,7 +70,9 @@ export const CrearVenta = () => {
         FetchTelas();
     }, []);
 
-    const UrlTelas = "/TipoTela"
+    const UrlTelas = "/TipoTela";
+    const UrlCliente = "/Save/Cliente";
+    const UrlVentas = "/Save/Ventas";
 
    //const UrlTelas = "http://localhost:8085/TipoTela"
 
@@ -313,7 +315,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch('/Ventas/Save', requestOptionsVenta)
+                fetch(UrlVentas, requestOptionsVenta)
                     .then(response => 
                         response.json()
                     )
@@ -342,7 +344,7 @@ export const CrearVenta = () => {
                     )
                 };
 
-                fetch('/Cliente/SaveCli', requestOptionsCliente)
+                fetch(UrlCliente, requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
                         return response.json()
@@ -358,7 +360,7 @@ export const CrearVenta = () => {
                                         "Obra": { Obra }.Obra
                                     })
                                 };
-                                fetch('/Ventas/Post', requestOptionsVenta)
+                                fetch(UrlVentas, requestOptionsVenta)
                                     .then(response => {
                                         console.log("response venta", response)
                                         return response.json()
