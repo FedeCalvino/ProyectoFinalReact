@@ -71,7 +71,7 @@ export const CrearVenta = () => {
     }, []);
 
     const UrlTelas = "/TipoTela";
-    const UrlCliente = "/SaveCliente";
+    const UrlCliente = "/Cliente";
     const UrlVentas = "/SaveVentas";
 
    //const UrlTelas = "http://localhost:8085/TipoTela"

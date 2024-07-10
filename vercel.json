@@ -6,15 +6,6 @@
       "destination": "http://20.84.121.133:8085/Ventas"
     },
     {
-      "source": "/SaveCliente",
-      "destination": "http://20.84.121.133:8085/Cliente"
-    },
-    {
-      "source": "https://annedecor.vercel.app/SaveCliente",
-      "destination": "http://20.84.121.133:8085/Cliente"
-    }
-    ,
-    {
       "source": "/CrearVenta",
       "destination": "/index.html"
     },
