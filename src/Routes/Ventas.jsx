@@ -23,13 +23,13 @@ export const Ventas = ({ IdVentaView }) => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
-    /*
+
             const UrlVentas = "/Ventas/Dto"
             const UrlVenta = "/Ventas/DtoVentaCor/"
- /**/
+/*
     const UrlVentas = "http://localhost:8085/Ventas/Dto"
     const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
-
+*/
 
     function MostrarVenta(venta) {
 

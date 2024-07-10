@@ -55,15 +55,15 @@ export const MesaCorteTela = () => {
         gap: '10px',
     };
 
-    /*
+    
         const UrlVentas = "/Ventas/Dto"
         const UrlVenta = "/Ventas/DtoVentaCor/"
-    */
-
+        const telaCortada = "/EstadoCortina/"
+/*
     const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/MesaTela"
     const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
     const telaCortada = "http://localhost:8085/EstadoCortina/"
-
+*/
     function MostrarVenta(venta) {
         console.log("click");
         setIdVenta(venta.IdVenata)

@@ -37,8 +37,8 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
 
 
 
-    const UrlClientes = "http://localhost:8085/Cliente"
-    const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
+    const UrlClientes = "/Cliente"
+    const UrlCLientesLike = "/Cliente/strL/"
 
     const [SearchText, setSearchText] = useState('');
 

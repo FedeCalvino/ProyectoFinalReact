@@ -70,9 +70,9 @@ export const CrearVenta = () => {
         FetchTelas();
     }, []);
 
-    //const UrlTelas = "/TipoTela"
+    const UrlTelas = "/TipoTela"
 
-    const UrlTelas = "http://localhost:8085/TipoTela"
+   //const UrlTelas = "http://localhost:8085/TipoTela"
 
     function AgregarRoller() {
         const nuevaCortinaRoler = {
