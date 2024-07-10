@@ -10,6 +10,7 @@ import { Loading } from '../Componentes/Loading';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { PDF } from '../Componentes/PDF';
 import { forEach } from 'lodash';
+import { TicketsCortinas } from '../Componentes/TicketsCortinas';
 
 export const Ventas = ({ IdVentaView }) => {
     const tableRef = useRef(null);
@@ -22,13 +23,13 @@ export const Ventas = ({ IdVentaView }) => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
-    
+    /*
             const UrlVentas = "/Ventas/Dto"
             const UrlVenta = "/Ventas/DtoVentaCor/"
- /*
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
-    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
-*/
+ /**/
+    const UrlVentas = "http://localhost:8085/Ventas/Dto"
+    const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
+
 
     function MostrarVenta(venta) {
 
@@ -40,15 +41,15 @@ export const Ventas = ({ IdVentaView }) => {
 
 
     const FetchVentas = async () => {
-            try {
-                const res = await fetch(UrlVentas)
-                const data = await res.json()
-                setVentas(data);
-                setVentasTotales(data)
-                console.log(data);
-            } catch (error) {
-                console.log(error)
-            }
+        try {
+            const res = await fetch(UrlVentas)
+            const data = await res.json()
+            setVentas(data);
+            setVentasTotales(data)
+            console.log(data);
+        } catch (error) {
+            console.log(error)
+        }
     };
 
 
@@ -73,21 +74,21 @@ export const Ventas = ({ IdVentaView }) => {
     const cambiarLargoCano = (data) => {
         data.forEach(cortina => {
             // Convertir el string a un número
-                const decimalPartLength = (cortina.anchoAfuerAfuera.split('.')[1] || '').length;
-                if(decimalPartLength==1){
-                    console.log(cortina.anchoAfuerAfuera+0)
-                }
-                const anchoAfuerAfuera = parseFloat(cortina.anchoAfuerAfuera);
-                // Realizar la operación matemática
-                let nuevoAnchoCaño = anchoAfuerAfuera - 0.03;
-                // Asegurar que el resultado tenga dos decimales y asignar el valor actualizado
-                cortina.anchoCaño = nuevoAnchoCaño.toFixed(2);
-            
+            const decimalPartLength = (cortina.anchoAfuerAfuera.split('.')[1] || '').length;
+            if (decimalPartLength == 1) {
+                console.log(cortina.anchoAfuerAfuera + 0)
+            }
+            const anchoAfuerAfuera = parseFloat(cortina.anchoAfuerAfuera);
+            // Realizar la operación matemática
+            let nuevoAnchoCaño = anchoAfuerAfuera - 0.03;
+            // Asegurar que el resultado tenga dos decimales y asignar el valor actualizado
+            cortina.anchoCaño = nuevoAnchoCaño.toFixed(2);
+
         });
     };
     const FiltrarVentas = () => {
         if (SearchText && SearchText.trim() !== "") {
-            const filtered = VentasTotales.filter(venta => 
+            const filtered = VentasTotales.filter(venta =>
                 venta.NombreCliente.toLowerCase().includes(SearchText.toLowerCase())
             );
             setVentas(filtered);
@@ -227,9 +228,20 @@ export const Ventas = ({ IdVentaView }) => {
                                                         ))}
                                                     </tbody>
                                                 </Table>
-                                                <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
-                                                    <Button >PDF</Button>
-                                                </PDFDownloadLink>
+                                                <Row className="justify-content-center">
+                                                    <Col className="text-center my-2">
+                                                        {/* Botón para descargar PDF */}
+                                                        <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
+                                                            <Button variant="primary" className="w-auto">PDF</Button>
+                                                        </PDFDownloadLink>
+                                                    </Col>
+                                                    <Col className="text-center my-2">
+                                                        {/* Botón para descargar Tickets */}
+                                                        <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
+                                                            <Button variant="primary" className="w-auto">Tickets</Button>
+                                                        </PDFDownloadLink>
+                                                    </Col>
+                                                </Row>
                                             </>
                                         )}
                                     </Accordion.Body>

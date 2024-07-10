@@ -70,9 +70,9 @@ export const CrearVenta = () => {
         FetchTelas();
     }, []);
 
-    const UrlTelas = "/TipoTela"
+    //const UrlTelas = "/TipoTela"
 
-    //const UrlTelas = "http://20.84.111.102:8085/TipoTela"
+    const UrlTelas = "http://localhost:8085/TipoTela"
 
     function AgregarRoller() {
         const nuevaCortinaRoler = {
@@ -97,6 +97,7 @@ export const CrearVenta = () => {
         const selectedValue = parseInt(e.target.value, 10);
         const selectedTela = Telas.find(tela => tela.Id === selectedValue);
         SetselectedTelaRoler(selectedTela)
+        console.log(selectedTela)
         setselectedColorRoler(e.target.value)
         // Obtener el Nombre del objeto seleccionado
         selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
@@ -312,7 +313,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-                fetch('/Ventas/Post', requestOptionsVenta)
+                fetch('http://localhost:8085/Ventas', requestOptionsVenta)
                     .then(response => response.json())
                     .then(result => {
                         handleResult(result)
@@ -338,7 +339,7 @@ export const CrearVenta = () => {
                     )
                 };
 
-                fetch('/Cliente/Post', requestOptionsCliente)
+                fetch('http://localhost:8085/Cliente', requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
                         return response.json()
@@ -354,7 +355,7 @@ export const CrearVenta = () => {
                                         "Obra": { Obra }.Obra
                                     })
                                 };
-                                fetch('/Ventas/Post', requestOptionsVenta)
+                                fetch('http://localhost:8085/Ventas', requestOptionsVenta)
                                     .then(response => {
                                         console.log("response venta", response)
                                         return response.json()
@@ -399,8 +400,8 @@ export const CrearVenta = () => {
         // Usar Promise.all para enviar todas las Cortinas en paralelo y esperar su finalización
         await Promise.all(Cortinas.map(async (Cor) => {
             const bodyData = {
-                "Alto": Cor.largoRoller,
-                "Ancho": Cor.ancho,
+                "alto": Cor.largoRoller,
+                "ancho": Cor.ancho,
                 "Ambiente": Cor.Ambiente,
                 "motorizada": Cor.motorizada,
                 "IdTipoTela": Cor.tela.id,
@@ -414,7 +415,7 @@ export const CrearVenta = () => {
             requestOptions.body = JSON.stringify(bodyData);
     
             try {
-                const response = await fetch('/Cortinas/Roller', requestOptions);
+                const response = await fetch('http://localhost:8085/Cortinas/Roller', requestOptions);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -437,7 +438,7 @@ export const CrearVenta = () => {
             headers: { 'Content-Type': 'application/json' },
         };
     
-        fetch(`/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
+        fetch(`http://localhost:8085/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -606,7 +607,7 @@ export const CrearVenta = () => {
         )
     }
     if (IdVentaView) {
-        return <Ventas IdVentaView={IdVentaView} />
+        return <Ventas/>
     }
 
 }

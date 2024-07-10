@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Text, Page, StyleSheet, View, Image } from '@react-pdf/renderer';
+import { Document, Page, StyleSheet, View, Text } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
@@ -23,30 +23,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     fontSize: 1.5,
-  },tableCell7: {
+  },
+  tableCell: {
     fontSize: 2,
-    width: '18%',
-    textAlign: 'center'
-  }, 
-  tableCell5: {
-    fontSize: 1.5,
-    width: '18%',
+    width: '33%',
     textAlign: 'center',
-    borderRightWidth: 0.1,
-    borderBottomColor: '#000000',
-  },tableCell8: {
-    fontSize: 2,
-    width: '18%',
+  }, tableCell5: {
+    fontSize: 3,
+    width: '30%',
     textAlign: 'center',
-    borderRightWidth: 0.1,
-    borderBottomColor: '#000000',
   }, tableCell6: {
     fontSize: 2,
     width: '6%',
     textAlign: 'center',
   }, tableCell3: {
     fontSize: 2,
-    marginTop: 0.5,
     width: '50%',
     textAlign: 'center',
   }, tableCell4: {
@@ -62,28 +53,32 @@ const styles = StyleSheet.create({
   }
 });
 
-export const TicketCortina = ({ Venta, Cortina }) => {
+export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
   return (
     <Document>
-      <Page size={[34, 12]} style={styles.page}>
+      {Cortinas.map(cor => (
+        <Page size={[34, 12]} style={styles.page}>
         <View style={styles.tableContainer1}>
-          <View style={styles.tableRow} key={Cortina.idCortina}>
+          <View style={styles.tableRow} key={cor.idCortina}>
+            <Text style={styles.tableCell4}></Text>
+            <Text style={styles.tableCell4}>Obra</Text>
+          </View>
+          <View style={styles.tableRow} key={cor.idCortina}>
             <Text style={styles.tableCell3}>{Venta.NombreCliente}</Text>
             <Text style={styles.tableCell3}>{Venta.Obra || 'N/A'}</Text>
           </View>
         </View>
         {/* Tabla de detalles de las cortinas */}
         <View style={styles.tableContainer}>
-          <View style={styles.tableRow} key={Cortina.idCortina}>
-            <Text style={[styles.tableCell5]}>{Cortina.nombreTela}{Cortina.colorTela}</Text>
-            <Text style={[styles.tableCell5]}>{Cortina.ambiente}</Text>
-            <Text style={[styles.tableCell7]}>{Cortina.anchoAfuerAfuera}</Text>
-            <Text style={[styles.tableCell6]}>X</Text>
-            <Text style={[styles.tableCell8]}>{Cortina.altoCortina}</Text>
-            <Text style={[styles.tableCell5]}>{Cortina.ladoCadena}{Cortina.posicion}</Text>
+          <View style={styles.tableRow} key={cor.idCortina}>
+            <Text style={[styles.tableCell, styles.text]}>{cor.ambiente}</Text>
+            <Text style={[styles.tableCell5, styles.text]}>{cor.anchoAfuerAfuera}</Text>
+            <Text style={[styles.tableCell6, styles.text]}>X</Text>
+            <Text style={[styles.tableCell5, styles.text]}>{cor.altoCortina}</Text>
           </View>
         </View>
       </Page>
+      ))}
     </Document>
   );
 };

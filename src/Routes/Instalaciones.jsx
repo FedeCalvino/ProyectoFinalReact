@@ -50,9 +50,12 @@ export const Instalaciones = () => {
         boxShadow: 50,
         p: 4,
     };
-
+/*
     const UrlVentas = "/Ventas/Dto"
     const InstalacionUrl = "/Instalacion"
+*/
+const UrlVentas = "http://localhost:8085/Ventas/Dto";
+const InstalacionUrl = "http://localhost:8085/Instalacion"
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
