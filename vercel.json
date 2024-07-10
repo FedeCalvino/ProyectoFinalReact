@@ -50,8 +50,7 @@
     },
     {
       "source": "/Save/Ventas",
-      "destination": "http://20.84.121.133:8085/Ventas",
-      "permanent": true
+      "destination": "http://20.84.121.133:8085/Ventas"
     },
     {
       "source": "/Ventas/DtoVentaCor/:IdVenta",
@@ -83,8 +82,7 @@
     },
     {
       "source": "/Save/Cliente",
-      "destination": "http://20.84.121.133:8085/Cliente",
-      "permanent": true
+      "destination": "http://20.84.121.133:8085/Cliente"
     },
     {
       "source": "/Cliente",
