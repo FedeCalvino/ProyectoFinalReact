@@ -1,5 +1,14 @@
 {
   "rewrites": [
+    
+    {
+      "source": "/SaveVentas",
+      "destination": "http://20.84.121.133:8085/Ventas"
+    },
+    {
+      "source": "/SaveCliente",
+      "destination": "http://20.84.121.133:8085/Cliente"
+    },
     {
       "source": "/CrearVenta",
       "destination": "/index.html"
@@ -49,10 +58,6 @@
       "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },
     {
-      "source": "/Save/Ventas",
-      "destination": "http://20.84.121.133:8085/Ventas"
-    },
-    {
       "source": "/Ventas/DtoVentaCor/:IdVenta",
       "destination": "http://20.84.121.133:8085/Ventas/DtoVentaCor/:IdVenta"
     },
@@ -79,10 +84,6 @@
     {
       "source": "/TipoTela",
       "destination": "http://20.84.121.133:8085/TipoTela"
-    },
-    {
-      "source": "/Save/Cliente",
-      "destination": "http://20.84.121.133:8085/Cliente"
     },
     {
       "source": "/Cliente",
