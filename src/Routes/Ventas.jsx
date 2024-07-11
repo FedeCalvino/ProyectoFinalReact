@@ -168,6 +168,7 @@ export const Ventas = ({ IdVentaView }) => {
                 console.log(error);
             } finally {
                 setloadingTable(false)
+                setopen(false)
             }
 
     }
