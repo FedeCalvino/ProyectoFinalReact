@@ -30,8 +30,9 @@ export const Ventas = ({ IdVentaView }) => {
     const [open, setopen] = useState(false)
     
 
-    const UrlVentas = "/Ventas/Dto"
+    const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "/Ventas/DtoVentaCor/"
+    const UrlInstalada = "/Ventas/Instalado/"
 /*
     const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
@@ -147,7 +148,7 @@ export const Ventas = ({ IdVentaView }) => {
 
         setloadingTable(true)
             try {
-                const res = await fetch("UrlInstalada" + IdVenta, {
+                const res = await fetch(UrlInstalada + IdVenta, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Specify the content type
