@@ -117,6 +117,9 @@
     },{
       "source": "/Ventas/DtoVentaCor/MesaTela",
       "destination": "http://20.84.121.133:8085/Ventas/DtoVentaCor/MesaTela"
+    },{
+      "source": "/Usuario/:Mail/:Pass",
+      "destination": "http://20.84.121.133:8085/Usuario/:Mail/:Pass"
     }
   ]
 }

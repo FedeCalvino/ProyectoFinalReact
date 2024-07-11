@@ -11,8 +11,12 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import { PDF } from '../Componentes/PDF';
 import { forEach } from 'lodash';
 import { TicketsCortinas } from '../Componentes/TicketsCortinas';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 
 export const Ventas = ({ IdVentaView }) => {
+
+    
     const tableRef = useRef(null);
     const input = tableRef.current;
     const [loading, setloading] = useState(true)
@@ -23,12 +27,14 @@ export const Ventas = ({ IdVentaView }) => {
     const [Cortinas, setCortinas] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
+    const [open, setopen] = useState(false)
+    
 
-            const UrlVentas = "/Ventas/Dto"
-            const UrlVenta = "/Ventas/DtoVentaCor/"
+    const UrlVentas = "/Ventas/Dto"
+    const UrlVenta = "/Ventas/DtoVentaCor/"
 /*
-    const UrlVentas = "http://localhost:8085/Ventas/Dto"
-    const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
 */
 
     function MostrarVenta(venta) {
@@ -52,7 +58,18 @@ export const Ventas = ({ IdVentaView }) => {
         }
     };
 
-
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+        textAlign: 'center',
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -121,6 +138,39 @@ export const Ventas = ({ IdVentaView }) => {
         }
     };
     let lastDay = null;
+
+    const SetInstaladaModal=()=>{
+        setopen(true)
+    }
+
+    const SetInstalada = async () =>{
+
+        setloadingTable(true)
+            try {
+                const res = await fetch("UrlInstalada" + IdVenta, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Specify the content type
+                    },
+                });
+    
+                if (!res.ok) {
+                    throw new Error('Network response was not ok ' + res.statusText);
+                } else {
+                    const filtered = VentasTotales.filter(venta =>
+                        venta.IdVenata!={IdVenta}.IdVenta
+                    );
+                    setVentas(filtered);
+                }
+    
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setloadingTable(false)
+            }
+
+    }
+
     const MostrarDia = ({ Day }) => {
         let Ok = false;
         if (lastDay !== Day) {
@@ -170,6 +220,30 @@ export const Ventas = ({ IdVentaView }) => {
                     placeholder="Buscar..."
                 />
             </Form.Group>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={()=>{setopen(false)}}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <div>
+                            <h2>Venta Instalada</h2>
+                        </div>
+                       <div>
+                            <Row>
+                                <Col>
+                                    <Button onClick={SetInstalada} variant="success" className="w-auto">Aceptar</Button>
+                                </Col>
+                                <Col>
+                                    <Button onClick={()=>{setopen(false)}} variant="danger" className="w-auto">Cancelar</Button>
+                                </Col>
+                            </Row>
+                       </div>
+                    </Box>
+                </Modal>
+            </div>
             {Ventas.length !== 0 ? (
                 <Accordion>
                     {Ventas.map((Ven, index) => {
@@ -234,6 +308,9 @@ export const Ventas = ({ IdVentaView }) => {
                                                         <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
                                                             <Button variant="primary" className="w-auto">PDF</Button>
                                                         </PDFDownloadLink>
+                                                    </Col>
+                                                    <Col className="text-center my-2">
+                                                        <Button onClick={SetInstaladaModal} variant="danger" className="w-auto">Instalada</Button>
                                                     </Col>
                                                     <Col className="text-center my-2">
                                                         {/* Botón para descargar Tickets */}

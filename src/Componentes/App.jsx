@@ -16,7 +16,7 @@ import { MesaCorteCano } from '../Routes/MesaCorteCano';
 import { MesaArmado } from '../Routes/MesaArmado';
 const App = () => {
 
-    const [Loginerror,SetLoginerror]= useState(false)
+    const [Loginerror,setLoginError]= useState(false)
 
     const [User, setUser] = useState(() => {
         const storedUser = localStorage.getItem('user');
@@ -32,7 +32,7 @@ const App = () => {
 
     const login = async (usuario) => {
         try {
-            const url = `http://20.84.111.102:8085/Usuario/${usuario.mail}/${usuario.Pass}`;
+            const url = `/Usuario/${usuario.mail}/${usuario.Pass}`;
             console.log(url);
     
             const requestOptions = {
@@ -40,22 +40,23 @@ const App = () => {
                 headers: { 'Content-Type': 'application/json' }
             };
     
-            //const response = await fetch(url, requestOptions);
-            //const result = await response.json();
+            const response = await fetch(url, requestOptions);
+            const result = await response.json();
     
-            //console.log(result);
+            console.log(result);
             
-            //if (result.id) {
-                //localStorage.setItem('user', JSON.stringify(result)); // Guardar el usuario en localStorage
-                setUser({"id":1,"mail":"pepito@gmail.com","password":"12345"})
+            if (result.id!=0) {
+                localStorage.setItem('user', JSON.stringify(result)); // Guardar el usuario en localStorage
+                setUser(result)
 
                 setLoginError(false); // Asumiendo que la función se llama setLoginError
                 window.location.reload();
-            //} else {
-              //  setLoginError(true); // Asumiendo que la función se llama setLoginError
-           // }
+            } else {
+               setLoginError(true); // Asumiendo que la función se llama setLoginError
+            }
         } catch (error) {
             console.log('Error:', error);
+            setLoginError(true); 
         }
     };
 
