@@ -184,7 +184,7 @@ export const CrearVenta = () => {
                     <Form.Group as={Col} md="1" style={{ width: "11%" }} noValidate>
                         <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Ambiente</Form.Label>
                         <Form.Select as={Col} md="1" aria-label="Default select example" onChange={handleSelectAmbienteChange} value={selectedAreaRoler}>
-                            <option style={{ textAlign: "center" }}>Ambiente</option>
+                            <option style={{ textAlign: "center" }}></option>
                             {Ambientes.map(amb =>
                                 <option style={{ textAlign: "center" }} value={amb.Nombre} key={amb.Nombre}>
                                     {amb.Nombre}
