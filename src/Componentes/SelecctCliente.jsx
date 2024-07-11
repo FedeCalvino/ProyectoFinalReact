@@ -175,7 +175,7 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                 :
                 <>
                     <Tabs
-                        defaultActiveKey="Selecc"
+                        defaultActiveKey="Crear"
                         id="fill-tab-example"
                         as={Col}
                         className="mb-2"
@@ -268,19 +268,6 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                                                     value={DireccCliN}
                                                     onChange={(e) => setCliDireccN(e.target.value)}
                                                     placeholder="Direccion"
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <Row className="justify-content-center mb-3">
-                                        <Col md="5" className="border-start border-2">
-                                            <Form.Group controlId="NroCuenta">
-                                                <Form.Label>Nro Cuenta</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    value={NroCuentaCli}
-                                                    onChange={(e) => setNroCuentaCli(e.target.value)}
-                                                    placeholder="Nro Cuenta"
                                                 />
                                             </Form.Group>
                                         </Col>
