@@ -33,7 +33,7 @@ export const CrearVenta = () => {
     //alertas y validaciones
     const [validated, setValidated] = useState(false);
     const [AlertaClienteNotSelecc, setAlertaClienteNotSelecc] = useState(false);
-    const [VentaCreada, setVentaCreada] = useState(false);
+    const [ErrorCrear, setErrorCrear] = useState(false);
     const [AmbienteIgual, setAmbienteIgual] = useState(false);
 
     //Listas
@@ -74,7 +74,7 @@ export const CrearVenta = () => {
     const UrlCliente = "/Cliente";
     const UrlVentas = "/SaveVentas";
 
-   //const UrlTelas = "http://localhost:8085/TipoTela"
+   //const UrlTelas = "http://20.84.121.133:8085/TipoTela"
 
     function AgregarRoller() {
         const nuevaCortinaRoler = {
@@ -315,6 +315,7 @@ export const CrearVenta = () => {
                         }
                     )
                 };
+                try{
                 fetch(UrlVentas, requestOptionsVenta)
                     .then(response => 
                         response.json()
@@ -324,6 +325,9 @@ export const CrearVenta = () => {
                         handleResult(result)
                         console.log("Venta?", result)
                     });
+                }catch(error){
+                    AlertaError(error)
+                }
             } else {
                 console.log("Cliente sin id", DataCli)
                 //Creo el Cliente antes de la venta
@@ -343,7 +347,6 @@ export const CrearVenta = () => {
                         }
                     )
                 };
-
                 fetch(UrlCliente, requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
@@ -373,12 +376,11 @@ export const CrearVenta = () => {
                                     })
                                     .catch(error => {
                                         console.error('Error en la solicitud de ventas:', error);
-                                        // Manejar el error de la solicitud de ventas aquí
+                                        AlertaError(error)
                                     });
                             })
                             .catch(error => {
-                                console.error('Error en la solicitud de cliente:', error);
-                                // Manejar el error de la solicitud de cliente aquí
+                                AlertaError(error)
                             }
                             );
             }
@@ -428,8 +430,8 @@ export const CrearVenta = () => {
                 console.log("result de cortina", result);
                 AgregarCortinaRollerAVenta(result.id, idVenta);
             } catch (error) {
-                console.error('Error fetching data:', error);
-                // Manejar el error según sea necesario
+                console.error('Error en cortinas roller:', error);
+                AlertaError(error)
             }
         }));
     }
@@ -456,7 +458,7 @@ export const CrearVenta = () => {
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-                // Manejar errores de red u otros errores aquí
+                AlertaError(error)
             });
     }
 
@@ -490,11 +492,13 @@ export const CrearVenta = () => {
             </Alert>
         );
     };
-    const AlertaVentaCreada = () => {
+    const AlertaError = ({Mensaje}) => {
+        setloading(false)
+        setErrorCrear(true)
         return (
             <>
-                <Alert variant='success'>
-                    VentaCreada
+                <Alert variant='danger'>
+                    {Mensaje}
                 </Alert>
             </>
         )
@@ -514,7 +518,7 @@ export const CrearVenta = () => {
             <>
                 <Form noValidate validated={validated}>
                     {AlertaClienteNotSelecc ? <Alerta Mensaje="Selecciona un cliente primero" /> : null}
-                    {VentaCreada ? <AlertaVentaCreada /> : null}
+                    {ErrorCrear ? <AlertaError /> : null}
                     <SelecctCliente ClienteData={setCliCall} />
                     <InputGroup>
                         <Form.Group as={Col} md="3" controlId="validationCustom01">
