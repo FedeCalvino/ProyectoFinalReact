@@ -27,7 +27,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import { Loading } from '../Componentes/Loading';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-
+import Alert from 'react-bootstrap/Alert';
 
 import "dayjs/locale/es"
 dayjs.locale("es");
@@ -54,8 +54,8 @@ export const Instalaciones = () => {
     const UrlVentas = "/Ventas/Dto"
     const InstalacionUrl = "/Instalacion"
 /*
-const UrlVentas = "http://localhost:8085/Ventas/Dto";
-const InstalacionUrl = "http://localhost:8085/Instalacion"
+const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto";
+const InstalacionUrl = "http://20.84.121.133:8085/Instalacion"
 */
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -69,7 +69,7 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
 
     const [VentaModal, setVentaModal] = useState([]);
 
-    const [loading, setloading] = useState(true);
+    const [loading, setloading] = useState(false);
 
     const AM1 = [dayjs('0000-00-T08:00'), dayjs('0000-00-00T10:00')]
     const AM2 = [dayjs('0000-00-00T10:00'), dayjs('0000-00-00T12:00')]
@@ -91,7 +91,7 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
     const [Events, setEvents] = useState([]);
 
     const [EventSeleccted, setEventSeleccted] = useState([]);
-
+    const [ErrorCrear, setErrorCrear] = useState(false);
     useEffect(() => {
         // SetHoras();
     }, [Horas]);
@@ -238,7 +238,7 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
 
 
     function CrearInstalacion() {
-
+        try{
         const dateStringInicio = { Horas }.Horas[0].$d
 
         const dateObjInicio = new Date(dateStringInicio)
@@ -279,6 +279,10 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
                 console.log(result)
                 window.location.reload();
             });
+        }catch(error){
+            AlertaError(error)
+            console.log("entro")
+        }
     }
 
     const DeleteInstalacion = () => {
@@ -301,6 +305,18 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
         window.location.reload();
     }
 
+    const AlertaError = ({Mensaje}) => {
+        setloading(false)
+        setErrorCrear(true)
+        return (
+            <>
+                <Alert variant='danger'>
+                    {Mensaje}
+                </Alert>
+            </>
+        )
+    }
+
 
     if(loading){
         return (
@@ -310,6 +326,7 @@ const InstalacionUrl = "http://localhost:8085/Instalacion"
     const localizar = dayjsLocalizer(dayjs)
     return (
         <>
+            {ErrorCrear ? <AlertaError /> : null}
             <div>
                 <Modal
                     open={open}
