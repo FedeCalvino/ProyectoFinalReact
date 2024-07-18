@@ -316,7 +316,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                     </Col>
                                                     <Col className="text-center my-2">
                                                         {/* Botón para descargar Tickets */}
-                                                        <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
+                                                        <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} ETQ.pdf`}>
                                                             <Button variant="primary" className="w-auto">Tickets</Button>
                                                         </PDFDownloadLink>
                                                     </Col>
