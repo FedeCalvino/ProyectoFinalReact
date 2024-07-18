@@ -307,7 +307,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                 <Row className="justify-content-center">
                                                     <Col className="text-center my-2">
                                                         {/* Botón para descargar PDF */}
-                                                        <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName='Pdf'>
+                                                        <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} O.C.pdf`}>
                                                             <Button variant="primary" className="w-auto">PDF</Button>
                                                         </PDFDownloadLink>
                                                     </Col>
