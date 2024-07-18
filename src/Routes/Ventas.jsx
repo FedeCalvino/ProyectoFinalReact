@@ -29,15 +29,15 @@ export const Ventas = ({ IdVentaView }) => {
     const [FilteredVentas, setFilteredVentas] = useState([])
     const [open, setopen] = useState(false)
     
-/*
+
     const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "/Ventas/DtoVentaCor/"
     const UrlInstalada = "/Ventas/Instalado/"
-*/
+/*
     const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
     const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-
+*/
     function MostrarVenta(venta) {
 
         setIdVenta(venta.IdVenata)
