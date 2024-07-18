@@ -10,6 +10,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/Home",
+      "destination": "/index.html"
+    },
+    {
       "source": "/Ventas",
       "destination": "/index.html"
     },
