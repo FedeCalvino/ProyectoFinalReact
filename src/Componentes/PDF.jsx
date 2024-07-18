@@ -72,7 +72,7 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
     const sortedGroups = Object.keys(groupedCortinas).map(key => {
         return {
             tela: key,
-            cortinas: groupedCortinas[key].sort((a, b) => a.altoCortina - b.altoCortina)
+            cortinas: groupedCortinas[key].sort((a, b) => b.altoCortina - a.altoCortina)
         };
     });
 
