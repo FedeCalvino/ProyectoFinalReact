@@ -14,6 +14,8 @@ import { EstadoVentas } from '../Routes/EstadoVentas';
 import { MesaCorteTela } from '../Routes/MesaCorteTela';
 import { MesaCorteCano } from '../Routes/MesaCorteCano';
 import { MesaArmado } from '../Routes/MesaArmado';
+import Home from '../Routes/Home';
+
 const App = () => {
 
     const [Loginerror,setLoginError]= useState(false)
@@ -123,6 +125,11 @@ const App = () => {
                 
                 <Route path='/MesaCorteTela' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
                     <MesaCorteTela/>
+                </ProtectedRoute>} >
+                </Route>
+
+                <Route path='/Home' element={<ProtectedRoute user={User} login={login} errorLogin={Loginerror}>
+                    <Home/>
                 </ProtectedRoute>} >
                 </Route>
 

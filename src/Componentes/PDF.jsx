@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 export const PDF = ({ Venta,Cortinas= [] }) => {
     return (
         <Document>
-            <Page size="A4" style={styles.page}>
+            <Page size="A4" style={styles.page} orientation="landscape">
                 {/* Logo en la esquina superior derecha */}
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} src="ImgLogo.png" />

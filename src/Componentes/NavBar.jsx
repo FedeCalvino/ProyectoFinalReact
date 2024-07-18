@@ -12,6 +12,7 @@ import { BsFillDiagram3Fill } from "react-icons/bs";
 import './NavBar.css'
 
 export const NavBar = ({ logged, onLogout }) => {
+  
   const handleLogout = () => {
     onLogout()
   }
@@ -20,7 +21,7 @@ export const NavBar = ({ logged, onLogout }) => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container className='container_nav'>
-          <Navbar.Brand href="#home" className="brand-custom">Anne Decor</Navbar.Brand>
+          <Navbar.Brand href="Home" className="brand-custom">Anne Decor</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="navb">
