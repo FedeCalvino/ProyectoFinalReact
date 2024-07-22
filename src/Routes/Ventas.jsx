@@ -62,12 +62,15 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlInstalada = "/Ventas/Instalado/"
      const UrlTelas = "/TipoTela"
      const UrlAddCor = "/Cortinas/Roller/Add"
-/*
-    const UrlTelas = "http://20.84.121.133:8085/TipoTela";
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
-    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
-    const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-*/
+     const UrlEditCor = "/Cortinas/Roller/Edit"
+
+    /*
+        const UrlTelas = "http://20.84.121.133:8085/TipoTela";
+        const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+        const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+        const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
+    */
+
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -177,7 +180,7 @@ export const Ventas = ({ IdVentaView }) => {
     }, [SearchText]);
 
     const FetchVentaCortinas = async () => {
-        setloadingTable(true)
+        setloadingTable(true) 
         if (IdVenta != null) {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
@@ -230,15 +233,39 @@ export const Ventas = ({ IdVentaView }) => {
     }
 
 
-    const ConfirmEdit = () => {
+    const ConfirmEdit = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        };
+            
+        requestOptions.body = JSON.stringify(CortinaEdited);
+        console.log(CortinaEdited)
+        console.log(nuevaCortinaRoler)
+        const url = UrlEditCor+"/"+IdVenta
+        console.log(url)
+        try {
+            const response = await fetch(url , requestOptions);
+            if (!response.ok) {
+                console.error('Error en cortinas roller');
+            }else{
+                setIdCorEdit(null);
+                //UpdateCortina
+                FetchVentaCortinas()
+            }
+
+            console.log("result de cortina", result);
+            //AgregarCortinaRollerAVenta(result.id, idVenta);
+        } catch (error) {
+            console.error('Error en cortinas roller:', error);
+        }
         setCortinas(prevState =>
             prevState.map(cortina =>
                 cortina.idCortina === CortinaEdited.Id ? CortinaEdited : cortina
             )
         );
-        setIdCorEdit(null);
-        //UpdateCortina
-        FetchVentaCortinas()
+
+
     };
 
 

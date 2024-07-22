@@ -76,6 +76,9 @@
     {
       "source": "/Cortinas/Roller/Add/:IdVenta",
       "destination": "http://20.84.121.133:8085/Cortinas/Roller/:IdVenta"
+    },{
+      "source": "/Cortinas/Roller/Edit/:IdVenta",
+      "destination": "http://20.84.121.133:8085/Cortinas/Edit/:IdVenta"
     },
     {
       "source": "/Factura/Recibos/:IdVenta",
