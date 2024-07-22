@@ -74,6 +74,9 @@
       "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },
     {
+      "source": "/Cortinas/Roller/Add/:IdVenta",
+      "destination": "http://20.84.121.133:8085/Cortinas/Roller/:IdVenta"},
+    {
       "source": "/Factura/Recibos/:IdVenta",
       "destination": "http://20.84.121.133:8085/Factura/Recibos/:IdVenta"
     },

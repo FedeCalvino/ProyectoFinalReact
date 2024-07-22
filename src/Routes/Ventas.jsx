@@ -60,7 +60,8 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
      const UrlVenta = "/Ventas/DtoVentaCor/"
      const UrlInstalada = "/Ventas/Instalado/"
-    const UrlTelas = "/TipoTela"
+     const UrlTelas = "/TipoTela"
+     const UrlAddCor = "/Cortinas/Roller/Add"
 /*
     const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
@@ -298,7 +299,14 @@ export const Ventas = ({ IdVentaView }) => {
         setCortrtinaEdited(EditedCortina);
     };
     const [Cadena, setCadena] = useState('')
-    const AddCor = () => {
+
+    const AddCor = async (IdVenta) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+            
         const nuevaCortinaRoler = {
             Ambiente: selectedAreaRoler,
             IdTipoTela: selectedTelaRoler.Id,
@@ -310,7 +318,22 @@ export const Ventas = ({ IdVentaView }) => {
             Tubo:  CanoRoller ,
             motorizada:  motorizada 
         }
+        requestOptions.body = JSON.stringify(nuevaCortinaRoler);
         console.log(nuevaCortinaRoler)
+
+        try {
+            const response = await fetch(UrlAddCor+IdVenta, requestOptions);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            console.log("result de cortina", result);
+            //AgregarCortinaRollerAVenta(result.id, idVenta);
+        } catch (error) {
+            console.error('Error en cortinas roller:', error);
+            AlertaError(error)
+        }
+        FetchVentaCortinas()
     }
 
     const handleInputChange = (e, field) => {
@@ -573,7 +596,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                         </Row>
                                                         <Row className="justify-content-center mt-4">
                                                             <Col md="3" className="d-flex justify-content-center">
-                                                                <Button onClick={() => AddCor()} variant="success" className="w-auto">Agregar</Button>
+                                                                <Button onClick={() => AddCor(Ven.IdVenata)} variant="success" className="w-auto">Agregar</Button>
                                                             </Col>
                                                             <Col md="3" className="d-flex justify-content-center">
                                                                 <Button onClick={() => CancelarAddCor()} variant="danger" className="w-auto">Cancelar</Button>
