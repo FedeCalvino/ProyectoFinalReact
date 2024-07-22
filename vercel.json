@@ -88,6 +88,9 @@
     {
       "source": "/Cliente",
       "destination": "http://20.84.121.133:8085/Cliente"
+    },{
+      "source": "/Cliente/:IdCli",
+      "destination": "http://20.84.121.133:8085/Cliente/:IdCli"
     },
     {
       "source": "/Cliente/strL/:Search",
