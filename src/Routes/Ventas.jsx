@@ -60,7 +60,7 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
      const UrlVenta = "/Ventas/DtoVentaCor/"
      const UrlInstalada = "/Ventas/Instalado/"
-    
+    const UrlTelas = "/TipoTela"
 /*
     const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
@@ -297,8 +297,20 @@ export const Ventas = ({ IdVentaView }) => {
         };
         setCortrtinaEdited(EditedCortina);
     };
+    const [Cadena, setCadena] = useState('')
     const AddCor = () => {
-
+        const nuevaCortinaRoler = {
+            Ambiente: selectedAreaRoler,
+            IdTipoTela: selectedTelaRoler.Id,
+            ancho: AnchoRoller ,
+            alto: LargoRoller,
+            Posicion: AdlAtr,
+            LadoCadena: IzqDer ,
+            cadena:  Cadena ,
+            Tubo:  CanoRoller ,
+            motorizada:  motorizada 
+        }
+        console.log(nuevaCortinaRoler)
     }
 
     const handleInputChange = (e, field) => {
