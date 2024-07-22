@@ -312,14 +312,14 @@ export const Ventas = ({ IdVentaView }) => {
         console.log(Cor);
         setIdCorEdit(Cor.idCortina);
         const EditedCortina = {
-            ambiente: Cor.ambiente,
-            anchoAfuerAfuera: Cor.anchoAfuerAfuera,
-            altoCortina: Cor.altoCortina,
-            posicion: Cor.posicion,
-            ladoCadena: Cor.ladoCadena,
+            Ambiente: Cor.ambiente,
+            ancho: Cor.anchoAfuerAfuera,
+            alto: Cor.altoCortina,
+            Posicion: Cor.posicion,
+            LadoCadena: Cor.ladoCadena,
             cadena: Cor.Cadena,
-            IdTela: Telafind.id,
-            cano: Cor.cano,
+            IdTipoTela: Telafind.id,
+            Tubo: Cor.cano,
             motorizada: Cor.motorizada
         };
         console.log(EditedCortinaCor);
@@ -487,23 +487,23 @@ export const Ventas = ({ IdVentaView }) => {
                                                     <tbody>
                                                         {Cortinas.map(Cor => (
                                                             <tr key={Cor.idCortina}>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.ambiente} onChange={(e) => handleInputChange(e, 'ambiente')} /> : Cor.ambiente}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.Ambiente} onChange={(e) => handleInputChange(e, 'Ambiente')} /> : Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
                                                                 <td>{Cor.colorTela}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.anchoAfuerAfuera} onChange={(e) => handleInputChange(e, 'anchoAfuerAfuera')} /> : Cor.anchoAfuerAfuera}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.ancho} onChange={(e) => handleInputChange(e, 'ancho')} /> : Cor.anchoAfuerAfuera}</td>
                                                                 <td>{Cor.anchoCortina}</td>
                                                                 <td>{Cor.anchoCaño}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.cano} onChange={(e) => handleInputChange(e, 'cano')} /> : Cor.cano}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.altoCortina} onChange={(e) => handleInputChange(e, 'altoCortina')} /> : Cor.altoCortina}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.Tubo} onChange={(e) => handleInputChange(e, 'Tubo')} /> : Cor.cano}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.alto} onChange={(e) => handleInputChange(e, 'alto')} /> : Cor.altoCortina}</td>
                                                                 <td>{Cor.altoTela}</td>
                                                                 <td>1</td>
                                                                 <td>{Cor.cadena}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="3" aria-label="Default select example" onChange={(e) => handleInputChange(e, 'ladoCadena')} value={CortinaEdited.ladoCadena}>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="3" aria-label="Default select example" onChange={(e) => handleInputChange(e, 'LadoCadena')} value={CortinaEdited.LadoCadena}>
                                                                     <option style={{ textAlign: "center" }} value=""></option>
                                                                     <option style={{ textAlign: "center" }} value="Izq">Izq</option>
                                                                     <option style={{ textAlign: "center" }} value="Der">Der</option>
                                                                 </Form.Select> : Cor.ladoCadena}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="2" aria-label="Default select example" onChange={(e) => { handleInputChange(e, 'posicion') }} value={CortinaEdited.posicion}>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="2" aria-label="Default select example" onChange={(e) => { handleInputChange(e, 'Posicion') }} value={CortinaEdited.Posicion}>
                                                                     <option style={{ textAlign: "center" }} value=""></option>
                                                                     <option style={{ textAlign: "center" }} value="Adl">Adelante</option>
                                                                     <option style={{ textAlign: "center" }} value="Atr">Atras</option>
