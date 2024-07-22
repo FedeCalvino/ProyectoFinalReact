@@ -301,11 +301,11 @@ export const Ventas = ({ IdVentaView }) => {
     const [Cadena, setCadena] = useState('')
 
     const AddCor = async (IdVenta) => {
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         };
-
             
         const nuevaCortinaRoler = {
             Ambiente: selectedAreaRoler,
@@ -319,19 +319,20 @@ export const Ventas = ({ IdVentaView }) => {
             motorizada:  motorizada 
         }
         requestOptions.body = JSON.stringify(nuevaCortinaRoler);
-        console.log(nuevaCortinaRoler)
 
+        console.log(nuevaCortinaRoler)
+        const url = UrlAddCor+"/"+IdVenta
+        console.log(url)
         try {
-            const response = await fetch(UrlAddCor+"/"+IdVenta, requestOptions);
+            const response = await fetch(url , requestOptions);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const result = await response.json();
+
             console.log("result de cortina", result);
             //AgregarCortinaRollerAVenta(result.id, idVenta);
         } catch (error) {
             console.error('Error en cortinas roller:', error);
-            AlertaError(error)
         }
         FetchVentaCortinas()
     }
