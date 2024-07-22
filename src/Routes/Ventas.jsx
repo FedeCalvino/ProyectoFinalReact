@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
-import './VentasCss.css';
 import { Loading } from '../Componentes/Loading';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { PDF } from '../Componentes/PDF';
@@ -13,13 +12,16 @@ import { forEach } from 'lodash';
 import { TicketsCortinas } from '../Componentes/TicketsCortinas';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { TicketCortina } from '../Componentes/TicketCortina';
 
 export const Ventas = ({ IdVentaView }) => {
 
-    
+
     const tableRef = useRef(null);
     const input = tableRef.current;
     const [loading, setloading] = useState(true)
+    const [loadingAct, setloadingAct] = useState(false)
     const [IdVenta, setIdVenta] = useState(null)
     const [SearchText, setSearchText] = useState("")
     const [Ventas, setVentas] = useState([])
@@ -28,24 +30,64 @@ export const Ventas = ({ IdVentaView }) => {
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
     const [open, setopen] = useState(false)
-    
+    const [IdCorEdit, setIdCorEdit] = useState(null)
+    const [CortinaEdited, setCortrtinaEdited] = useState([])
 
-    const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
-    const UrlVenta = "/Ventas/DtoVentaCor/"
-    const UrlInstalada = "/Ventas/Instalado/"
-/*
+    const [TiposTelas, SetTiposTelas] = useState([])
+
+    const [Telas, setTelas] = useState([])
+
+    //datos de cortina a agregar
+    const [motorizada, setMotorizada] = useState(false)
+    const [selectedTelaRoler, SetselectedTelaRoler] = useState([]);
+    const [selectedTelaMostrarRoler, SetselectedTelaMostrarRoler] = useState([]);
+    const [selectedTelaRolerNombre, SetselectedTelaRolerNombre] = useState("");
+    const [selectedAreaRoler, SetselectedAreaRoler] = useState("");
+    const [AnchoRoller, setAnchoRoller] = useState('')
+    const [LargoRoller, setLargoRoller] = useState('')
+    const [CanoRoller, setCanoRoller] = useState('')
+    const [IzqDer, setIzqDer] = useState('')
+    const [AdlAtr, setAdlAtr] = useState('')
+
+    const [AgregarRollerBool, SetAgregarRollerBool] = useState(false)
+
+    const [TelasDelTipo, SetTelasDelTipo] = useState([])
+
+
+    const [selectedColorRoler, setselectedColorRoler] = useState('')
+
+    /*
+     const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
+     const UrlVenta = "/Ventas/DtoVentaCor/"
+     const UrlInstalada = "/Ventas/Instalado/"
+    */
+
+    const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
     const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-*/
-    function MostrarVenta(venta) {
 
+    function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
+        if (venta.IdVenata !== IdVenta)
+            CancelarAddCor()
     }
 
 
-
-
+    const FetchTelas = async () => {
+        try {
+            const res = await fetch(UrlTelas)
+            const data = await res.json()
+            const tipos = data.filter((tipo, index, self) =>
+                index === self.findIndex(t => t.nombre === tipo.nombre)
+            );
+            SetTiposTelas(tipos)
+            setTelas(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     const FetchVentas = async () => {
         try {
@@ -77,6 +119,7 @@ export const Ventas = ({ IdVentaView }) => {
             try {
                 console.log("entr")
                 await FetchVentas();
+                await FetchTelas()
                 if (IdVentaView) {
                     setActiveKey(IdVentaView);
                 }
@@ -115,6 +158,18 @@ export const Ventas = ({ IdVentaView }) => {
         }
     };
 
+
+    const handleSelectTela = (e) => {
+        //console.log(e.target.value)
+        const selectedValue = parseInt(e.target.value, 10);
+        const selectedTela = Telas.find(tela => tela.Id === selectedValue);
+        SetselectedTelaRoler(selectedTela)
+        console.log(selectedTela)
+        setselectedColorRoler(e.target.value)
+        // Obtener el Nombre del objeto seleccionado
+        selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
+    };
+
     useEffect(() => {
         FiltrarVentas();
         lastDay = ""
@@ -140,38 +195,52 @@ export const Ventas = ({ IdVentaView }) => {
     };
     let lastDay = null;
 
-    const SetInstaladaModal=()=>{
+    const SetInstaladaModal = () => {
         setopen(true)
     }
 
-    const SetInstalada = async () =>{
+    const SetInstalada = async () => {
 
         setloadingTable(true)
-            try {
-                const res = await fetch(UrlInstalada + IdVenta, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Specify the content type
-                    },
-                });
-    
-                if (!res.ok) {
-                    throw new Error('Network response was not ok ' + res.statusText);
-                } else {
-                    const filtered = VentasTotales.filter(venta =>
-                        venta.IdVenata!={IdVenta}.IdVenta
-                    );
-                    setVentas(filtered);
-                }
-    
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setloadingTable(false)
-                setopen(false)
+        try {
+            const res = await fetch(UrlInstalada + IdVenta, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Specify the content type
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error('Network response was not ok ' + res.statusText);
+            } else {
+                const filtered = VentasTotales.filter(venta =>
+                    venta.IdVenata != { IdVenta }.IdVenta
+                );
+                setVentas(filtered);
             }
 
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setloadingTable(false)
+            setopen(false)
+        }
+
     }
+
+
+    const ConfirmEdit = () => {
+        setCortinas(prevState =>
+            prevState.map(cortina =>
+                cortina.idCortina === CortinaEdited.Id ? CortinaEdited : cortina
+            )
+        );
+        setIdCorEdit(null);
+        //UpdateCortina
+        FetchVentaCortinas()
+    };
+
+
 
     const MostrarDia = ({ Day }) => {
         let Ok = false;
@@ -196,7 +265,66 @@ export const Ventas = ({ IdVentaView }) => {
             </>
         );
     }
+    const CancelarAddCor = () => {
+        SetAgregarRollerBool(false)
+        setMotorizada("")
+        SetselectedTelaRoler("")
+        SetselectedTelaMostrarRoler("")
+        SetselectedTelaRolerNombre("")
+        SetselectedAreaRoler("")
+        setAnchoRoller("")
+        setLargoRoller("")
+        setCanoRoller("")
+        setIzqDer("")
+        setAdlAtr("")
+    }
 
+    const Editar = (Cor) => {
+        console.log(Cor);
+        setIdCorEdit(Cor.idCortina);
+        const EditedCortina = {
+            Id: Cor.idCortina,
+            ambiente: Cor.ambiente,
+            anchoAfuerAfuera: Cor.anchoAfuerAfuera,
+            altoCortina: Cor.altoCortina,
+            posicion: Cor.posicion,
+            ladoCadena: Cor.ladoCadena,
+            cadena: Cor.Cadena,
+            cano: Cor.cano,
+            nombreTela: Cor.nombreTela,
+            colorTela: Cor.colorTela,
+            motorizada: Cor.motorizada
+        };
+        setCortrtinaEdited(EditedCortina);
+    };
+    const AddCor = () => {
+
+    }
+
+    const handleInputChange = (e, field) => {
+        setCortrtinaEdited(prevState => ({
+            ...prevState,
+            [field]: e.target.value
+        }));
+    };
+
+    const Ticket = (CortinaCor, VentaImp) => {
+        console.log(CortinaCor)
+        console.log(VentaImp)
+        return (
+            <>
+
+            </>
+        )
+    }
+
+    const handleSelectChange = (e) => {
+        const selectedValue = parseInt(e.target.value, 10);
+        const selectedTela = Telas.find(tela => tela.Id === selectedValue);
+        SetselectedTelaMostrarRoler(e.target.value)
+        const SetTelas = Telas.filter(Tela => Tela.Nombre === selectedTela.Nombre);
+        SetTelasDelTipo(SetTelas)
+    };
 
     useEffect(() => {
         FetchVentaCortinas();
@@ -225,7 +353,7 @@ export const Ventas = ({ IdVentaView }) => {
             <div>
                 <Modal
                     open={open}
-                    onClose={()=>{setopen(false)}}
+                    onClose={() => { setopen(false) }}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
@@ -233,16 +361,16 @@ export const Ventas = ({ IdVentaView }) => {
                         <div>
                             <h2>Venta Instalada</h2>
                         </div>
-                       <div>
+                        <div>
                             <Row>
                                 <Col>
                                     <Button onClick={SetInstalada} variant="success" className="w-auto">Aceptar</Button>
                                 </Col>
                                 <Col>
-                                    <Button onClick={()=>{setopen(false)}} variant="danger" className="w-auto">Cancelar</Button>
+                                    <Button onClick={() => { setopen(false) }} variant="danger" className="w-auto">Cancelar</Button>
                                 </Col>
                             </Row>
-                       </div>
+                        </div>
                     </Box>
                 </Modal>
             </div>
@@ -272,6 +400,8 @@ export const Ventas = ({ IdVentaView }) => {
                                                     <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                                         <tr>
                                                             <th>Ambiente</th>
+                                                            <th>Tela</th>
+                                                            <th>Color</th>
                                                             <th>Ancho AF-AF</th>
                                                             <th>Ancho tela</th>
                                                             <th>Ancho Caño</th>
@@ -280,47 +410,193 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <th>Alto Tela</th>
                                                             <th>cant</th>
                                                             <th>Cadena</th>
-                                                            <th>Lado</th>
+                                                            <th>Lado Cadena</th>
                                                             <th>posicion</th>
-                                                            <th>Detalles</th>
+                                                            <th>Opciones</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {Cortinas.map(Cor => (
                                                             <tr key={Cor.idCortina}>
-                                                                <td>{Cor.ambiente}</td>
-                                                                <td>{Cor.anchoAfuerAfuera}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.ambiente} onChange={(e) => handleInputChange(e, 'ambiente')} /> : Cor.ambiente}</td>
+                                                                <td>{Cor.nombreTela}</td>
+                                                                <td>{Cor.colorTela}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.anchoAfuerAfuera} onChange={(e) => handleInputChange(e, 'anchoAfuerAfuera')} /> : Cor.anchoAfuerAfuera}</td>
                                                                 <td>{Cor.anchoCortina}</td>
                                                                 <td>{Cor.anchoCaño}</td>
-                                                                <td>{Cor.cano}</td>
-                                                                <td>{Cor.altoCortina}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.cano} onChange={(e) => handleInputChange(e, 'cano')} /> : Cor.cano}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.altoCortina} onChange={(e) => handleInputChange(e, 'altoCortina')} /> : Cor.altoCortina}</td>
                                                                 <td>{Cor.altoTela}</td>
                                                                 <td>1</td>
                                                                 <td>{Cor.cadena}</td>
-                                                                <td>{Cor.ladoCadena}</td>
-                                                                <td>{Cor.posicion}</td>
-                                                                <td>Detalles</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="3" aria-label="Default select example" onChange={(e) => handleInputChange(e, 'ladoCadena')} value={CortinaEdited.ladoCadena}>
+                                                                    <option style={{ textAlign: "center" }} value=""></option>
+                                                                    <option style={{ textAlign: "center" }} value="Izq">Izq</option>
+                                                                    <option style={{ textAlign: "center" }} value="Der">Der</option>
+                                                                </Form.Select> : Cor.ladoCadena}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <Form.Select as={Col} md="2" aria-label="Default select example" onChange={(e) => { handleInputChange(e, 'posicion') }} value={CortinaEdited.posicion}>
+                                                                    <option style={{ textAlign: "center" }} value=""></option>
+                                                                    <option style={{ textAlign: "center" }} value="Adl">Adelante</option>
+                                                                    <option style={{ textAlign: "center" }} value="Atr">Atras</option>
+                                                                </Form.Select> : Cor.posicion}</td>
+                                                                {IdCorEdit === Cor.idCortina ? <td className="Butooneditable" onClick={() => ConfirmEdit(Cor)}>Confirmar</td>
+                                                                    :
+                                                                    <NavDropdown title="Opciones" id="basic-nav-dropdown" className="drop-custom">
+                                                                        <NavDropdown.Item className="editable" onClick={() => Editar(Cor)}>Editar</NavDropdown.Item>
+                                                                        <NavDropdown.Item as="div">
+                                                                            <PDFDownloadLink
+                                                                                document={<TicketCortina Venta={Ven} Cortina={Cor} />}
+                                                                                fileName="Tikcet"
+                                                                                style={{ color: 'inherit', textDecoration: 'none' }}
+                                                                            >
+                                                                                Ticket
+                                                                            </PDFDownloadLink>
+                                                                        </NavDropdown.Item>
+                                                                    </NavDropdown>}
                                                             </tr>
                                                         ))}
+
                                                     </tbody>
                                                 </Table>
-                                                <Row className="justify-content-center">
-                                                    <Col className="text-center my-2">
-                                                        {/* Botón para descargar PDF */}
-                                                        <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} O.C.pdf`}>
-                                                            <Button variant="primary" className="w-auto">PDF</Button>
-                                                        </PDFDownloadLink>
-                                                    </Col>
-                                                    <Col className="text-center my-2">
-                                                        <Button onClick={SetInstaladaModal} variant="danger" className="w-auto">Instalada</Button>
-                                                    </Col>
-                                                    <Col className="text-center my-2">
-                                                        {/* Botón para descargar Tickets */}
-                                                        <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} ETQ.pdf`}>
-                                                            <Button variant="primary" className="w-auto">Tickets</Button>
-                                                        </PDFDownloadLink>
-                                                    </Col>
-                                                </Row>
+                                                {AgregarRollerBool ?
+                                                    <>
+                                                        <Row style={{ textAlign: "center" }}>
+                                                            <Col>
+                                                                <Form.Label style={{ textAlign: "center" }}>Ambiente</Form.Label>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Label style={{ textAlign: "center" }}>Tipo de Tela</Form.Label>
+                                                            </Col>
+                                                            <Col md="2">
+                                                                <Form.Label style={{ textAlign: "center" }}>Color de Tela</Form.Label>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Label style={{ textAlign: "center" }}>Ancho</Form.Label>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Label style={{ textAlign: "center" }}>Largo</Form.Label>
+                                                            </Col>
+                                                            <Col md="1">
+                                                                <Form.Label style={{ textAlign: "center" }}>Adl/Atr</Form.Label>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Label style={{ textAlign: "center" }}>Cadena</Form.Label>
+                                                            </Col>
+                                                            <Col md="1">
+                                                                <Form.Label style={{ textAlign: "center" }}>Caño</Form.Label>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    style={{ textAlign: "center" }}
+                                                                    value={selectedAreaRoler}
+                                                                    onChange={(e) => { SetselectedAreaRoler(e.target.value) }}
+                                                                    placeholder="Ambiente"
+                                                                />
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Select aria-label="Default select example" onChange={handleSelectChange} value={selectedTelaMostrarRoler}>
+                                                                    <option style={{ textAlign: "center" }}></option>
+                                                                    {TiposTelas.map(Tel => (
+                                                                        <option style={{ textAlign: "center" }} value={Tel.id} key={Tel.id}>
+                                                                            {Tel.Nombre}
+                                                                        </option>
+                                                                    ))}
+                                                                </Form.Select>
+                                                            </Col>
+                                                            <Col md="2">
+                                                                <Form.Select aria-label="Default select example" onChange={handleSelectTela} value={selectedColorRoler}>
+                                                                    <option style={{ textAlign: "center" }}></option>
+                                                                    {TelasDelTipo.map(Tel => (
+                                                                        <option style={{ textAlign: "center" }} value={Tel.id} key={Tel.id}>
+                                                                            {Tel.descripcion}
+                                                                        </option>
+                                                                    ))}
+                                                                </Form.Select>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    type="number"
+                                                                    style={{ textAlign: "center" }}
+                                                                    value={AnchoRoller}
+                                                                    onChange={(e) => { setAnchoRoller(e.target.value) }}
+                                                                    placeholder="Ancho"
+                                                                />
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    type="number"
+                                                                    style={{ textAlign: "center" }}
+                                                                    value={LargoRoller}
+                                                                    onChange={(e) => { setLargoRoller(e.target.value) }}
+                                                                    placeholder="Largo"
+                                                                />
+                                                            </Col>
+                                                            <Col md="1">
+                                                                <Form.Select aria-label="Default select example" onChange={(e) => { setAdlAtr(e.target.value) }} value={AdlAtr}>
+                                                                    <option style={{ textAlign: "center" }} value=""></option>
+                                                                    <option style={{ textAlign: "center" }} value="Adl">Adl</option>
+                                                                    <option style={{ textAlign: "center" }} value="Atr">Atr</option>
+                                                                </Form.Select>
+                                                            </Col>
+                                                            <Col>
+                                                                <Form.Select aria-label="Default select example" onChange={(e) => { setIzqDer(e.target.value) }} value={IzqDer}>
+                                                                    <option style={{ textAlign: "center" }} value=""></option>
+                                                                    <option style={{ textAlign: "center" }} value="Izq">Izquierda</option>
+                                                                    <option style={{ textAlign: "center" }} value="Der">Derecha</option>
+                                                                </Form.Select>
+                                                            </Col>
+                                                            <Col md="1">
+                                                                <Form.Select aria-label="Default select example" onChange={(e) => { setCanoRoller(e.target.value) }} value={CanoRoller}>
+                                                                    <option value=""></option>
+                                                                    <option style={{ textAlign: "center" }} value="30">30</option>
+                                                                    <option style={{ textAlign: "center" }} value="38">38</option>
+                                                                    <option style={{ textAlign: "center" }} value="43">43</option>
+                                                                    <option style={{ textAlign: "center" }} value="45">45</option>
+                                                                </Form.Select>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="justify-content-center mt-4">
+                                                            <Col md="3" className="d-flex justify-content-center">
+                                                                <Button onClick={() => AddCor()} variant="success" className="w-auto">Agregar</Button>
+                                                            </Col>
+                                                            <Col md="3" className="d-flex justify-content-center">
+                                                                <Button onClick={() => CancelarAddCor()} variant="danger" className="w-auto">Cancelar</Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </>
+                                                    :
+                                                    <Row className="justify-content-center">
+                                                        <Col className="text-center my-2">
+                                                        </Col>
+                                                        <Col className="text-center my-2">
+                                                            <Button type="submit" onClick={() => { SetAgregarRollerBool(true) }}>Agergar Cortina</Button>
+                                                        </Col>
+                                                        <Col className="text-center my-2">
+                                                        </Col>
+                                                    </Row>
+                                                }
+                                                {AgregarRollerBool ? null :
+                                                    <Row className="justify-content-center">
+                                                        <Col className="text-center my-2">
+                                                            {/* Botón para descargar PDF */}
+                                                            <PDFDownloadLink document={<PDF Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} O.C.pdf`}>
+                                                                <Button variant="primary" className="w-auto">PDF</Button>
+                                                            </PDFDownloadLink>
+                                                        </Col>
+                                                        <Col className="text-center my-2">
+                                                            <Button onClick={SetInstaladaModal} variant="danger" className="w-auto">Instalada</Button>
+                                                        </Col>
+                                                        <Col className="text-center my-2">
+                                                            {/* Botón para descargar Tickets */}
+                                                            <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} ETQ.pdf`}>
+                                                                <Button variant="primary" className="w-auto">Tickets</Button>
+                                                            </PDFDownloadLink>
+                                                        </Col>
+                                                    </Row>}
                                             </>
                                         )}
                                     </Accordion.Body>

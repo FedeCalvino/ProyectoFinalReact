@@ -1,16 +1,39 @@
-th{
+th {
     padding: 10px;
     text-align: center;
 }
 
-tbody td{
+tbody td {
     padding: 10px;
     font-size: 20px;
-    font-weight:400;
+    font-weight: 400;
     text-align: center;
-    
+
 }
 
 .centered-header {
     text-align: center;
 }
+
+.editable:hover {
+    color: blue;
+}
+
+.Butooneditable {
+    border-radius: 60px;
+    padding: 10px;
+}
+
+.Butooneditable:hover {
+    color: blue;
+}
+
+.link-custom {
+    height: 100%;
+}
+
+.drop-custom {
+    height: 48px;
+}
+
+.drop-custom:Hover {}
