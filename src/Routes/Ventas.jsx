@@ -307,7 +307,7 @@ export const Ventas = ({ IdVentaView }) => {
     }
 
     const Editar = (Cor) => {
-        const Telafind = Telas.find(tela =>{tela.Nombre===Cor.nombreTela && tela.color===Cor.colorTela})
+        const Telafind = Telas.find(tela => tela.Nombre===Cor.nombreTela && tela.color===Cor.colorTela)
         console.log("Telafind",Telafind);
         console.log(Cor);
         setIdCorEdit(Cor.idCortina);
