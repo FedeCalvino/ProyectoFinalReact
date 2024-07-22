@@ -308,6 +308,7 @@ export const Ventas = ({ IdVentaView }) => {
 
     const Editar = (Cor) => {
         const Telafind = Telas.find(tela =>{tela.Nombre===Cor.nombreTela && tela.color===Cor.colorTela})
+        console.log("Telafind",Telafind);
         console.log(Cor);
         setIdCorEdit(Cor.idCortina);
         const EditedCortina = {
@@ -317,7 +318,7 @@ export const Ventas = ({ IdVentaView }) => {
             posicion: Cor.posicion,
             ladoCadena: Cor.ladoCadena,
             cadena: Cor.Cadena,
-            IdTela: Telafind.Id,
+            IdTela: Telafind.id,
             cano: Cor.cano,
             motorizada: Cor.motorizada
         };
