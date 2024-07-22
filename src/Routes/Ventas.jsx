@@ -322,6 +322,7 @@ export const Ventas = ({ IdVentaView }) => {
             cano: Cor.cano,
             motorizada: Cor.motorizada
         };
+        console.log(EditedCortinaCor);
         setCortrtinaEdited(EditedCortina);
     };
     const [Cadena, setCadena] = useState('')
