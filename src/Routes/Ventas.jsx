@@ -268,7 +268,6 @@ export const Ventas = ({ IdVentaView }) => {
     }
     const CancelarAddCor = () => {
         SetAgregarRollerBool(false)
-        setMotorizada("")
         SetselectedTelaRoler("")
         SetselectedTelaMostrarRoler("")
         SetselectedTelaRolerNombre("")
@@ -316,8 +315,9 @@ export const Ventas = ({ IdVentaView }) => {
             LadoCadena: IzqDer ,
             cadena:  Cadena ,
             Tubo:  CanoRoller ,
-            motorizada:  motorizada 
+            motorizada: motorizada 
         }
+
         requestOptions.body = JSON.stringify(nuevaCortinaRoler);
 
         console.log(nuevaCortinaRoler)
