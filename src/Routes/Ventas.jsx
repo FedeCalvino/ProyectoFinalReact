@@ -235,7 +235,7 @@ export const Ventas = ({ IdVentaView }) => {
 
     const ConfirmEdit = async () => {
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' }
         };
             
