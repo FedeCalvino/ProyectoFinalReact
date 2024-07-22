@@ -241,18 +241,7 @@ export const Ventas = ({ IdVentaView }) => {
             
         
         console.log(CortinaEdited)
-        const EditedCortinaRoler = {
-            Ambiente: CortinaEdited.ambiente,
-            IdTipoTela: null,
-            ancho: CortinaEdited.anchoAfuerAfuera ,
-            alto: CortinaEdited.altoCortina,
-            Posicion: CortinaEdited.posicion,
-            LadoCadena: CortinaEdited.ladoCadena ,
-            cadena:  CortinaEdited.cadena ,
-            Tubo:  CortinaEdited.cano ,
-            motorizada: CortinaEdited.motorizada 
-        }
-        requestOptions.body = JSON.stringify(EditedCortinaRoler);
+        requestOptions.body = JSON.stringify(CortinaEdited);
         const url = UrlEditCor+"/"+IdVenta
         console.log(url)
         try {
