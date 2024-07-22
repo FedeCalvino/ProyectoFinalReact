@@ -54,6 +54,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/Cortinas/Rollers/:idVenta",
+      "destination": "http://20.84.121.133:8085/Cortinas/Rollers/:idVenta"
+    },
+    {
       "source": "/Ventas/Dto",
       "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },
