@@ -17,28 +17,20 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Container from 'react-bootstrap/Container'
 export const SelecctCliente = React.memo(({ ClienteData }) => {
-    const [IdCli, setIdCli] = useState(null);
 
-    const [Cliente, setCliente] = useState(null);
     //CrearCliente
     const [NombreCliN, setCliNomN] = useState('');
     const [TelefonoCliN, setCliTelN] = useState('');
     const [RutCliN, setCliRutN] = useState('');
-    const [DireccCliN, setCliDireccN] = useState(''); const [ClienteSeleccBoolean, SetClienteSeleccBoolean] = useState(false);
-    const [ClienteCrearSelecc, setClienteCrearSelecc] = useState(false);
+    const [DireccCliN, setCliDireccN] = useState('');
     const [NroCuentaCli, setNroCuentaCli] = useState('');
     const [loadingSearch, setloadingSearch] = useState(false);
     //SeleccCliente
-
-    const [NombreCli, setCliNom] = useState('');
-    const [TelefonoCli, setCliTel] = useState('');
-    const [RutCli, setCliRut] = useState('');
-    const [DireccCli, setCliDirecc] = useState('');
+    const [Tipo, setTipo] = useState('Cliente');
 
 
-
-    const UrlClientes = "/Cliente"
-    const UrlCLientesLike = "/Cliente/strL/"
+    const UrlClientes = "http://localhost:8085/Cliente"
+    const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
 
     const [SearchText, setSearchText] = useState('');
 
@@ -71,14 +63,13 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
 
     function CrearCliente() {
         const NewClienteData = {
-            Name: { NombreCliN },
-            Direcc: { DireccCliN },
-            Tel: { TelefonoCliN },
-            Rut: { RutCliN }
+            Name: NombreCliN,
+            Direcc: DireccCliN,
+            Tel: TelefonoCliN,
+            Rut: RutCliN,
+            Tipo: Tipo // Assuming `Tipo` is a simple value, not an object
         }
-        ClienteData(NewClienteData)
-        setClienteCrearSelecc(true)
-        SetClienteSeleccBoolean(true)
+        ClienteData(NewClienteData);
     }
 
 
@@ -96,84 +87,21 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
         console.log("entro")
     };
 
-    function DesSeleccionarCliente() {
-        const NewClienteData = {}
-        ClienteData(NewClienteData)
-        SetClienteSeleccBoolean(false)
-    }
-
-    const ClientSeleccted = () => {
-        return (
-            <>
-                {ClienteCrearSelecc ? (
-                    <Row>
-                        <div style={{
-                            position: 'fixed',
-                            top: 0,
-                            right: 0,
-                            width: '300px',
-                            padding: '10px',
-                            backgroundColor: 'white',
-                            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Agrega una sombra suave
-                            borderRadius: '8px', // Añade bordes redondeados
-                            zIndex: 999, // Asegura que esté en la parte superior
-                        }}>
-                            <h2 style={{ marginBottom: '10px' }}>{NombreCliN}</h2>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Telefono:</span> {TelefonoCliN} </p>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Rut:</span> {RutCliN} </p>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Direccion:</span> {DireccCliN} </p>
-                            <Button variant="primary" onClick={DesSeleccionarCliente}>Cambiar Cliente</Button>
-                        </div>
-                    </Row>
-                ) : (
-                    <Row>
-                        <div style={{
-                            position: 'fixed',
-                            top: 0,
-                            right: 0,
-                            width: '300px',
-                            padding: '10px',
-                            backgroundColor: 'white',
-                            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Agrega una sombra suave
-                            borderRadius: '8px', // Añade bordes redondeados
-                            zIndex: 999, // Asegura que esté en la parte superior
-                        }}>
-                            <h2 style={{ marginBottom: '10px' }}>{NombreCli}</h2>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Telefono:</span> {TelefonoCli} </p>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Rut:</span> {RutCli} </p>
-                            <p style={{ marginBottom: '5px' }}><span style={{ fontWeight: 'bold' }}>Direccion:</span> {DireccCli} </p>
-                            <Button variant="primary" onClick={DesSeleccionarCliente}>Cambiar Cliente</Button>
-                        </div>
-                    </Row>
-                )}
-            </>
-        );
-    }
-
     const SelecctCliFromList = (Cli) => {
-        if (Cli != null)
-            ClienteData(Cli)
-        setCliente(Cli)
-        setIdCli(Cli.id)
-        setCliNom(Cli.nombre)
-        setCliRut(Cli.rut)
-        setCliDirecc(Cli.direccion)
-        setCliTel(Cli.numeroTelefono)
-        ClienteData(Cli)
-        setClienteCrearSelecc(false)
-        SetClienteSeleccBoolean(true)
+        const NewClienteData = {
+            Id: Cli.id,
+            Name: Cli.nombre,
+            Direcc: Cli.direccion,
+            Tel: Cli.numeroTelefono,
+            Rut: Cli.rut,
+            Tipo: Cli.Tipo // Assuming `Tipo` is a simple value, not an object
+        }
+        ClienteData(NewClienteData);
     };
 
     return (
         <>
-            {ClienteSeleccBoolean ?
-                <>
-                    <Row>
-                        <ClientSeleccted />
-                    </Row>
-                </>
-                :
-                <>
+                
                     <Tabs
                         defaultActiveKey="Crear"
                         id="fill-tab-example"
@@ -271,6 +199,17 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                                                 />
                                             </Form.Group>
                                         </Col>
+                                        <Col md="5">
+                                            <Form.Group controlId="validationCustom01" noValidate>
+                                                <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >Tipo</Form.Label>
+                                                <Form.Select aria-label="Default select example" onChange={(e) => { setTipo(e.target.value) }} value={Tipo}>
+                                                    <option style={{ textAlign: "center" }} value="Cliente">Cliente</option>
+                                                    <option style={{ textAlign: "center" }} value="Constructora">Constructora</option>
+                                                    <option style={{ textAlign: "center" }} value="Arquitecto">Arquitecto</option>
+                                                    <option style={{ textAlign: "center" }} value="Interiorista">Interiorista</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                        </Col>
                                     </Row>
                                     <Row className="justify-content-center">
                                         <Col md="2">
@@ -280,8 +219,7 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                                 </Form>
                             </Container>
                         </Tab>
-                    </Tabs></>}
-        </>
+                    </Tabs></>
     );
 
 

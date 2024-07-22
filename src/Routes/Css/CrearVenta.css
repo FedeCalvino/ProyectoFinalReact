@@ -1,0 +1,9 @@
+.accordion-button {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    font-size: 1.5em !important; /* Adjust the font size as needed */
+    text-align: center !important;
+    padding: 1em !important; /* Adds space around the text */
+    gap: 10px !important; /* Adds space between items */
+}
