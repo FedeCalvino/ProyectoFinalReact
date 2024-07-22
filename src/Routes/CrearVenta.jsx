@@ -363,7 +363,7 @@ export const CrearVenta = () => {
                             "Nombre": DataCli.Name,
                             "NumeroTelefono": DataCli.Tel,
                             "direccion": DataCli.Direcc,
-                            "Tipo":TelParse
+                            "Tipo":DataCli.Tipo
                         }
                     )
                 };
