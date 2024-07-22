@@ -322,7 +322,7 @@ export const Ventas = ({ IdVentaView }) => {
         console.log(nuevaCortinaRoler)
 
         try {
-            const response = await fetch(UrlAddCor+IdVenta, requestOptions);
+            const response = await fetch(UrlAddCor+"/"+IdVenta, requestOptions);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
