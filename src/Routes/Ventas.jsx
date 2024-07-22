@@ -326,7 +326,10 @@ export const Ventas = ({ IdVentaView }) => {
         try {
             const response = await fetch(url , requestOptions);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                console.error('Error en cortinas roller');
+            }else{
+                CancelarAddCor()
+                FetchVentaCortinas()
             }
 
             console.log("result de cortina", result);
@@ -334,7 +337,8 @@ export const Ventas = ({ IdVentaView }) => {
         } catch (error) {
             console.error('Error en cortinas roller:', error);
         }
-        FetchVentaCortinas()
+        
+        
     }
 
     const handleInputChange = (e, field) => {
