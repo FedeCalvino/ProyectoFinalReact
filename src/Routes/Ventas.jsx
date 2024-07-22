@@ -241,7 +241,6 @@ export const Ventas = ({ IdVentaView }) => {
             
         requestOptions.body = JSON.stringify(CortinaEdited);
         console.log(CortinaEdited)
-        console.log(nuevaCortinaRoler)
         const url = UrlEditCor+"/"+IdVenta
         console.log(url)
         try {
