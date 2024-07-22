@@ -239,8 +239,20 @@ export const Ventas = ({ IdVentaView }) => {
             headers: { 'Content-Type': 'application/json' }
         };
             
-        requestOptions.body = JSON.stringify(CortinaEdited);
+        
         console.log(CortinaEdited)
+        const EditedCortinaRoler = {
+            Ambiente: CortinaEdited.ambiente,
+            IdTipoTela: null,
+            ancho: CortinaEdited.anchoAfuerAfuera ,
+            alto: CortinaEdited.altoCortina,
+            Posicion: CortinaEdited.posicion,
+            LadoCadena: CortinaEdited.ladoCadena ,
+            cadena:  CortinaEdited.cadena ,
+            Tubo:  CortinaEdited.cano ,
+            motorizada: CortinaEdited.motorizada 
+        }
+        requestOptions.body = JSON.stringify(EditedCortinaRoler);
         const url = UrlEditCor+"/"+IdVenta
         console.log(url)
         try {
@@ -306,19 +318,18 @@ export const Ventas = ({ IdVentaView }) => {
     }
 
     const Editar = (Cor) => {
+        const Telafind = Telas.find(tela =>{tela.Nombre===Cor.nombreTela && tela.color===Cor.colorTela})
         console.log(Cor);
         setIdCorEdit(Cor.idCortina);
         const EditedCortina = {
-            Id: Cor.idCortina,
             ambiente: Cor.ambiente,
             anchoAfuerAfuera: Cor.anchoAfuerAfuera,
             altoCortina: Cor.altoCortina,
             posicion: Cor.posicion,
             ladoCadena: Cor.ladoCadena,
             cadena: Cor.Cadena,
+            IdTela: Telafind.Id,
             cano: Cor.cano,
-            nombreTela: Cor.nombreTela,
-            colorTela: Cor.colorTela,
             motorizada: Cor.motorizada
         };
         setCortrtinaEdited(EditedCortina);
