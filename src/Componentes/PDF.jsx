@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         marginTop: "10px",
         width: 180,
         height: 80,
+        marginBottom: 15
     },
     title: {
         fontSize: 18,
@@ -81,8 +82,9 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
             <Page size="A4" style={styles.page} orientation="landscape">
                 {/* Logo en la esquina superior derecha */}
                 <View style={styles.logoContainer}>
-                    <Text style={styles.subtitle}>Fecha: {Venta.NombreCliente}</Text>
                     <Image style={styles.logo} src="ImgLogo.png" />
+                    <p>  </p>
+                    <Text style={styles.title}>Fecha Instalacion: {Venta.DiaInstalacion}</Text>
                 </View>
 
                 {/* Detalles de la venta */}

@@ -63,10 +63,10 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlTelas = "/TipoTela"
      const UrlAddCor = "/Cortinas/Roller/Add"
      const UrlEditCor = "/Cortinas/Edit"
+
 /*
-  
         const UrlTelas = "http://localhost:8085/TipoTela";
-        const UrlVentas = "http://localhost:8085/Ventas/Dto"
+        const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/NoInstalado"
         const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
         const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
         const UrlEditCor = "http://localhost:8085/Cortinas"
