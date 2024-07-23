@@ -244,6 +244,7 @@ export const Ventas = ({ IdVentaView }) => {
         requestOptions.body = JSON.stringify(CortinaEdited);
         const url = UrlEditCor+"/"+IdVenta
         console.log(url)
+        console.log("CortinaEdited",CortinaEdited)
         try {
             const response = await fetch(url , requestOptions);
             if (!response.ok) {
