@@ -140,7 +140,7 @@
       "destination": "http://20.84.121.133:8085/Usuario/:Mail/:Pass"
     },{
       "source": "/Ventas/DtoVentaCor/NoInstalado",
-      "destination": "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
+      "destination": "http://20.84.121.133:8085/Ventas/Dto"
     },{
       "source": "/Ventas/Instalado/:IdVenta",
       "destination": "http://20.84.121.133:8085/Ventas/Instalado/:IdVenta"
