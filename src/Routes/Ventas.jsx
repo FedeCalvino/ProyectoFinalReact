@@ -232,41 +232,39 @@ export const Ventas = ({ IdVentaView }) => {
 
     }
 
-
     const ConfirmEdit = async () => {
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(CortinaEdited)
         };
-            
-        
-        console.log(CortinaEdited)
-        requestOptions.body = JSON.stringify(CortinaEdited);
-        const url = UrlEditCor+"/"+IdCorEdit
-        console.log(url)
-        console.log("CortinaEdited",CortinaEdited)
+    
+        const url = `${UrlEditCor}/${IdCorEdit}`;
+    
+        console.log("URL de solicitud:", url);
+        console.log("Datos a actualizar:", CortinaEdited);
+    
         try {
-            const response = await fetch(url , requestOptions);
+            const response = await fetch(url, requestOptions);
+            
             if (!response.ok) {
-                console.error('Error en cortinas roller');
-            }else{
-                setIdCorEdit(null);
-                //UpdateCortina
-                FetchVentaCortinas()
+                console.error('Error en la solicitud PUT:', response.statusText);
+                return;
             }
-
-            console.log("result de cortina", result);
-            //AgregarCortinaRollerAVenta(result.id, idVenta);
+    
+            const result = await response.json(); // Asegúrate de manejar la respuesta si es necesario
+            console.log("Resultado de la actualización:", result);
+            
+            setIdCorEdit(null);
+            await FetchVentaCortinas(); // Asegúrate de que FetchVentaCortinas es una función asíncrona
+    
+            setCortinas(prevState => prevState.map(cortina =>
+                cortina.idCortina === CortinaEdited.Id ? CortinaEdited : cortina
+            ));
+    
         } catch (error) {
             console.error('Error en cortinas roller:', error);
         }
-        setCortinas(prevState =>
-            prevState.map(cortina =>
-                cortina.idCortina === CortinaEdited.Id ? CortinaEdited : cortina
-            )
-        );
-
-
     };
 
 
