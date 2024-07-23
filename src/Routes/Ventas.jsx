@@ -216,11 +216,6 @@ export const Ventas = ({ IdVentaView }) => {
 
             if (!res.ok) {
                 throw new Error('Network response was not ok ' + res.statusText);
-            } else {
-                const filtered = VentasTotales.filter(venta =>
-                    venta.IdVenata != { IdVenta }.IdVenta
-                );
-                setVentas(filtered);
             }
 
         } catch (error) {
@@ -228,6 +223,7 @@ export const Ventas = ({ IdVentaView }) => {
         } finally {
             setloadingTable(false)
             setopen(false)
+            FetchVentas()
         }
 
     }
