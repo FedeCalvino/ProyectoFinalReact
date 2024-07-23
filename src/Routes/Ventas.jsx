@@ -62,15 +62,15 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlInstalada = "/Ventas/Instalado/"
      const UrlTelas = "/TipoTela"
      const UrlAddCor = "/Cortinas/Roller/Add"
-     const UrlEditCor = "/Cortinas/Roller/Edit"
+     const UrlEditCor = "/Cortinas/Edit"
 
     /*
         const UrlTelas = "http://20.84.121.133:8085/TipoTela";
         const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
         const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
         const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-    */
-
+        const UrlEditCor = "http://localhost:8085/Cortinas"
+*/
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -247,20 +247,12 @@ export const Ventas = ({ IdVentaView }) => {
         try {
             const response = await fetch(url, requestOptions);
             
-            if (!response.ok) {
+            if (response.ok) {
                 console.error('Error en la solicitud PUT:', response.statusText);
+                await FetchVentaCortinas(); // Asegúrate de que FetchVentaCortinas es una función asíncrona
+                setIdCorEdit(null)
                 return;
             }
-    
-            const result = await response.json(); // Asegúrate de manejar la respuesta si es necesario
-            console.log("Resultado de la actualización:", result);
-            
-            setIdCorEdit(null);
-            await FetchVentaCortinas(); // Asegúrate de que FetchVentaCortinas es una función asíncrona
-    
-            setCortinas(prevState => prevState.map(cortina =>
-                cortina.idCortina === CortinaEdited.Id ? CortinaEdited : cortina
-            ));
     
         } catch (error) {
             console.error('Error en cortinas roller:', error);
