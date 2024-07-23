@@ -81,6 +81,7 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
             <Page size="A4" style={styles.page} orientation="landscape">
                 {/* Logo en la esquina superior derecha */}
                 <View style={styles.logoContainer}>
+                    <Text style={styles.subtitle}>Fecha: {Venta.NombreCliente}</Text>
                     <Image style={styles.logo} src="ImgLogo.png" />
                 </View>
 
