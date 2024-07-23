@@ -64,13 +64,14 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlAddCor = "/Cortinas/Roller/Add"
      const UrlEditCor = "/Cortinas/Edit"
 
-   /*
+  /*
         const UrlTelas = "http://localhost:8085/TipoTela";
         const UrlVentas = "http://localhost:8085/Ventas/Dto"
         const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
         const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
         const UrlEditCor = "http://localhost:8085/Cortinas"
 */
+
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -97,6 +98,7 @@ export const Ventas = ({ IdVentaView }) => {
         try {
             const res = await fetch(UrlVentas)
             const data = await res.json()
+            console.log("data",data)
             setVentas(data);
             setVentasTotales(data)
             console.log(data);
