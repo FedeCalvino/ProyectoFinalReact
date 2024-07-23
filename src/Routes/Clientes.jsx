@@ -15,9 +15,11 @@ export const Clientes = () => {
   const [DeleteCliBoolConfirm, setDeleteCliBoolConfirm] = useState(false);
   const [EditCliId, setEditCliId] = useState(null);
   const [CliChanged, setCliChanged] = useState(false);
+
   useEffect(() => {
     FetchClientes();
   }, []);
+
   const EditCli = async (Cli) => {
     try {
       console.log(Cli)
@@ -157,6 +159,7 @@ export const Clientes = () => {
                       }
                     />
                     <br />
+                    
                     <button
                       style={{ width: "100%", border: "1px solid white" }}
                       className="custom-button"
@@ -190,9 +193,14 @@ export const Clientes = () => {
                       )}
                     </div>
                   </>
-                ) : (
-                  Cli.direccion
-                )}
+                ) : 
+                  <>
+                  {Cli.direccion}
+                  <br />
+                  <strong>Tipo: </strong>
+                  {Cli.Tipo ? Cli.Tipo : "Cliente"}
+                  </>
+                }
                 {EditCliId === Cli.id && !BoolEditCli ? (
                   <>
                     <button
@@ -204,6 +212,7 @@ export const Clientes = () => {
                     </button>
                   </>
                 ) : null}
+                
               </Card.Text>
             </Card.Body>
           </Card>
