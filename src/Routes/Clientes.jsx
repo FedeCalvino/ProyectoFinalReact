@@ -36,6 +36,7 @@ export const Clientes = () => {
             numeroTelefono: Cli.numeroTelefono,
             rut: Cli.rut,
             direccion: Cli.direccion,
+            Tipo:Cli.Tipo
           }),
         });
         // Manejar la respuesta
