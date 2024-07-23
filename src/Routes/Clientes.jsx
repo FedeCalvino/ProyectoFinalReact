@@ -20,6 +20,8 @@ export const Clientes = () => {
   }, []);
   const EditCli = async (Cli) => {
     try {
+      console.log(Cli)
+      console.log(CliChanged)
       if (CliChanged) {
         // Realizar la petición PUT
         const res = await fetch(UrlClientes, {
