@@ -242,7 +242,7 @@ export const Ventas = ({ IdVentaView }) => {
         
         console.log(CortinaEdited)
         requestOptions.body = JSON.stringify(CortinaEdited);
-        const url = UrlEditCor+"/"+IdVenta
+        const url = UrlEditCor+"/"+IdCorEdit
         console.log(url)
         console.log("CortinaEdited",CortinaEdited)
         try {
