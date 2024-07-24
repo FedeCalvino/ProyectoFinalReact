@@ -7,7 +7,7 @@ export default function Home() {
     const [Ventas, setVentas] = useState([])
     const [VentasJulio, setVentasJulio] = useState([])
     const [VentasSinCortar, setVentasSinCortaro] = useState([])
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+    const UrlVentas = "/Ventas/Dto"
     
     const filtrarVentas = (data) => {
         let ventasDeJulio = 0;
@@ -63,15 +63,7 @@ export default function Home() {
             xAxis={[{ data: ['Julio', 'Agosto', 'Septiembre', 'Octubre'], scaleType: 'band' }]}
             margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
             />
-            <h1>Estados</h1>
-            <BarChart
-            series={[
-                { data: [VentasJulio], },
-            ]}
-            height={290}
-            xAxis={[{ data: ['Julio', 'Agosto', 'Septiembre', 'Octubre'], scaleType: 'band' }]}
-            margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
-            />
+            
     </>
   );
 }
