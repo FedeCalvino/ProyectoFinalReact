@@ -502,7 +502,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                         <NavDropdown.Item className="editable" onClick={() => Editar(Cor)}>Editar</NavDropdown.Item>
                                                                         <NavDropdown.Item as="div">
                                                                         <PDFDownloadLink document={<TicketCortina Venta={Ven} Cortina={Cor} />} fileName='Pdf'>
-                                                                            <Button variant="primary">Ticket</Button>
+                                                                            <Button>Ticket</Button>
                                                                         </PDFDownloadLink>
                                                                         </NavDropdown.Item>
                                                                     </NavDropdown>}
