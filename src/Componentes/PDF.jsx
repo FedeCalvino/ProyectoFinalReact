@@ -23,6 +23,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         fontWeight: 'bold',
     },
+    title1: {
+        fontSize: 22,
+        marginBottom: 10,
+        fontWeight: 'bold',
+        alignItems: 'center',
+        textAlign:"center",
+        justifyContent:'center'
+    },
     subtitle: {
         fontSize: 12,
         marginBottom: 5,
@@ -77,21 +85,35 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
         };
     });
 
+    const FormatearFecha = ({ fecha }) => {
+        if (!fecha) {
+          return ''; // Maneja el caso donde la fecha es nula o indefinida
+        }
+      
+        const partesFecha = fecha.split('-');
+        if (partesFecha.length !== 3) {
+          return ''; // Maneja el caso donde la fecha no tiene el formato correcto
+        }
+      
+        const [anio, mes, dia] = partesFecha;
+        const fechaFormateada = `${dia}/${mes}/${anio}`;
+      
+        return fechaFormateada;
+      };
+
     return (
         <Document>
             <Page size="A4" style={styles.page} orientation="landscape">
                 {/* Logo en la esquina superior derecha */}
+                <Text style={styles.title1}> Fecha Instalación: <FormatearFecha fecha={Venta.DiaInstalacion} /></Text>
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} src="ImgLogo.png" />
-                    <p>  </p>
-                    <Text style={styles.title}>Fecha Instalacion: {Venta.DiaInstalacion}</Text>
                 </View>
 
                 {/* Detalles de la venta */}
                 <Text style={styles.title}>Detalles de la Venta</Text>
                 <Text style={styles.subtitle}>Nombre del Cliente: {Venta.NombreCliente}</Text>
                 <Text style={styles.subtitle}>Obra: {Venta.Obra || 'N/A'}</Text>
-                <Text style={styles.subtitle}>Fecha de Venta: {Venta.FechaVenta}</Text>
 
                 {/* Tabla de detalles de las cortinas */}
                 {sortedGroups.map((group, index) => (

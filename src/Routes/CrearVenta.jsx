@@ -340,7 +340,6 @@ export const CrearVenta = () => {
                             response.json()
                         )
                         .then(result => {
-
                             handleResult(result)
                             console.log("Venta?", result)
                         });

@@ -65,11 +65,11 @@ export const Ventas = ({ IdVentaView }) => {
      const UrlEditCor = "/Cortinas/Edit"
 
 /*
-        const UrlTelas = "http://localhost:8085/TipoTela";
-        const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/NoInstalado"
-        const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
-        const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
-        const UrlEditCor = "http://localhost:8085/Cortinas"
+        const UrlTelas = "http://20.84.121.133:8085/TipoTela";
+        const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
+        const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+        const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
+        const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
 */
 
     function MostrarVenta(venta) {
@@ -138,21 +138,7 @@ export const Ventas = ({ IdVentaView }) => {
 
         fetchData();
     }, []);
-    const cambiarLargoCano = (data) => {
-        data.forEach(cortina => {
-            // Convertir el string a un número
-            const decimalPartLength = (cortina.anchoAfuerAfuera.split('.')[1] || '').length;
-            if (decimalPartLength == 1) {
-                console.log(cortina.anchoAfuerAfuera + 0)
-            }
-            const anchoAfuerAfuera = parseFloat(cortina.anchoAfuerAfuera);
-            // Realizar la operación matemática
-            let nuevoAnchoCaño = anchoAfuerAfuera - 0.03;
-            // Asegurar que el resultado tenga dos decimales y asignar el valor actualizado
-            cortina.anchoCaño = nuevoAnchoCaño.toFixed(2);
-
-        });
-    }; 
+ 
     const FiltrarVentas = () => {
         if (SearchText && SearchText.trim() !== "") {
             const filtered = VentasTotales.filter(venta =>
