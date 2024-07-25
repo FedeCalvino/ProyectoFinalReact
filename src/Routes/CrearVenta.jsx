@@ -307,7 +307,7 @@ export const CrearVenta = () => {
                     </Col>
                     <Col>
                         <Form.Group controlId="validationCustom01">
-                            <FloatingLabel controlId="floatingTextarea2" label="Comments">
+                            <FloatingLabel controlId="floatingTextarea2" label="Comentario">
                                 <Form.Control
                                     as="textarea"
                                     placeholder="Leave a comment here"

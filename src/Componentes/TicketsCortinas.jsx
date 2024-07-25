@@ -1,61 +1,68 @@
 import React from 'react';
-import { Document, Page, StyleSheet, View, Text } from '@react-pdf/renderer';
+import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    padding: 0, // Adjust padding for better fit
-  }
-  , subtitle2: {
-    fontSize: 1.5,
+    padding: 0,
   },
   tableContainer: {
     marginTop: 1,
-  }
-  ,
+    alignItems: 'center', // Centra horizontalmente
+    justifyContent: 'center', // Centra verticalmente
+  },
   tableContainer1: {
     marginBottom: 1,
     borderBottomWidth: 0.1,
     borderBottomColor: '#000000',
+    alignItems: 'center', // Centra horizontalmente
+    justifyContent: 'center', // Centra verticalmente
   },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
     fontSize: 1.5,
-  },tableCell7: {
-    fontSize: 2,
-    width: '18%',
-    textAlign: 'center'
-  }, 
+    justifyContent: 'center', // Centra horizontalmente
+  },
   tableCell5: {
     fontSize: 1.5,
     width: '18%',
     textAlign: 'center',
     borderRightWidth: 0.1,
     borderBottomColor: '#000000',
-  },tableCell9: {
-    fontSize: 1.5,
+  },
+  tableCell7: {
+    fontSize: 2,
     width: '18%',
     textAlign: 'center',
-    borderBottomColor: '#000000',
-  }
-  ,tableCell8: {
+  },
+  tableCell8: {
     fontSize: 2,
     width: '18%',
     textAlign: 'center',
     borderRightWidth: 0.1,
+    marginRight: 1.5,
     borderBottomColor: '#000000',
-  }, tableCell6: {
+  },
+  tableCell9: {
+    fontSize: 2,
+    width: '18%',
+    textAlign: 'center',
+    borderBottomColor: '#000000',
+  },
+  tableCell6: {
     fontSize: 2,
     width: '6%',
     textAlign: 'center',
-  }, tableCell3: {
+  },
+  tableCell3: {
     fontSize: 2,
     marginTop: 0.5,
     width: '50%',
     textAlign: 'center',
-  }, tableCell4: {
+  },
+  tableCell4: {
     fontSize: 1,
     width: '50%',
     textAlign: 'center',
@@ -65,16 +72,16 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     width: '33%',
     textAlign: 'center',
-  }
+  },
 });
 
 const CortinaComponent = ({ Cortina }) => {
   // Reemplaza "Black Out" con "BO" si está presente en nombreTela
   var formattedNombreTela;
-  if( Cortina.nombreTela.includes("Black Out")){
+  if (Cortina.nombreTela.includes("Black Out")) {
     formattedNombreTela = Cortina.nombreTela.replace(/Black Out/g, 'BO');
   }
-  if(Cortina.nombreTela.includes("Screen")){
+  if (Cortina.nombreTela.includes("Screen")) {
     formattedNombreTela = Cortina.nombreTela.replace(/Screen/g, 'SC');
   }
 
@@ -90,24 +97,24 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
     <Document>
       {Cortinas.map(cor => (
         <Page size={[34, 12]} style={styles.page}>
-        <View style={styles.tableContainer1}>
-          <View style={styles.tableRow} key={cor.idCortina}>
-            <Text style={styles.tableCell3}>{Venta.NombreCliente}</Text>
-            <Text style={styles.tableCell3}>{Venta.Obra || 'N/A'}</Text>
+          <View style={styles.tableContainer1}>
+            <View style={styles.tableRow} key={cor.idCortina}>
+              <Text style={styles.tableCell3}>{Venta.NombreCliente}</Text>
+              <Text style={styles.tableCell3}>{Venta.Obra || 'N/A'}</Text>
+            </View>
           </View>
-        </View>
-        {/* Tabla de detalles de las cortinas */}
-        <View style={styles.tableContainer}>
-          <View style={styles.tableRow} key={cor.idCortina}>
-            <Text style={[styles.tableCell5]}><CortinaComponent Cortina={cor}/></Text>
-            <Text style={[styles.tableCell5]}>{cor.ambiente}</Text>
-            <Text style={[styles.tableCell7]}>{cor.anchoAfuerAfuera}</Text>
-            <Text style={[styles.tableCell6]}>X</Text>
-            <Text style={[styles.tableCell8]}>{cor.altoCortina}</Text>
-            <Text style={[styles.tableCell9]}>{cor.ladoCadena}{cor.posicion}</Text>
+          {/* Tabla de detalles de las cortinas */}
+          <View style={styles.tableContainer}>
+            <View style={styles.tableRow} key={cor.idCortina}>
+              <Text style={[styles.tableCell5]}>{cor.ambiente}</Text>
+              <Text style={[styles.tableCell7]}>{cor.anchoAfuerAfuera}</Text>
+              <Text style={[styles.tableCell6]}>X</Text>
+              <Text style={[styles.tableCell8]}>{cor.altoCortina}</Text>
+              <Text style={[styles.tableCell9]}>{cor.ladoCadena}</Text>
+              <Text style={[styles.tableCell9]}>{cor.posicion}</Text>
+            </View>
           </View>
-        </View>
-      </Page>
+        </Page>
       ))}
     </Document>
   );
