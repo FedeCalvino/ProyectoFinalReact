@@ -20,6 +20,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import { LuArrowUpCircle } from "react-icons/lu";
 import { FiArrowDownCircle } from "react-icons/fi";
 import { GoCheckCircle } from "react-icons/go";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export const CrearVenta = () => {
     const [IdVentaView, setIdVentaView] = useState(null);
@@ -58,6 +61,7 @@ export const CrearVenta = () => {
     const [selectedTelaMostrarRoler, SetselectedTelaMostrarRoler] = useState([]);
     const [selectedTelaRolerNombre, SetselectedTelaRolerNombre] = useState("");
     const [selectedAreaRoler, SetselectedAreaRoler] = useState("");
+    const [ComentarioCor, SetComentarioCor] = useState("");
     const [AnchoRoller, setAnchoRoller] = useState('')
     const [LargoRoller, setLargoRoller] = useState('')
     const [CanoRoller, setCanoRoller] = useState('')
@@ -78,6 +82,7 @@ export const CrearVenta = () => {
     const UrlTelas = "/TipoTela";
     const UrlCliente = "/Cliente";
     const UrlVentas = "/SaveVentas";
+    const URLCortinaVenta="/Cortinas/Rollers/";
 
     //const UrlTelas = "http://localhost:8085/TipoTela"
 
@@ -93,8 +98,10 @@ export const CrearVenta = () => {
             cadena: { Cadena }.Cadena,
             Tubo: { CanoRoller }.CanoRoller,
             motorizada: { motorizada }.motorizada,
-            TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion
+            TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
+            detalle: ComentarioCor
         }
+
         console.log(nuevaCortinaRoler)
         setidCor(idCor + 1)
 
@@ -295,6 +302,26 @@ export const CrearVenta = () => {
                         />
                     </Form.Group>
                 </Row>
+                <Row>
+                    <Col>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="validationCustom01">
+                            <FloatingLabel controlId="floatingTextarea2" label="Comments">
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Leave a comment here"
+                                    style={{ height: '100px', border: '1px solid black', borderRadius: '5px' }}
+                                    value={ComentarioCor}
+                                    onChange={(e) => SetComentarioCor(e.target.value)}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+
+                    </Col>
+                    <Col>
+                    </Col>
+                </Row>
             </>
         )
     };
@@ -362,15 +389,15 @@ export const CrearVenta = () => {
                             "Nombre": DataCli.Name,
                             "NumeroTelefono": DataCli.Tel,
                             "direccion": DataCli.Direcc,
-                            "Tipo":DataCli.Tipo
+                            "Tipo": DataCli.Tipo
                         }
                     )
                 };
                 fetch(UrlCliente, requestOptionsCliente)
                     .then(response => {
                         console.log("response cliente", response)
-                        console.log("{ FechaInstalacion }.FechaInstalacion",{ FechaInstalacion }.FechaInstalacion)
-                        console.log("FechaInstalacion",FechaInstalacion)
+                        console.log("{ FechaInstalacion }.FechaInstalacion", { FechaInstalacion }.FechaInstalacion)
+                        console.log("FechaInstalacion", FechaInstalacion)
                         return response.json()
                     })
                     .then(result => {
@@ -425,49 +452,48 @@ export const CrearVenta = () => {
             headers: { 'Content-Type': 'application/json' }
         };
 
-            requestOptions.body = JSON.stringify(Cortinas);
+        requestOptions.body = JSON.stringify(Cortinas);
 
-            try {
-                const response = await fetch('/Cortinas/Rollers/'+idVenta, requestOptions);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const result = await response.json();
-                console.log("result de cortina", result);
-                //AgregarCortinaRollerAVenta(result.id, idVenta);
-            } catch (error) {
-                console.error('Error en cortinas roller:', error);
-                AlertaError(error)
+        try {
+            const response = await fetch(URLCortinaVenta + idVenta, requestOptions);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-
+            const result = await response.json();
+            console.log("result de cortina", result);
+            //AgregarCortinaRollerAVenta(result.id, idVenta);
+        } catch (error) {
+            console.error('Error en cortinas roller:', error);
+            AlertaError(error)
+        }
     }
-
-    function AgregarCortinaRollerAVenta(cortinaid, idVenta) {
-        const IdcorParse = parseInt(cortinaid, 10);
-        const IdVentParse = parseInt(idVenta, 10);
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        };
-
-        fetch(`/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(result => {
-                console.log(result);
-                // Aquí puedes manejar el resultado según sea necesario
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                AlertaError(error)
-            });
-    }
-
+    /*
+        function AgregarCortinaRollerAVenta(cortinaid, idVenta) {
+            const IdcorParse = parseInt(cortinaid, 10);
+            const IdVentParse = parseInt(idVenta, 10);
+    
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            };
+    
+            fetch(`/Ventas/${IdcorParse}/${IdVentParse}`, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log(result);
+                    // Aquí puedes manejar el resultado según sea necesario
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    AlertaError(error)
+                });
+        }
+    */
 
     const CrearAmbiente = () => {
         const nuevoAmbiente = {
@@ -504,7 +530,7 @@ export const CrearVenta = () => {
     };
     const AlertaCorA = () => {
         return (
-            <GoCheckCircle style={{color:'green'}}size={30} />
+            <GoCheckCircle style={{ color: 'green' }} size={30} />
         );
     };
     const AlertaError = ({ Mensaje }) => {
@@ -551,16 +577,16 @@ export const CrearVenta = () => {
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
-                                        borderBottom: '2px solid #ccc', 
-                                        fontSize:"20px",
+                                        borderBottom: '2px solid #ccc',
+                                        fontSize: "20px",
                                     }}>
-                                        <p style={{ margin: '0 20px',marginLeft:"20px" }}>
+                                        <p style={{ margin: '0 20px', marginLeft: "20px" }}>
                                             <span style={{ fontWeight: 'bold' }}>Obra:</span> {Obra}
                                         </p>
                                         <p style={{ margin: '0 20px' }}>
                                             <span style={{ fontWeight: 'bold' }}>Fecha Instalacion:</span> {FechaInstalacion}
                                         </p>
-                                        <FiArrowDownCircle style={{ cursor: 'pointer' ,color: '#355CFC'}} onClick={() => (setBoolInfoVenta(false))} size={40} />
+                                        <FiArrowDownCircle style={{ cursor: 'pointer', color: '#355CFC' }} onClick={() => (setBoolInfoVenta(false))} size={40} />
                                     </div>
                                 </Col>
 
@@ -652,13 +678,13 @@ export const CrearVenta = () => {
 
                                 </Col>
                             </Row>
-                            <Row style={{ justifyContent: 'center', marginTop: '10px', borderBottom:"3px solid black"}}>
-                                    <LuArrowUpCircle
-                                        style={{ cursor: 'pointer' ,marginBottom:"10px",color: '#355CFC'}} // Changes cursor to pointer to indicate clickability
-                                        onClick={() => setBoolInfoVenta(true)}
-                                        size={40}
-                                        
-                                    />
+                            <Row style={{ justifyContent: 'center', marginTop: '10px', borderBottom: "3px solid black" }}>
+                                <LuArrowUpCircle
+                                    style={{ cursor: 'pointer', marginBottom: "10px", color: '#355CFC' }} // Changes cursor to pointer to indicate clickability
+                                    onClick={() => setBoolInfoVenta(true)}
+                                    size={40}
+
+                                />
                             </Row>
                         </>
                     }
@@ -724,6 +750,19 @@ export const CrearVenta = () => {
                                     <td>{Cor.LadoCadena}</td>
                                     <td>{Cor.Posicion}</td>
                                     {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                    <td>
+                                        <OverlayTrigger
+                                            key='top'
+                                            placement='top'
+                                            overlay={
+                                                <Tooltip id={`tooltip-top`}>
+                                                    {Cor.detalle}
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <Button variant="secondary">Comentario</Button>
+                                        </OverlayTrigger>
+                                    </td>
                                     <td>
                                         <Button type="submit" onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
                                     </td>

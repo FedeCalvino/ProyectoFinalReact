@@ -14,6 +14,9 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { TicketCortina } from '../Componentes/TicketCortina';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export const Ventas = ({ IdVentaView }) => {
 
@@ -56,20 +59,20 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
- 
-     const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
-     const UrlVenta = "/Ventas/DtoVentaCor/"
-     const UrlInstalada = "/Ventas/Instalado/"
-     const UrlTelas = "/TipoTela"
-     const UrlAddCor = "/Cortinas/Roller/Add"
-     const UrlEditCor = "/Cortinas/Edit"
-
-/*
-        const UrlTelas = "http://20.84.121.133:8085/TipoTela";
-        const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
-        const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
-        const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-        const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
+    
+        const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
+        const UrlVenta = "/Ventas/DtoVentaCor/"
+        const UrlInstalada = "/Ventas/Instalado/"
+        const UrlTelas = "/TipoTela"
+        const UrlAddCor = "/Cortinas/Roller/Add"
+        const UrlEditCor = "/Cortinas/Edit"
+    
+    /*
+    const UrlTelas = "http://localhost:8085/TipoTela";
+    const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
+    const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
+    const UrlEditCor = "http://localhost:8085/Cortinas"
 */
 
     function MostrarVenta(venta) {
@@ -98,7 +101,7 @@ export const Ventas = ({ IdVentaView }) => {
         try {
             const res = await fetch(UrlVentas)
             const data = await res.json()
-            console.log("data",data)
+            console.log("data", data)
             setVentas(data);
             setVentasTotales(data)
             console.log(data);
@@ -138,7 +141,7 @@ export const Ventas = ({ IdVentaView }) => {
 
         fetchData();
     }, []);
- 
+
     const FiltrarVentas = () => {
         if (SearchText && SearchText.trim() !== "") {
             const filtered = VentasTotales.filter(venta =>
@@ -168,7 +171,7 @@ export const Ventas = ({ IdVentaView }) => {
     }, [SearchText]);
 
     const FetchVentaCortinas = async () => {
-        setloadingTable(true) 
+        setloadingTable(true)
         if (IdVenta != null) {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
@@ -221,22 +224,22 @@ export const Ventas = ({ IdVentaView }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(CortinaEdited)
         };
-    
+
         const url = `${UrlEditCor}/${IdCorEdit}`;
-    
+
         console.log("URL de solicitud:", url);
         console.log("Datos a actualizar:", CortinaEdited);
-    
+
         try {
             const response = await fetch(url, requestOptions);
-            
+
             if (response.ok) {
                 console.error('Error en la solicitud PUT:', response.statusText);
                 await FetchVentaCortinas(); // Asegúrate de que FetchVentaCortinas es una función asíncrona
                 setIdCorEdit(null)
                 return;
             }
-    
+
         } catch (error) {
             console.error('Error en cortinas roller:', error);
         }
@@ -281,8 +284,8 @@ export const Ventas = ({ IdVentaView }) => {
     }
 
     const Editar = (Cor) => {
-        const Telafind = Telas.find(tela => tela.Nombre===Cor.nombreTela && tela.Descripcion===Cor.colorTela)
-        console.log("Telafind",Telafind);
+        const Telafind = Telas.find(tela => tela.Nombre === Cor.nombreTela && tela.Descripcion === Cor.colorTela)
+        console.log("Telafind", Telafind);
         console.log(Cor);
         setIdCorEdit(Cor.idCortina);
         const EditedCortina = {
@@ -307,29 +310,29 @@ export const Ventas = ({ IdVentaView }) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         };
-            
+
         const nuevaCortinaRoler = {
             Ambiente: selectedAreaRoler,
             IdTipoTela: selectedTelaRoler.Id,
-            ancho: AnchoRoller ,
+            ancho: AnchoRoller,
             alto: LargoRoller,
             Posicion: AdlAtr,
-            LadoCadena: IzqDer ,
-            cadena:  Cadena ,
-            Tubo:  CanoRoller ,
-            motorizada: motorizada 
+            LadoCadena: IzqDer,
+            cadena: Cadena,
+            Tubo: CanoRoller,
+            motorizada: motorizada
         }
 
         requestOptions.body = JSON.stringify(nuevaCortinaRoler);
 
         console.log(nuevaCortinaRoler)
-        const url = UrlAddCor+"/"+IdVenta
+        const url = UrlAddCor + "/" + IdVenta
         console.log(url)
         try {
-            const response = await fetch(url , requestOptions);
+            const response = await fetch(url, requestOptions);
             if (!response.ok) {
                 console.error('Error en cortinas roller');
-            }else{
+            } else {
                 CancelarAddCor()
                 FetchVentaCortinas()
             }
@@ -339,8 +342,8 @@ export const Ventas = ({ IdVentaView }) => {
         } catch (error) {
             console.error('Error en cortinas roller:', error);
         }
-        
-        
+
+
     }
 
     const handleInputChange = (e, field) => {
@@ -454,6 +457,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <th>Cadena</th>
                                                             <th>Lado Cadena</th>
                                                             <th>posicion</th>
+                                                            <th>detalles</th>
                                                             <th>Opciones</th>
 
                                                         </tr>
@@ -482,14 +486,32 @@ export const Ventas = ({ IdVentaView }) => {
                                                                     <option style={{ textAlign: "center" }} value="Adl">Adelante</option>
                                                                     <option style={{ textAlign: "center" }} value="Atr">Atras</option>
                                                                 </Form.Select> : Cor.posicion}</td>
+                                                                <td>
+                                                                    <OverlayTrigger
+                                                                        key='top'
+                                                                        placement='top'
+                                                                        overlay={
+                                                                            <Tooltip id={`tooltip-top`}>
+                                                                                {Cor.detalle}
+                                                                            </Tooltip>
+                                                                        }
+                                                                    >
+                                                                        <Button
+                                                                            variant="secondary"
+                                                                            style={{ backgroundColor: 'transparent', color: '#6c757d' }} // Cambia el color y elimina el fondo gris
+                                                                        >
+                                                                            Comentario
+                                                                        </Button>
+                                                                    </OverlayTrigger>
+                                                                </td>
                                                                 {IdCorEdit === Cor.idCortina ? <td className="Butooneditable" onClick={() => ConfirmEdit(Cor)}>Confirmar</td>
                                                                     :
                                                                     <NavDropdown title="Opciones" id="basic-nav-dropdown" className="drop-custom">
                                                                         <NavDropdown.Item className="editable" onClick={() => Editar(Cor)}>Editar</NavDropdown.Item>
                                                                         <NavDropdown.Item as="div">
-                                                                        <PDFDownloadLink document={<TicketCortina Venta={Ven} Cortina={Cor} />} fileName='Ticket'>
-                                                                            <Button>Ticket</Button>
-                                                                        </PDFDownloadLink>
+                                                                            <PDFDownloadLink document={<TicketCortina Venta={Ven} Cortina={Cor} />} fileName='Ticket'>
+                                                                                <Button>Ticket</Button>
+                                                                            </PDFDownloadLink>
                                                                         </NavDropdown.Item>
                                                                     </NavDropdown>}
                                                             </tr>
