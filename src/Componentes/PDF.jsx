@@ -63,7 +63,11 @@ const styles = StyleSheet.create({
     tableCell: {
         width: '20%',
         textAlign: 'center',
-    },
+    },text: {
+        fontSize: 14,
+    },text2: {
+        fontSize: 8,
+    }
 });
 
 export const PDF = ({ Venta, Cortinas = [] }) => {
@@ -130,6 +134,7 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
                             <Text style={[styles.tableHeaderCell, styles.subtitle]}>Cadena</Text>
                             <Text style={[styles.tableHeaderCell, styles.subtitle]}>Posición</Text>
                             <Text style={[styles.tableHeaderCell, styles.subtitle]}>Lado</Text>
+                            <Text style={[styles.tableHeaderCell, styles.subtitle]}>Detalle</Text>
                         </View>
                         {group.cortinas.map((cortina, cortinaIndex) => (
                             <View style={styles.tableRow} key={cortinaIndex}>
@@ -143,6 +148,7 @@ export const PDF = ({ Venta, Cortinas = [] }) => {
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.cadena}</Text>
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.posicion}</Text>
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.ladoCadena}</Text>
+                                <Text style={[styles.tableCell, styles.text2]}>{cortina.detalle}</Text>
                             </View>
                         ))}
                     </View>
