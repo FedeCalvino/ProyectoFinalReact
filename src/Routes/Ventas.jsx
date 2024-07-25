@@ -73,8 +73,8 @@ export const Ventas = ({ IdVentaView }) => {
     const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
     const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
     const UrlEditCor = "http://localhost:8085/Cortinas"
-*/
 
+*/
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -457,7 +457,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <th>Cadena</th>
                                                             <th>Lado Cadena</th>
                                                             <th>posicion</th>
-                                                            <th>detalles</th>
+                                                            <th>Comentarios</th>
                                                             <th>Opciones</th>
 
                                                         </tr>

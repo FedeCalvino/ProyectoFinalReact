@@ -62,6 +62,23 @@ const styles = StyleSheet.create({
   }
 });
 
+const CortinaComponent = ({ Cortina }) => {
+  // Reemplaza "Black Out" con "BO" si está presente en nombreTela
+  var formattedNombreTela;
+  if( Cortina.nombreTela.includes("Black Out")){
+    formattedNombreTela = Cortina.nombreTela.replace(/Black Out/g, 'BO');
+  }
+  if(Cortina.nombreTela.includes("Screen")){
+    formattedNombreTela = Cortina.nombreTela.replace(/Screen/g, 'SC');
+  }
+
+  return (
+    <Text style={styles.tableCell5}>
+      {formattedNombreTela}{Cortina.colorTela}
+    </Text>
+  );
+};
+
 export const TicketCortina = ({ Venta, Cortina }) => {
   return (
     <Document>
@@ -75,7 +92,7 @@ export const TicketCortina = ({ Venta, Cortina }) => {
         {/* Tabla de detalles de las cortinas */}
         <View style={styles.tableContainer}>
           <View style={styles.tableRow} key={Cortina.idCortina}>
-            <Text style={[styles.tableCell5]}>{Cortina.nombreTela}{Cortina.colorTela}</Text>
+            <Text style={[styles.tableCell5]}><CortinaComponent Cortina={Cortina}/></Text>
             <Text style={[styles.tableCell5]}>{Cortina.ambiente}</Text>
             <Text style={[styles.tableCell7]}>{Cortina.anchoAfuerAfuera}</Text>
             <Text style={[styles.tableCell6]}>X</Text>

@@ -34,7 +34,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRightWidth: 0.1,
     borderBottomColor: '#000000',
-  },tableCell8: {
+  },tableCell9: {
+    fontSize: 1.5,
+    width: '18%',
+    textAlign: 'center',
+    borderBottomColor: '#000000',
+  }
+  ,tableCell8: {
     fontSize: 2,
     width: '18%',
     textAlign: 'center',
@@ -62,6 +68,23 @@ const styles = StyleSheet.create({
   }
 });
 
+const CortinaComponent = ({ Cortina }) => {
+  // Reemplaza "Black Out" con "BO" si está presente en nombreTela
+  var formattedNombreTela;
+  if( Cortina.nombreTela.includes("Black Out")){
+    formattedNombreTela = Cortina.nombreTela.replace(/Black Out/g, 'BO');
+  }
+  if(Cortina.nombreTela.includes("Screen")){
+    formattedNombreTela = Cortina.nombreTela.replace(/Screen/g, 'SC');
+  }
+
+  return (
+    <Text style={styles.tableCell5}>
+      {formattedNombreTela}{Cortina.colorTela}
+    </Text>
+  );
+};
+
 export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
   return (
     <Document>
@@ -76,12 +99,12 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
         {/* Tabla de detalles de las cortinas */}
         <View style={styles.tableContainer}>
           <View style={styles.tableRow} key={cor.idCortina}>
-            <Text style={[styles.tableCell5]}>{cor.nombreTela}{cor.colorTela}</Text>
+            <Text style={[styles.tableCell5]}><CortinaComponent Cortina={cor}/></Text>
             <Text style={[styles.tableCell5]}>{cor.ambiente}</Text>
             <Text style={[styles.tableCell7]}>{cor.anchoAfuerAfuera}</Text>
             <Text style={[styles.tableCell6]}>X</Text>
             <Text style={[styles.tableCell8]}>{cor.altoCortina}</Text>
-            <Text style={[styles.tableCell5]}>{cor.ladoCadena}{cor.posicion}</Text>
+            <Text style={[styles.tableCell9]}>{cor.ladoCadena}{cor.posicion}</Text>
           </View>
         </View>
       </Page>
