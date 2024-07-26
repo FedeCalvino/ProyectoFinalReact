@@ -6,7 +6,7 @@ import "./ClienteList.css";
 import { Loading } from "../Componentes/Loading";
 
 export const Provedores = () => {
-  const UrlProvedores = "/Provedores";
+  const UrlProvedores = "/Cliente/Provedores";
   const [Provedores, setProvedores] = useState([]);
   const [loading, setLoading] = useState(true);
 

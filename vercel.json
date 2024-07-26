@@ -145,7 +145,7 @@
       "source": "/Ventas/Instalado/:IdVenta",
       "destination": "http://20.84.121.133:8085/Ventas/Instalado/:IdVenta"
     },{
-      "source": "/Provedores",
+      "source": "/Cliente/Provedores",
       "destination": "http://20.84.121.133:8085/Cliente/Provedores"
     }
   ]
