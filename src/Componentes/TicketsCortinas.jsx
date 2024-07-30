@@ -11,9 +11,10 @@ const styles = StyleSheet.create({
     marginTop: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    height:"50%"
   },
   tableContainer1: {
-    marginBottom: 1,
+    marginBottom: 0.2,
     borderBottomWidth: 0.1,
     borderBottomColor: '#000000',
     alignItems: 'center',
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
     marginRight:0.5,
     textAlign: 'center',
     borderBottomColor: '#000000',
+    color:"red"
   },
   tableCell7: {
     fontSize: 2,
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
   },
   tableCell3: {
     fontSize: 2,
-    marginTop: 0.5,
+    marginTop: 0.2,
     width: '50%',
     textAlign: 'center',
   },
@@ -77,15 +79,18 @@ const styles = StyleSheet.create({
 export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
   const [fontSize, setFontSize] = useState(2);
   const [fontSizeMedidas, setfontSizeMedidas] = useState(2);
+  const [fontSizeAmbiente, setfontSizeAmbiente] = useState(2);
   useEffect(() => {
     // Si el nombre del cliente tiene más de 14 caracteres, reducir el tamaño de la fuente
-    if (Venta.NombreCliente.length > 14) {
+    if (Venta.NombreCliente.length > 16) {
       setFontSize(1.5);
       setfontSizeMedidas(2.5)
     } else {
       setFontSize(2.5);
       setfontSizeMedidas(2.5)
     }
+
+    
   }, [Venta.NombreCliente]);
 
   return (
@@ -102,7 +107,7 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
           </View>
           <View style={styles.tableContainer}>
             <View style={styles.tableRow}>
-              <Text style={[styles.tableCell5, { fontSize: fontSize  }]}>{cor.ambiente}</Text>
+              <Text style={[styles.tableCell5, {fontSize: cor.ambiente.length>=6 ?  1.8 : fontSize}]}>{cor.ambiente}</Text>
               <Text style={[styles.tableCell7, { fontSize: fontSizeMedidas }]}>{cor.anchoAfuerAfuera}</Text>
               <Text style={[styles.tableCell6, { fontSize: fontSize }]}>X</Text>
               <Text style={[styles.tableCell8, { fontSize: fontSizeMedidas}]}>{cor.altoCortina}</Text>

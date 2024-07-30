@@ -59,21 +59,21 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
-  
+  /*
         const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
         const UrlTelas = "/TipoTela"
         const UrlAddCor = "/Cortinas/Roller/Add"
         const UrlEditCor = "/Cortinas/Edit"
-   
-  /*
-    const UrlTelas = "http://localhost:8085/TipoTela";
-    const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/NoInstalado"
-    const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
-    const UrlInstalada = "http://localhost:8085/Ventas/Instalado/"
-    const UrlEditCor = "http://localhost:8085/Cortinas"
-*/
+   */
+  
+    const UrlTelas = "http://20.84.121.133:8085/TipoTela";
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+    const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
+    const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
+
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)

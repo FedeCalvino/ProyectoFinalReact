@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   tableCell9: {
     fontSize: 2,
-    width: '18%',
+    width: '10%',
     textAlign: 'center',
     borderBottomColor: '#000000',
   },
