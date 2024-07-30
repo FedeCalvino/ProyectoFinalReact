@@ -8,7 +8,7 @@ import "./ClienteList.css";
 import { Loading } from "../Componentes/Loading";
 
 export const Clientes = () => {
-  const UrlClientes = "http://20.84.121.133:8085/Cliente";
+  const UrlClientes = "/Cliente";
   const [Clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [BoolEditCli, setBoolEditCli] = useState(false);
