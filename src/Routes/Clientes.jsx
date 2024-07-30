@@ -8,7 +8,7 @@ import "./ClienteList.css";
 import { Loading } from "../Componentes/Loading";
 
 export const Clientes = () => {
-  const UrlClientes = "/Cliente";
+  const UrlClientes = "http://20.84.121.133:8085/Cliente";
   const [Clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [BoolEditCli, setBoolEditCli] = useState(false);
@@ -101,7 +101,7 @@ export const Clientes = () => {
     return <Loading tipo="all" />;
   }
   return (
-    <Row className="justify-content-center">
+    <Row style={{marginTop:"90px"}} className="justify-content-center">
       {Clientes.map((Cli) => (
         <Col key={Cli.id} xs={12} md={6} lg={4} className="mb-4">
           <Card

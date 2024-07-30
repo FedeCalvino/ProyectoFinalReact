@@ -599,7 +599,7 @@ export const CrearVenta = () => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                marginTop: "70px"
+                                marginTop: "140px"
                             }}>
                                 <InputGroup style={{ width: '30%', alignContent: 'center' }}>
                                     <Form.Group style={{ textAlign: 'center', width: '100%' }} as={Col} md="3" controlId="validationCustom01">

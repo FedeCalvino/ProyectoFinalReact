@@ -5,15 +5,15 @@
   border-image: linear-gradient(83deg, rgba(255, 255, 255, 1) 0%, #007bff 50%, rgba(249, 249, 249, 1) 100%);
   border-image-slice: 1;
 }
-.brand-custom{
-    font-size: 1.8rem; /* Ajusta el tamaño de la fuente según tus necesidades */
-    height: auto;
-    font-weight:500; /* Haz que el texto sea más grueso */
-    color: #000000; /* Cambia el color del texto (este es un ejemplo de un color atractivo) */
-    font-family: 'Arial', sans-serif; /* Puedes cambiar la familia de fuentes según tus necesidades */
+.brand-custom {
+  font-size: 1.8rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+  height: auto;
+  font-weight: 500; /* Haz que el texto sea más grueso */
+  color: #000000; /* Cambia el color del texto (este es un ejemplo de un color atractivo) */
+  font-family: 'Arial', sans-serif; /* Puedes cambiar la familia de fuentes según tus necesidades */
 }
 .nav-link-custom {
-  width:100%;
+  width: 100%;
   border-left: 2px solid #007bff;
   font-size: 1.1rem;
   font-weight: 500;
@@ -21,31 +21,25 @@
   border-radius: 0px 0px 10px 10px;
   transition: all 0.3s ease-in-out;
 }
-  
-  .nav-link-custom:hover 
-  {
-    transition:all 0.3s ease-in-out;
-    background: #007bff;
-    color: #ffffff !important;
-  }
-
- /* Añadir una transición suave y efecto de alargamiento hacia abajo */
+.nav-link-custom:hover {
+  transition: all 0.3s ease-in-out;
+  background: #007bff;
+  color: #ffffff !important;
+}
 .nav-link-custom {
   display: inline-block;
   transition: margin 0.3s ease, background-color 0.3s ease;
   margin: 5px 0; /* Margen inicial */
 }
-
-/* Mantener el mismo estilo para los elementos del dropdown */
 .nav-link-custom .dropdown-item {
   transition: margin 0.3s ease, background-color 0.3s ease;
   margin: 5px 0; /* Margen inicial */
 }
-.container_nav{
+.container_nav {
   padding: 0%;
   width: 100%;
 }
-.navb{
+.navb {
   width: 1200px;
 }
 .nav-link-custom {
@@ -53,13 +47,11 @@
   align-items: center;
   justify-content: center;
 }
-
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .icon {
   margin-bottom: 4px; /* Ajusta este margen según tus necesidades */
 }

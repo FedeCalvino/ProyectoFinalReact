@@ -107,7 +107,7 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                         id="fill-tab-example"
                         as={Col}
                         className="mb-2"
-                        style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        style={{ display: 'flex', justifyContent: 'center', width: '100%',marginTop:"25px" }}>
                         <Tab eventKey="Selecc" title="Seleccionar Cliente">
                             <Row className="justify-content-center mb-3">
                                 <Col md="3" noValidate>

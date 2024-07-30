@@ -5,51 +5,64 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    padding: 0, // Adjust padding for better fit
-  }
-  , subtitle2: {
-    fontSize: 1.5,
+    padding: 0,
   },
   tableContainer: {
     marginTop: 1,
-  }
-  ,
+    alignItems: 'center', // Centra horizontalmente
+    justifyContent: 'center', // Centra verticalmente
+  },
   tableContainer1: {
     marginBottom: 1,
     borderBottomWidth: 0.1,
     borderBottomColor: '#000000',
+    alignItems: 'center', // Centra horizontalmente
+    justifyContent: 'center', // Centra verticalmente
   },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
     fontSize: 1.5,
-  },tableCell7: {
-    fontSize: 2,
-    width: '18%',
-    textAlign: 'center'
-  }, 
+    justifyContent: 'center', // Centra horizontalmente
+  },
   tableCell5: {
     fontSize: 1.5,
     width: '18%',
     textAlign: 'center',
     borderRightWidth: 0.1,
     borderBottomColor: '#000000',
-  },tableCell8: {
+  },
+  tableCell7: {
+    fontSize: 2,
+    width: '18%',
+    textAlign: 'center',
+  },
+  tableCell8: {
     fontSize: 2,
     width: '18%',
     textAlign: 'center',
     borderRightWidth: 0.1,
+    marginRight: 1.5,
     borderBottomColor: '#000000',
-  }, tableCell6: {
+  },
+  tableCell9: {
+    fontSize: 2,
+    width: '18%',
+    textAlign: 'center',
+    borderBottomColor: '#000000',
+  },
+  tableCell6: {
     fontSize: 2,
     width: '6%',
     textAlign: 'center',
-  }, tableCell3: {
+  },
+  tableCell3: {
     fontSize: 2,
     marginTop: 0.5,
     width: '50%',
     textAlign: 'center',
-  }, tableCell4: {
+  },
+  tableCell4: {
     fontSize: 1,
     width: '50%',
     textAlign: 'center',
@@ -59,7 +72,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     width: '33%',
     textAlign: 'center',
-  }
+  },
 });
 
 const CortinaComponent = ({ Cortina }) => {
@@ -96,7 +109,8 @@ export const TicketCortina = ({ Venta, Cortina }) => {
             <Text style={[styles.tableCell7]}>{Cortina.anchoAfuerAfuera}</Text>
             <Text style={[styles.tableCell6]}>X</Text>
             <Text style={[styles.tableCell8]}>{Cortina.altoCortina}</Text>
-            <Text style={[styles.tableCell5]}>{Cortina.ladoCadena}{Cortina.posicion}</Text>
+            <Text style={[styles.tableCell9]}>{Cortina.ladoCadena}</Text>
+            <Text style={[styles.tableCell9]}>{Cortina.posicion}</Text>
           </View>
         </View>
       </Page>
