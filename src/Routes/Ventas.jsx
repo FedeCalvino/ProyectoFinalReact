@@ -59,7 +59,7 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
- 
+
         const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
@@ -67,7 +67,7 @@ export const Ventas = ({ IdVentaView }) => {
         const UrlAddCor = "/Cortinas/Roller/Add"
         const UrlEditCor = "/Cortinas/Edit"
 
-  /*
+/*
     const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"

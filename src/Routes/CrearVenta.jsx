@@ -27,15 +27,15 @@ import Tooltip from 'react-bootstrap/Tooltip';
 export const CrearVenta = () => {
     const [IdVentaView, setIdVentaView] = useState(null);
 
+
+    const [NumAntes, setNumAntes] = useState(null)
     const [isValid, setisValid] = useState(null)
     const [loading, setloading] = useState(false)
     //Cliente selecc
     const [DataCli, setDataCli] = useState(null);
     const [Obra, setObra] = useState('')
     const [FechaInstalacion, setFechaInstalacion] = useState('')
-    //Factura
-    const [FechaFinalPago, setFechaFinalPago] = useState('')
-    const [NroFactura, setNroFactura] = useState('')
+
 
     //alertas y validaciones
     const [validated, setValidated] = useState(false);
@@ -53,7 +53,7 @@ export const CrearVenta = () => {
     const [TelasDelTipo, SetTelasDelTipo] = useState([])
     const [TiposTelas, SetTiposTelas] = useState([])
 
-
+    const [CambioNumAntBool, setCambioNumAntBool] = useState(false)
 
     //Datos Cortina
     const [motorizada, setMotorizada] = useState(false)
@@ -68,7 +68,7 @@ export const CrearVenta = () => {
     const [IzqDer, setIzqDer] = useState('')
     const [AdlAtr, setAdlAtr] = useState('')
     const [Cadena, setCadena] = useState('')
-
+    const [NumeroCor, setNumeroCor] = useState(1)
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
     const [idCor, setidCor] = useState(0)
@@ -79,34 +79,62 @@ export const CrearVenta = () => {
         FetchTelas();
     }, []);
 
-    const UrlTelas = "/TipoTela";
+    //const UrlTelas = "/TipoTela";
     const UrlCliente = "/Cliente";
     const UrlVentas = "/SaveVentas";
     const URLCortinaVenta="/Cortinas/Rollers/";
 
-    //const UrlTelas = "http://localhost:8085/TipoTela"
+    const UrlTelas = "/TipoTela"
 
     function AgregarRoller() {
         const nuevaCortinaRoler = {
             Id: idCor,
-            Ambiente: { selectedAreaRoler }.selectedAreaRoler,
+            Ambiente: selectedAreaRoler,
             IdTipoTela: selectedTelaRoler.Id,
-            ancho: { AnchoRoller }.AnchoRoller,
-            alto: { LargoRoller }.LargoRoller,
-            Posicion: { AdlAtr }.AdlAtr,
-            LadoCadena: { IzqDer }.IzqDer,
-            cadena: { Cadena }.Cadena,
-            Tubo: { CanoRoller }.CanoRoller,
-            motorizada: { motorizada }.motorizada,
+            ancho: AnchoRoller,
+            alto: LargoRoller,
+            Posicion: AdlAtr,
+            LadoCadena: IzqDer,
+            cadena: Cadena,
+            Tubo: CanoRoller,
+            motorizada: motorizada,
             TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
-            detalle: ComentarioCor
+            detalle: ComentarioCor,
+            numeroCortina: NumeroCor
+        };
+    
+    
+        console.log(nuevaCortinaRoler);
+        
+        setidCor(idCor + 1);
+    
+        // Crear una nueva lista de cortinas incluyendo la nueva cortina
+        const nuevasCortinas = [...Cortinas, nuevaCortinaRoler];
+    
+        // Ordenar las cortinas por numeroCortina
+        let cortinasActualizadas = nuevasCortinas.sort((a, b) => a.numeroCortina - b.numeroCortina);
+    
+        // Ajustar los valores de numeroCortina
+        cortinasActualizadas = cortinasActualizadas.map(cortina => {
+            if (cortina.Id !== nuevaCortinaRoler.Id && cortina.numeroCortina >= nuevaCortinaRoler.numeroCortina) {
+                return {
+                    ...cortina,
+                    numeroCortina: Number(cortina.numeroCortina) + 1
+                };
+            }
+            return cortina;
+        });
+    
+        setCortinas(cortinasActualizadas);
+
+
+        if (NumAntes !== null) {
+            setNumeroCor(Number(NumAntes));
+            setNumAntes(null);
         }
 
-        console.log(nuevaCortinaRoler)
-        setidCor(idCor + 1)
-
-        setCortinas([...Cortinas, nuevaCortinaRoler]);
-
+        setNumeroCor(prevNumeroCor => prevNumeroCor + 1);
+        setCambioNumAntBool(false);
         setAlertaCorAdd(true);
         setTimeout(() => {
             setAlertaCorAdd(false);
@@ -122,6 +150,19 @@ export const CrearVenta = () => {
         // Obtener el Nombre del objeto seleccionado
         selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
     };
+    const setNuevoNumeroCor = (numero) =>{
+        if(!CambioNumAntBool){
+        const numero = NumeroCor
+        setNumAntes(numero)
+        console.log('se seteo el numero antes ',numero)
+        console.log('numero',Number(numero))
+        setNumeroCor(Number(numero))
+        setCambioNumAntBool(true);
+        }else{
+            console.log('numero',Number(numero))
+            setNumeroCor(Number(numero))
+        }
+    }
 
     const FetchTelas = async () => {
         try {
@@ -304,6 +345,16 @@ export const CrearVenta = () => {
                 </Row>
                 <Row>
                     <Col>
+                    <Form.Group controlId="validationCustom01" style={{marginLeft:"20px", width: "20%" }} noValidate>
+                        <Form.Label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Numero</Form.Label>
+                        <Form.Control
+                            type="number"
+                            value={NumeroCor}
+                            style={{ textAlign: "center" }}
+                            placeholder="Numero"
+                            onChange={(e) => { setNuevoNumeroCor(e.target.value) }}
+                        />
+                    </Form.Group> 
                     </Col>
                     <Col>
                         <Form.Group controlId="validationCustom01">
@@ -329,8 +380,28 @@ export const CrearVenta = () => {
 
     function BorrarCor(id) {
         console.log(id);
-        const nuevasCortinas = Cortinas.filter(cortina => cortina.Id !== id);
-        setCortinas(nuevasCortinas);
+    
+        // Encuentra la cortina que será eliminada
+        const cortinaEliminada = Cortinas.find(cortina => cortina.Id === id);
+    
+        if (cortinaEliminada) {
+            // Filtra las cortinas para eliminar la cortina con el id especificado
+            const nuevasCortinas = Cortinas.filter(cortina => cortina.Id !== id);
+    
+            // Actualiza el NumeroCor de las cortinas restantes
+            const cortinasActualizadas = nuevasCortinas.map(cortina => {
+                if (cortina.numeroCortina > cortinaEliminada.numeroCortina) {
+                    return {
+                        ...cortina,
+                        numeroCortina: cortina.numeroCortina - 1
+                    };
+                }
+                return cortina;
+            });
+            setNumeroCor(prevNumeroCor => prevNumeroCor - 1);
+            // Actualiza el estado
+            setCortinas(cortinasActualizadas);
+        }
     }
 
     function CrearNuevaVenta() {
@@ -729,6 +800,7 @@ export const CrearVenta = () => {
                     <Table responsive>
                         <thead>
                             <tr>
+                                <th>Numero</th>
                                 <th>Area</th>
                                 <th>Tela</th>
                                 <th>Ancho</th>
@@ -742,6 +814,7 @@ export const CrearVenta = () => {
                         <tbody>
                             {Cortinas.map((Cor, index) => (
                                 <tr key={index} style={{ marginBottom: "1em" }}>
+                                    <td>{Cor.numeroCortina}</td>
                                     <td>{Cor.Ambiente}</td>
                                     <td>{Cor.TelaNombre}</td>
                                     <td>{Cor.ancho}</td>
