@@ -676,7 +676,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <Col className="text-center my-2">
                                                                 {/* Botón para descargar PDF */}
                                                                 <PDFDownloadLink document={<PDFTela Venta={Ven} Cortinas={Cortinas} />} fileName={`${Ven.NombreCliente} O.C.pdf`}>
-                                                                    <Button variant="primary" className="w-auto">PDF Por Tela</Button>
+                                                                    <Button variant="primary" className="w-auto">PDF</Button>
                                                                 </PDFDownloadLink>
                                                             </Col>
                                                             <Col className="text-center my-2">
