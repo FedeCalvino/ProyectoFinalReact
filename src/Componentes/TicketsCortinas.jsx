@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   tableCell5: {
     fontSize: 1.5,
     width: '18%',
-    marginRight:0.5,
     textAlign: 'center',
     borderBottomColor: '#000000',
     color:"red"
@@ -49,6 +48,12 @@ const styles = StyleSheet.create({
   tableCell9: {
     fontSize: 2,
     width: '18%',
+    textAlign: 'center',
+    borderBottomColor: '#000000',
+  },
+  tableCell19: {
+    fontSize: 2,
+    width: '14%',
     textAlign: 'center',
     borderBottomColor: '#000000',
   },
@@ -73,10 +78,20 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     width: '33%',
     textAlign: 'center',
+  },tableCell10: {
+    fontSize: 5,
+    width: '8%',
+    textAlign: 'center',
   },
+  tableCell12: {
+    fontSize: 5,
+    marginRight:1.5,
+    width: '8%',
+    textAlign: 'center',
+  }
 });
 
-export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
+export const TicketsCortinas = ({ Venta, Cortinas = [] , NumeroCor}) => {
   const [fontSize, setFontSize] = useState(2);
   const [fontSizeMedidas, setfontSizeMedidas] = useState(2);
   const [fontSizeAmbiente, setfontSizeAmbiente] = useState(2);
@@ -96,6 +111,7 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
   return (
     <Document>
       {Cortinas.map(cor => (
+        
         <Page size={[34, 12]} style={styles.page} key={cor.idCortina}>
           <View style={styles.tableContainer1}>
             <View style={styles.tableRow}>
@@ -107,16 +123,18 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] }) => {
           </View>
           <View style={styles.tableContainer}>
             <View style={styles.tableRow}>
+              {NumeroCor && <Text style={cor.numeroCortina.toString().length >= 2 ?  [styles.tableCell12] : [styles.tableCell10] }>{cor.numeroCortina}</Text>}
               <Text style={[styles.tableCell5, {fontSize: cor.ambiente.length>=6 ?  1.8 : fontSize}]}>{cor.ambiente}</Text>
               <Text style={[styles.tableCell7, { fontSize: fontSizeMedidas }]}>{cor.anchoAfuerAfuera}</Text>
               <Text style={[styles.tableCell6, { fontSize: fontSize }]}>X</Text>
               <Text style={[styles.tableCell8, { fontSize: fontSizeMedidas}]}>{cor.altoCortina}</Text>
-              <Text style={[styles.tableCell9, { fontSize: fontSize}]}>{cor.ladoCadena}</Text>
-              <Text style={[styles.tableCell9, { fontSize: fontSize}]}>{cor.posicion}</Text>
+              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: fontSize}] : [styles.tableCell9, { fontSize: fontSize}] }>{cor.ladoCadena}</Text>
+              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: fontSize}] : [styles.tableCell9, { fontSize: fontSize}] }>{cor.posicion}</Text>
             </View>
           </View>
-        </Page>
+        </Page>   
       ))}
+      
     </Document>
   );
 };

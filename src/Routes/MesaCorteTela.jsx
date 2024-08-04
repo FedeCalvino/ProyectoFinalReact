@@ -10,7 +10,7 @@ import { TicketCortina } from '../Componentes/TicketCortina';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { PDF } from '../Componentes/PDF';
+import { PDFTela } from '../Componentes/PDFTela';
 
 export const MesaCorteTela = () => {
     const urlIP = import.meta.env.REACT_APP__IPSQL;
