@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   tableCell5: {
     fontSize: 1.5,
-    width: '18%',
+    width: '22%',
     textAlign: 'center',
     borderBottomColor: '#000000'
   },
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   tableCell9: {
     fontSize: 2,
-    width: '18%',
+    width: '14%',
     textAlign: 'center',
     borderBottomColor: '#000000',
   },

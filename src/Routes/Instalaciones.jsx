@@ -400,7 +400,7 @@ const InstalacionUrl = "http://20.84.121.133:8085/Instalacion"
                     id="fill-tab-example"
                     as={Col}
                     className="mb-2"
-                    style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
+                    style={{marginTop:"70px", display: 'flex', justifyContent: 'center', width: '100%' }}
                 >
                     <Tab eventKey="Calendario" title="Calendario">
                         {Calendario()}

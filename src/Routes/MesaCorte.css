@@ -33,3 +33,17 @@ table tr:hover {
 table tr:active {
     background-color: darkgray;
 }
+.table-container {
+    max-height: 400px; /* Puedes ajustar la altura según tus necesidades */
+    overflow-y: auto;
+    align-items: end;
+    justify-content: end;
+    display: flex;
+}
+
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background-color: white; /* Asegúrate de que el fondo del encabezado sea blanco */
+    z-index: 1;
+}

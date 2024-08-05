@@ -61,21 +61,21 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
-    
+   
             const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
             const UrlVenta = "/Ventas/DtoVentaCor/"
             const UrlInstalada = "/Ventas/Instalado/"
             const UrlTelas = "/TipoTela"
             const UrlAddCor = "/Cortinas/Roller/Add"
             const UrlEditCor = "/Cortinas/Edit"
-    
+   
 /*
     const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
     const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
     const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
-*/
+    */
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -684,7 +684,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             </Col>
                                                             <Col className="text-center my-2">
                                                                 {/* Botón para descargar Tickets */}
-                                                                <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} NumeroCor={true} />} fileName={`${Ven.NombreCliente} ETQ.pdf`}>
+                                                                <PDFDownloadLink document={<TicketsCortinas Venta={Ven} Cortinas={Cortinas} NumeroCor={true}/>} fileName={`${Ven.NombreCliente} ETQ.pdf`}>
                                                                     <Button variant="primary" className="w-auto">Tickets con Numero</Button>
                                                                 </PDFDownloadLink>
                                                             </Col>

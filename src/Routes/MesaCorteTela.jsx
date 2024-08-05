@@ -55,7 +55,7 @@ export const MesaCorteTela = () => {
         gap: '10px',
     };
 
-    
+
         const UrlVentas = "/Ventas/DtoVentaCor/MesaTela"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const telaCortada = "/EstadoCortina/"
@@ -75,12 +75,39 @@ export const MesaCorteTela = () => {
 
     const FetchVentas = async () => {
         try {
-            const res = await fetch(UrlVentas)
-            const data = await res.json()
-            setVentas(data);
-            console.log(data);
+            const res = await fetch(UrlVentas);
+            const data = await res.json();
+
+            // Obtener la fecha actual
+            const today = new Date();
+
+            // Ordenar por la fecha de instalación, más cerca a la fecha actual primero
+            const sorted = data.sort((a, b) => {
+                const dateA = a.DiaInstalacion ? new Date(a.DiaInstalacion) : null;
+                const dateB = b.DiaInstalacion ? new Date(b.DiaInstalacion) : null;
+
+                if (dateA && dateB) {
+                    // Calcular la diferencia en milisegundos
+                    const diffA = Math.abs(today - dateA);
+                    const diffB = Math.abs(today - dateB);
+                    return diffA - diffB;
+                } else if (!dateA && !dateB) {
+                    // Ambos no tienen fecha, son iguales en términos de ordenamiento
+                    return 0;
+                } else if (!dateA) {
+                    // `a` no tiene fecha, `a` debe ir después de `b`
+                    return 1;
+                } else {
+                    // `b` no tiene fecha, `b` debe ir después de `a`
+                    return -1;
+                }
+            });
+
+            // Actualizar el estado con los datos ordenados
+            setVentas(sorted);
+            console.log(sorted);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 
@@ -88,11 +115,7 @@ export const MesaCorteTela = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("entr")
                 await FetchVentas();
-                if (IdVentaView) {
-                    setActiveKey(IdVentaView);
-                }
             } catch (error) {
                 console.log(error);
             } finally {
@@ -155,6 +178,15 @@ export const MesaCorteTela = () => {
             <Loading tipo="all" />
         )
     }
+    const FormatearFecha = ({ fecha }) => {
+        console.log(fecha)
+        if (!fecha) return ''; // Maneja el caso donde la fecha es nula o indefinida
+        const partesFecha = fecha.split('-');
+        if (partesFecha.length !== 3) return ''; // Maneja el caso donde la fecha no tiene el formato correcto
+        const [anio, mes, dia] = partesFecha;
+        return `${dia}/${mes}`;
+    };
+
     const SetCortada = async () => {
         try {
             const res = await fetch(telaCortada + CortinaCor.idCortina, {
@@ -171,7 +203,7 @@ export const MesaCorteTela = () => {
                     ...prevSelectedRows,
                     [CortinaCor.idCortina]: true,
                 }));
-                CortinaCor.estado.telaCortada=true
+                CortinaCor.estado.telaCortada = true
             }
 
         } catch (error) {
@@ -183,8 +215,9 @@ export const MesaCorteTela = () => {
 
     const handleSelectVenta = (Ven) => {
         setSelectedVentaId(Ven.IdVenata);
-        setVentaImp(Ven)
+        setVentaImp(Ven);
         MostrarVenta(Ven);
+
     };
 
     return (
@@ -210,7 +243,7 @@ export const MesaCorteTela = () => {
                             <h3>X</h3>
                             <h3>{CortinaCor.altoTela}</h3>
                         </div>
-                        {{EstaCortada}.EstaCortada ? null :
+                        {{ EstaCortada }.EstaCortada ? null :
                             <div style={buttonStyle}>
                                 <Button onClick={handleClose} variant="danger">
                                     CANCELAR
@@ -223,11 +256,11 @@ export const MesaCorteTela = () => {
                             </div>
                         }
                         <div style={buttonStyle}>
-                        {{EstaCortada}.EstaCortada ? <Button onClick={handleClose} variant="danger">
+                            {{ EstaCortada }.EstaCortada ? <Button onClick={handleClose} variant="danger">
                                 CANCELAR
                             </Button> : null
-                        }
-                            <PDFDownloadLink document={<TicketCortina Venta={VentaImp} Cortina={CortinaCor} />} fileName='Pdf'>
+                            }
+                            <PDFDownloadLink document={<TicketCortina Venta={VentaImp} Cortina={CortinaCor} NumeroCor={false} />} fileName='Pdf'>
                                 <Button variant="primary">Ticket</Button>
                             </PDFDownloadLink>
                         </div>
@@ -245,7 +278,7 @@ export const MesaCorteTela = () => {
                                     onClick={() => handleSelectVenta(Ven)}
                                 >
                                     <div className="rectangulo-header">
-                                        {Ven.NombreCliente} {'\n'}{Ven.Obra ? Ven.Obra : null}
+                                        {Ven.NombreCliente} {'\n'} <FormatearFecha fecha={Ven.DiaInstalacion} />
                                     </div>
                                 </div>
                             ))}
@@ -255,43 +288,46 @@ export const MesaCorteTela = () => {
                     )}
                 </Col>
                 <Col xs={9}>
-                    {loadingTable ? (
-                        <Loading tipo="tab" />
-                    ) : (
-                        <Table responsive>
-                            <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif', position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
-                                <tr>
-                                    <th>Tela</th>
-                                    <th>Color</th>
-                                    <th>Ancho tela</th>
-                                    <th>Alto Tela</th>
-                                    <th>cant</th>
-                                    <th>Cortada</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Cortinas.map(Cor => (
-                                    <React.Fragment key={Cor.idCortina}>
-                                        <tr onClick={() => handleRowClick(Cor)} className={Cor.estadoCortina !== "Sin Cortar tela" ? 'fila-verde' : ''}>
-                                            <td>{Cor.nombreTela}</td>
-                                            <td>{Cor.colorTela}</td>
-                                            <td>{Cor.anchoCortina}</td>
-                                            <td>{Cor.altoCortina}</td>
-                                            <td>1</td>
-                                            <td>
-                                                <Form.Check
-                                                    id={Cor.idCortina}
-                                                    checked={!!selectedRows[Cor.idCortina]}
-                                                    onChange={() => { }}
-                                                />
-                                            </td>
-                                        </tr>
-                                    </React.Fragment>
-                                ))}
-                            </tbody>
-                        </Table>
-                    )}
+                    <div className="table-container">
+                        {loadingTable ? (
+                            <Loading tipo="tab" />
+                        ) : (
+                            <div style={{display:"flex",alignItems:"end",justifyContent:"end"}}>
+                            <Table responsive className='fixed-top' style={{width:"72%",marginTop:"90px",marginLeft:"500px"}}>
+                                <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif', position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
+                                    <tr>
+                                        <th>Tela</th>
+                                        <th>Color</th>
+                                        <th>Ancho tela</th>
+                                        <th>Alto Tela</th>
+                                        <th>cant</th>
+                                        <th>Cortada</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Cortinas.map(Cor => (
+                                        <React.Fragment key={Cor.idCortina}>
+                                            <tr onClick={() => handleRowClick(Cor)} className={Cor.estadoCortina !== "Sin Cortar tela" ? 'fila-verde' : ''}>
+                                                <td>{Cor.nombreTela}</td>
+                                                <td>{Cor.colorTela}</td>
+                                                <td>{Cor.anchoCortina}</td>
+                                                <td>{Cor.altoCortina}</td>
+                                                <td>1</td>
+                                                <td>
+                                                    <Form.Check
+                                                        id={Cor.idCortina}
+                                                        checked={!!selectedRows[Cor.idCortina]}
+                                                        onChange={() => { }}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </React.Fragment>
+                                    ))}
+                                </tbody>
+                            </Table>
+                            </div>
+                        )}
+                    </div>
                 </Col>
             </Row>
         </>
