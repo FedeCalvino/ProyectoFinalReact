@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
     fontSize: 1.5,
     width: '18%',
     textAlign: 'center',
-    borderBottomColor: '#000000',
-    color:"red"
+    borderBottomColor: '#000000'
   },
   tableCell7: {
     fontSize: 2,

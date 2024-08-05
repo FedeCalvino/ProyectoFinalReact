@@ -147,6 +147,9 @@
     },{
       "source": "/Cliente/Provedores",
       "destination": "http://20.84.121.133:8085/Cliente/Provedores"
+    },{
+      "source": "/Ventas/Datos/Tela",
+      "destination": "http://localhost:8085/Ventas/Datos/Tela"
     }
   ]
 }
