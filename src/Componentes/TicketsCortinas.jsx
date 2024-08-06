@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
   },
   tableCell9: {
     fontSize: 2,
-    width: '14%',
+    width: '10%',
     textAlign: 'center',
     borderBottomColor: '#000000',
   },
   tableCell19: {
     fontSize: 2,
-    width: '14%',
+    width: '10%',
     textAlign: 'center',
     borderBottomColor: '#000000',
   },
@@ -127,8 +127,8 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] , NumeroCor}) => {
               <Text style={[styles.tableCell7, { fontSize: fontSizeMedidas }]}>{cor.anchoAfuerAfuera}</Text>
               <Text style={[styles.tableCell6, { fontSize: fontSize }]}>X</Text>
               <Text style={[styles.tableCell8, { fontSize: fontSizeMedidas}]}>{cor.altoCortina}</Text>
-              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: fontSize}] : [styles.tableCell9, { fontSize: fontSize}] }>{cor.ladoCadena}</Text>
-              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: fontSize}] : [styles.tableCell9, { fontSize: fontSize}] }>{cor.posicion}</Text>
+              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: 2}] : [styles.tableCell9, { fontSize: 2}] }>{cor.ladoCadena}</Text>
+              <Text style={NumeroCor ? [styles.tableCell19, { fontSize: 2}] : [styles.tableCell9, { fontSize: 2}] }>{cor.posicion}</Text>
             </View>
           </View>
         </Page>   
