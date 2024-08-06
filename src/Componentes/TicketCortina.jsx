@@ -80,13 +80,13 @@ tableCell1: {
   textAlign: 'center',
 },tableCell10: {
   fontSize: 5,
-  width: '8%',
+  width: '10%',
   textAlign: 'center',
 },
 tableCell12: {
   fontSize: 5,
   marginRight:1.5,
-  width: '8%',
+  width: '10%',
   textAlign: 'center',
 }
 });
