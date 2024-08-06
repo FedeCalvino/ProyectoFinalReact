@@ -53,7 +53,7 @@ tableCell9: {
 },
 tableCell19: {
   fontSize: 2,
-  width: '14%',
+  width: '12%',
   textAlign: 'center',
   borderBottomColor: '#000000',
 },
