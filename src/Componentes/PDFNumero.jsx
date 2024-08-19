@@ -125,6 +125,9 @@ const TableRow = ({ cortina }) => (
 );
 
 export const PDFNumero = ({ Venta, Cortinas = [] }) => {
+    if (!Venta || !Cortinas) {
+        throw new Error("Faltan datos necesarios para generar el PDF");
+    }
     const groupedCortinas = Cortinas.sort((a, b) => a.numeroCortina - b.numeroCortina);
     const cortinaChunks = [];
     

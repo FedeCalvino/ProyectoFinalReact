@@ -108,6 +108,9 @@ const TelaTitle = ({ tela }) => (
 );
 
 export const PDFTela = ({ Venta, Cortinas = [] }) => {
+    if (!Venta || !Cortinas) {
+        throw new Error("Faltan datos necesarios para generar el PDF");
+    }
     if (Cortinas.length > 9) {
         // Agrupamos las cortinas por nombre y color de tela
         const groupedCortinas = Object.entries(Cortinas.reduce((groups, cortina) => {
