@@ -716,7 +716,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             {loadingpdf ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadPDF(Ven,Cortinas)}} className="w-auto">PDF</Button>}
                                                         </Col>
                                                         <Col className="text-center my-2">
-                                                            <Button onClick={SetInstaladaModal} variant="danger" className="w-auto">Instalada</Button>
+                                                            
                                                         </Col>
                                                         <Col className="text-center my-2">
                                                             {loadingTicket ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadTicket(Ven,Cortinas,false)}} className="w-auto">Tickets S/Numero</Button>}
