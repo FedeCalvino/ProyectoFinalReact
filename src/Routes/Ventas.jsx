@@ -538,7 +538,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                 <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.Ambiente} onChange={(e) => handleInputChange(e, 'Ambiente')} /> : Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
                                                                 <td>{Cor.colorTela}</td>
-                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.anchoAfuerAfuera} onChange={(e) => handleInputChange(e, 'anchoAfuerAfuera')} /> : Cor.anchoAfuerAfuera}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.ancho} onChange={(e) => handleInputChange(e, 'anchoAfuerAfuera')} /> : Cor.anchoAfuerAfuera}</td>
                                                                 <td>{Cor.anchoCortina}</td>
                                                                 <td>{Cor.anchoCaño}</td>
                                                                 <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.Tubo} onChange={(e) => handleInputChange(e, 'Tubo')} /> : Cor.cano}</td>
