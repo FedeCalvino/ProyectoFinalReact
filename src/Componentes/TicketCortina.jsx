@@ -111,7 +111,7 @@ const CortinaComponent = ({ Cortina }) => {
 
 export const TicketCortina = ({ Venta, Cortina,NumeroCor }) => {
 
-  if (!Venta || !Cortinas) {
+  if (!Venta || !Cortina) {
     throw new Error("Faltan datos necesarios para generar el PDF");
   }
   

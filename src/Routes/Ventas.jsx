@@ -64,21 +64,21 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
 
-  
+  /*
         const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
         const UrlTelas = "/TipoTela"
         const UrlAddCor = "/Cortinas/Roller/Add"
         const UrlEditCor = "/Cortinas/Edit"
-   
-/*
+   */
+
     const UrlTelas = "http://20.84.121.133:8085/TipoTela";
     const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
     const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
     const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
-*/
+
     function MostrarVenta(venta) {
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
@@ -538,7 +538,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                 <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.Ambiente} onChange={(e) => handleInputChange(e, 'Ambiente')} /> : Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
                                                                 <td>{Cor.colorTela}</td>
-                                                                <td>{renderEditableCell(CortinaEdited.ancho, IdCorEdit === Cor.idCortina, (e) => handleInputChange(e, 'ancho'))}</td>
+                                                                <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.anchoAfuerAfuera} onChange={(e) => handleInputChange(e, 'anchoAfuerAfuera')} /> : Cor.anchoAfuerAfuera}</td>
                                                                 <td>{Cor.anchoCortina}</td>
                                                                 <td>{Cor.anchoCaño}</td>
                                                                 <td>{IdCorEdit === Cor.idCortina ? <input style={{ width: "100px", textAlign: "center" }} type="text" value={CortinaEdited.Tubo} onChange={(e) => handleInputChange(e, 'Tubo')} /> : Cor.cano}</td>
