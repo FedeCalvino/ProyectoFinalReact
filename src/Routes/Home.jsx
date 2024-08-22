@@ -11,9 +11,9 @@ export default function Home() {
     const [TelasData, setTelasData] = useState([])
     const [TelasDataMetros, SetTelasDataMetros] = useState([])
     const [VentasSinCortar, setVentasSinCortaro] = useState([])
-    const UrlVentas = "http://localhost:8085/Ventas/Dto"
-    const UrlTelasData = "http://localhost:8085/Ventas/Datos/Tela"
-    const UrlTelasMetros = "http://localhost:8085/Ventas/Datos/Tela/Metros"
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/Dto"
+    const UrlTelasData = "http://20.84.121.133:8085/Ventas/Datos/Tela"
+    const UrlTelasMetros = "http://20.84.121.133:8085/Ventas/Datos/Tela/Metros"
     const filtrarVentas = (data) => {
         let ventasDeJulio = 0;
         let ventasDeAgosto = 0;

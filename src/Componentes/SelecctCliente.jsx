@@ -34,8 +34,6 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
 
     const [SearchText, setSearchText] = useState('');
 
-    //const {data,isLoading,error} = useFecth(UrlClientes)
-    console.log("loading", loadingSearch)
     useEffect(() => {
         FetchClientesLike();
     }, [SearchText]);
