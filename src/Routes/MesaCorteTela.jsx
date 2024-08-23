@@ -60,9 +60,9 @@ export const MesaCorteTela = () => {
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const telaCortada = "/EstadoCortina/"
 /*
-    const UrlVentas = "http://localhost:8085/Ventas/DtoVentaCor/MesaTela"
-    const UrlVenta = "http://localhost:8085/Ventas/DtoVentaCor/"
-    const telaCortada = "http://localhost:8085/EstadoCortina/"
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/MesaTela"
+    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+    const telaCortada = "http://20.84.121.133:8085/EstadoCortina/"
 */
     function MostrarVenta(venta) {
         console.log("click");
@@ -292,8 +292,8 @@ export const MesaCorteTela = () => {
                         {loadingTable ? (
                             <Loading tipo="tab" />
                         ) : (
-                            <div style={{display:"flex",alignItems:"end",justifyContent:"end"}}>
-                            <Table responsive className='fixed-top' style={{width:"72%",marginTop:"90px",marginLeft:"500px"}}>
+                            <div className='contenedortable'>
+                            <Table responsive className='fixed-top' style={{width:"72%",marginTop:"90px",marginLeft:"400px"}}>
                                 <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif', position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
                                     <tr>
                                         <th>Tela</th>

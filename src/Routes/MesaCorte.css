@@ -9,7 +9,11 @@
     text-align: center;
     transition: background-color 0.3s ease;
 }
-
+.contenedortable{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
 .rectangulo:hover {
     background-color: rgb(94, 183, 212); /* Cambia el color al hacer hover */
 }
