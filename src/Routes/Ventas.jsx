@@ -73,7 +73,7 @@ export const Ventas = ({ IdVentaView }) => {
    */
 
     const UrlTelas = "/TipoTela";
-    const UrlVentas = "http://192.168.1.130:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
     const UrlVenta = "/Ventas/DtoVentaCor/"
     const UrlInstalada = "/Ventas/Instalado/"
     const UrlEditCor = "/Cortinas"
