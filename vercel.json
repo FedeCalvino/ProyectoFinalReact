@@ -136,7 +136,7 @@
       "destination": "http://192.168.1.130:8085/Ventas/DtoVentaCor/MesaTela"
     },{
       "source": "/Usuario/:Mail/:Pass",
-      "destination": "http://192.168.1.130:8085/Usuario/:Mail/:Pass"
+      "destination": "http://[2800:a4:6e9:be00:baca:3aff:fe8a:c4e4]:8085/Usuario/:Mail/:Pass"
     },{
       "source": "/Ventas/DtoVentaCor/NoInstalado",
       "destination": "http://[2800:a4:6e9:be00:baca:3aff:fe8a:c4e4]:8085/Ventas/Dto"
