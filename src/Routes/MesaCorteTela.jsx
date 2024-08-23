@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import { PDFTela } from '../Componentes/PDFTela';
 
 export const MesaCorteTela = () => {
+    
     const urlIP = import.meta.env.REACT_APP__IPSQL;
     const [loading, setloading] = useState(true)
     const [IdVenta, setIdVenta] = useState(null)
@@ -60,7 +61,7 @@ export const MesaCorteTela = () => {
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const telaCortada = "/EstadoCortina/"
 /*
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/MesaTela"
+    const UrlVentas = "http://:8085/Ventas/DtoVentaCor/MesaTela"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
     const telaCortada = "http://20.84.121.133:8085/EstadoCortina/"
 */

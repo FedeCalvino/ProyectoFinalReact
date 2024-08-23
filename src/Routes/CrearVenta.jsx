@@ -24,8 +24,12 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Toaster ,toast} from 'react-hot-toast';
+import "./Css/CrearVenta.css"
+
 
 export const CrearVenta = () => {
+    const [RollerTradicional,setRollerTradicional] = useState("Roller")
+
     const [IdVentaView, setIdVentaView] = useState(null);
     const [MensajeAlert,setMensajeAlert] = useState("")
 
@@ -75,16 +79,16 @@ export const CrearVenta = () => {
 
     //Tradicional
     const [AnchoTradicionalDer, setAnchoTradicionalDer] = useState('')
-    const [AnchoTradicionalIzq, setAnchoTradicionalIzq] = useState('')
 
     const [AnchoTradicional, setAnchoTradicional] = useState('')
     const [LargoTradicional, setLargoTradicional] = useState('')
     const [Paños, setPaños] = useState('1')
     const [IzqDerTradicional, setIzqDerTradicional] = useState('')
 
-    const [BastonesTradicional, setBastonesTradicional] = useState('')
+    const [BastonesTradicional, setBastonesTradicional] = useState(false)
     const [TechoPared, setTechoPared] = useState('')
     const [motorizadaTradicional, setMotorizadaTradicional] = useState(false)
+
     useEffect(() => {
         FetchTelas();
     }, []);
@@ -95,18 +99,20 @@ export const CrearVenta = () => {
     const UrlTelas = "/TipoTela"
 
     function AgregarTradicional(){
-
+        
         const nuevaCortinaTradicional = {
+            RollerTradicional:"Tradicional",
             Id: idCor,
             Ambiente: selectedAreaRoler,
             IdTipoTela: selectedTelaRoler.Id,
             ancho: AnchoTradicional,
+            anchoDerecho: AnchoTradicionalDer,
             alto: LargoTradicional,
             Paños: Paños,
-            IzqDer: IzqDerTradicional,
+            IzqDer: Paños==="1" ? IzqDerTradicional:null,
             Bastones: BastonesTradicional,
             TechoPared: TechoPared,
-            motorizada: motorizada,
+            motorizada: motorizadaTradicional,
             TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
             detalle: ComentarioCor,
             numeroCortina: NumeroCor
@@ -118,14 +124,14 @@ export const CrearVenta = () => {
         setidCor(idCor + 1);
     
         // Crear una nueva lista de cortinas incluyendo la nueva cortina
-        const nuevasCortinas = [...Cortinas, nuevaCortinaRoler];
+        const nuevasCortinas = [...Cortinas, nuevaCortinaTradicional];
     
         // Ordenar las cortinas por numeroCortina
         let cortinasActualizadas = nuevasCortinas.sort((a, b) => a.numeroCortina - b.numeroCortina);
     
         // Ajustar los valores de numeroCortina
         cortinasActualizadas = cortinasActualizadas.map(cortina => {
-            if (cortina.Id !== nuevaCortinaRoler.Id && cortina.numeroCortina >= nuevaCortinaRoler.numeroCortina) {
+            if (cortina.Id !== nuevaCortinaTradicional.Id && cortina.numeroCortina >= nuevaCortinaTradicional.numeroCortina) {
                 return {
                     ...cortina,
                     numeroCortina: Number(cortina.numeroCortina) + 1
@@ -151,6 +157,7 @@ export const CrearVenta = () => {
     }
     function AgregarRoller() {
         const nuevaCortinaRoler = {
+            RollerTradicional:"Roller",
             Id: idCor,
             Ambiente: selectedAreaRoler,
             IdTipoTela: selectedTelaRoler.Id,
@@ -313,8 +320,8 @@ export const CrearVenta = () => {
                     <Form.Control
                         type="number"
                         style={{ textAlign: "center" }}
-                        value={AnchoTradicionalIzq}
-                        onChange={(e) => { setAnchoTradicionalIzq(e.target.value) }}
+                        value={AnchoTradicional}
+                        onChange={(e) => { setAnchoTradicional(e.target.value) }}
                         placeholder="Ancho"
                         isValid={isValid}
                     />
@@ -1120,53 +1127,120 @@ export const CrearVenta = () => {
                             </Tab>
                         </Tabs>
                     </Row>
-                    <Table responsive>
-                        <thead>
-                            <tr>
-                                <th>Numero</th>
-                                <th>Area</th>
-                                <th>Tela</th>
-                                <th>Ancho</th>
-                                <th>Largo</th>
-                                <th>Caño</th>
-                                <th>Lado Cadena</th>
-                                <th>Posicion</th>
-                                <th>Motorizada</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Cortinas.map((Cor, index) => (
-                                <tr key={index} style={{ marginBottom: "1em" }}>
-                                    <td>{Cor.numeroCortina}</td>
-                                    <td>{Cor.Ambiente}</td>
-                                    <td>{Cor.TelaNombre}</td>
-                                    <td>{Cor.ancho}</td>
-                                    <td>{Cor.alto}</td>
-                                    <td>{Cor.Tubo}</td>
-                                    <td>{Cor.LadoCadena}</td>
-                                    <td>{Cor.Posicion}</td>
-                                    {Cor.motorizada ? <td> Si</td> : <td>No</td>}
-                                    <td>
-                                        <OverlayTrigger
-                                            key='top'
-                                            placement='top'
-                                            overlay={
-                                                <Tooltip id={`tooltip-top`}>
-                                                    {Cor.detalle}
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <Button variant="secondary">Comentario</Button>
-                                        </OverlayTrigger>
-                                    </td>
-                                    <td>
-                                        <Button onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
-                                    </td>
+                    <Row className="button-row">
+                        <Col>
+                            <Button className="custom-button3" onClick={() => { setRollerTradicional("Roller") }}>Rollers</Button>
+                        </Col>
+                        <Col>
+                            <Button className="custom-button3" onClick={() => { setRollerTradicional("Tradicional") }}>Tradicional</Button>
+                        </Col>
+                    </Row>
+                    { RollerTradicional==="Roller" &&
+                        <Table responsive>
+                            <thead>
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Area</th>
+                                    <th>Tela</th>
+                                    <th>Ancho</th>
+                                    <th>Largo</th>
+                                    <th>Caño</th>
+                                    <th>Lado Cadena</th>
+                                    <th>Posicion</th>
+                                    <th>Motorizada</th>
                                 </tr>
-                            ))}
+                            </thead>
+                            <tbody>
+                                {Cortinas.map((Cor, index) => (
+                                     Cor.RollerTradicional==="Roller" && (
+                                    <tr key={index} style={{ marginBottom: "1em" }}>
+                                        <td>{Cor.numeroCortina}</td>
+                                        <td>{Cor.Ambiente}</td>
+                                        <td>{Cor.TelaNombre}</td>
+                                        <td>{Cor.ancho}</td>
+                                        <td>{Cor.alto}</td>
+                                        <td>{Cor.Tubo}</td>
+                                        <td>{Cor.LadoCadena}</td>
+                                        <td>{Cor.Posicion}</td>
+                                        {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                        <td>
+                                            <OverlayTrigger
+                                                key='top'
+                                                placement='top'
+                                                overlay={
+                                                    <Tooltip id={`tooltip-top`}>
+                                                        {Cor.detalle}
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <Button variant="secondary">Comentario</Button>
+                                            </OverlayTrigger>
+                                        </td>
+                                        <td>
+                                            <Button onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
+                                        </td>
+                                    </tr>
+                                     )
+                                ))}
 
-                        </tbody>
-                    </Table>
+                            </tbody>
+                        </Table>
+                    }
+                    {
+                        RollerTradicional==="Tradicional" &&
+                        <Table responsive> 
+                            <thead>
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Area</th>
+                                    <th>Tela</th>                                 
+                                    <th>Ancho</th>
+                                    <th>Ancho Derecho</th>
+                                    <th>Largo</th>
+                                    <th>Paños</th>
+                                    <th>Lado Acumula</th>
+                                    <th>Bastones</th>
+                                    <th>Techo/Pared</th>
+                                    <th>Motorizada</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Cortinas.map((Cor, index) => (
+                                    <tr key={index} style={{ marginBottom: "1em" }}>
+                                        <td>{Cor.numeroCortina}</td>
+                                        <td>{Cor.Ambiente}</td>
+                                        <td>{Cor.TelaNombre}</td>
+                                        <td>{Cor.ancho}</td>
+                                        <td>{Cor.anchoDerecho}</td>
+                                        <td>{Cor.alto}</td>
+                                        <td>{Cor.Paños}</td>
+                                        <td>{Cor.IzqDer}</td>
+                                        {Cor.Bastones ? <td> Si</td> : <td>No</td>}
+                                        <td>{Cor.TechoPared}</td>
+                                        {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                        <td>
+                                            <OverlayTrigger
+                                                key='top'
+                                                placement='top'
+                                                overlay={
+                                                    <Tooltip id={`tooltip-top`}>
+                                                        {Cor.detalle}
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <Button variant="secondary">Comentario</Button>
+                                            </OverlayTrigger>
+                                        </td>
+                                        <td>
+                                            <Button onClick={() => BorrarCor(Cor.Id)}>Borrar</Button>
+                                        </td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </Table>
+                    }
                     <div className="d-flex flex-column align-items-center">
                         <Row className="w-100">
                             <Col className="d-flex justify-content-center">
