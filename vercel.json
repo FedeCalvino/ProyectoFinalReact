@@ -127,7 +127,7 @@
       "destination": "http://20.84.121.133:8085/Cliente/str/:Nombre"
     },{
       "source": "/Ventas/DtoVentaCor/MesaTela",
-      "destination": "http://20.84.121.133:8085/Ventas/DtoVentaCor/MesaTela"
+      "destination": "http://192.168.1.130:8085/Ventas/DtoVentaCor/MesaTela"
     }
     ,{
       "source": "/EstadoCortina/:idCortina",
