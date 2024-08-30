@@ -215,13 +215,13 @@ export const Ventas = ({ IdVentaView }) => {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
                 const data = await res.json()
                 console.log(data)
-                //const dataSortRollers = data.rollers.sort((a, b) => a.numeroCortina - b.numeroCortina)
+                const dataSortRollers = data.rollers.sort((a, b) => a.numeroCortina - b.numeroCortina)
                 setCortinasRollers(data);
-                /*const dataSortTradicionales1pano = data.tradicionals.filter(cor=>cor.panos===1)
+                const dataSortTradicionales1pano = data.tradicionals.filter(cor=>cor.panos===1)
                 const dataSortTradicionales2pano = data.tradicionals.filter(cor=>cor.panos===2)
                 //sort((a, b) => {a.numeroCortina - b.numeroCortina})
                 SetCortinasTradicionales1pano(dataSortTradicionales1pano);
-                setCortinasTradicionales2panos(dataSortTradicionales2pano);*/
+                setCortinasTradicionales2panos(dataSortTradicionales2pano);
                 setloadingTable(false)
                 console.log(data);
             } catch (error) {
