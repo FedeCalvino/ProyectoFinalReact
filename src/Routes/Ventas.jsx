@@ -216,7 +216,7 @@ export const Ventas = ({ IdVentaView }) => {
                 const data = await res.json()
                 console.log(data)
                 const dataSortRollers = data.rollers.sort((a, b) => a.numeroCortina - b.numeroCortina)
-                setCortinasRollers(data);
+                setCortinasRollers(dataSortRollers);
                 const dataSortTradicionales1pano = data.tradicionals.filter(cor=>cor.panos===1)
                 const dataSortTradicionales2pano = data.tradicionals.filter(cor=>cor.panos===2)
                 //sort((a, b) => {a.numeroCortina - b.numeroCortina})
