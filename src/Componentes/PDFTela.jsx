@@ -52,11 +52,17 @@ const styles = StyleSheet.create({
         borderBottomColor: '#eeeeee',
     },
     tableHeaderCell: {
-        width: '9%',
+        width: '8%',
+        textAlign: 'center',
+    },tableHeaderCell1: {
+        width: '18%',
         textAlign: 'center',
     },
     tableCell: {
-        width: '9%',
+        width: '8%',
+        textAlign: 'center',
+    },tableCell1: {
+        width: '18%',
         textAlign: 'center',
     },
     text: {
@@ -64,7 +70,28 @@ const styles = StyleSheet.create({
     },
     text2: {
         fontSize: 8,
-    }
+    },
+    comment: {
+        marginTop: 50,
+        paddingTop:5,
+        paddingLeft:5,
+        paddingBottom:15,
+        fontSize: 12,
+        borderWidth: 1,
+        borderColor: '#000',  // Añade un borde alrededor del comentario
+        borderRadius: 5,
+    },
+    commentTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingBottom:5,
+        textAlign: 'left',
+    },
+    commentText: {
+        marginTop: 5,
+        fontSize: 15,
+        textAlign: 'center',
+    },
 });
 
 const FormatearFecha = ({ fecha }) => {
@@ -89,7 +116,7 @@ const Header = ({ Venta }) => (
 
 const TableHeader = () => (
     <View style={styles.tableHeader}>
-        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ambiente</Text>
+        <Text style={[styles.tableHeaderCell1, styles.subtitle]}>Ambiente</Text>
         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho AF-AF</Text>
         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho Tela</Text>
         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho Caño</Text>
@@ -107,13 +134,14 @@ const TelaTitle = ({ tela }) => (
     <Text style={styles.title}>Tela: {tela}</Text>
 );
 
-export const PDFTela = ({ Venta, Cortinas = [] }) => {
-    if (!Venta || !Cortinas) {
+export const PDFTela = ({ Venta,Cortinasroller = [] ,Cortinastradicional= [],ComentarioVen }) => {
+    if (!Venta || !Cortinasroller) {
         throw new Error("Faltan datos necesarios para generar el PDF");
     }
-    if (Cortinas.length > 9) {
+    console.log(ComentarioVen)
+    if (Cortinasroller.length > 9) {
         // Agrupamos las cortinas por nombre y color de tela
-        const groupedCortinas = Object.entries(Cortinas.reduce((groups, cortina) => {
+        const groupedCortinas = Object.entries(Cortinasroller.reduce((groups, cortina) => {
             const key = `${cortina.nombreTela} ${cortina.colorTela}`;
             if (!groups[key]) groups[key] = [];
             groups[key].push(cortina);
@@ -142,7 +170,7 @@ export const PDFTela = ({ Venta, Cortinas = [] }) => {
                         <TableHeader />
                         {page.cortinas.map((cortina, cortinaIndex) => (
                             <View style={styles.tableRow} key={cortinaIndex}>
-                                <Text style={[styles.tableCell, styles.text]}>{cortina.ambiente}</Text>
+                                <Text style={[styles.tableCell1, styles.text]}>{cortina.ambiente}</Text>
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.anchoAfuerAfuera}</Text>
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCortina}</Text>
                                 <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCaño}</Text>
@@ -155,13 +183,18 @@ export const PDFTela = ({ Venta, Cortinas = [] }) => {
                                 <Text style={[styles.tableCell, styles.text2]}>{cortina.detalle}</Text>
                             </View>
                         ))}
+                        <Text style={styles.comment}>
+                            <Text style={styles.commentTitle}>Comentario</Text>
+                            {"\n"}
+                            <Text style={styles.commentText}>{ComentarioVen}</Text>
+                        </Text>
                     </Page>
                 ))}
             </Document>
         );
     } else {
         // Agrupamos las cortinas por tela
-        const groupedCortinas = Object.entries(Cortinas.reduce((groups, cortina) => {
+        const groupedCortinas = Object.entries(Cortinasroller.reduce((groups, cortina) => {
             const key = `${cortina.nombreTela} ${cortina.colorTela}`;
             if (!groups[key]) groups[key] = [];
             groups[key].push(cortina);
@@ -178,7 +211,7 @@ export const PDFTela = ({ Venta, Cortinas = [] }) => {
                             <TableHeader />
                             {cortinas.map((cortina, cortinaIndex) => (
                                 <View style={styles.tableRow} key={cortinaIndex}>
-                                    <Text style={[styles.tableCell, styles.text]}>{cortina.ambiente}</Text>
+                                    <Text style={[styles.tableCell1, styles.text]}>{cortina.ambiente}</Text>
                                     <Text style={[styles.tableCell, styles.text]}>{cortina.anchoAfuerAfuera}</Text>
                                     <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCortina}</Text>
                                     <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCaño}</Text>
@@ -193,6 +226,12 @@ export const PDFTela = ({ Venta, Cortinas = [] }) => {
                             ))}
                         </React.Fragment>
                     ))}
+
+                    <Text style={styles.comment}>
+                        <Text style={styles.commentTitle}>Comentario</Text>
+                        {"\n"}
+                        <Text style={styles.commentText}>{ComentarioVen}</Text>
+                    </Text>
                 </Page>
             </Document>
         );

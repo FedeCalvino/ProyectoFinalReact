@@ -31,8 +31,13 @@ export const Ventas = ({ IdVentaView }) => {
     const [IdVenta, setIdVenta] = useState(null)
     const [SearchText, setSearchText] = useState("")
     const [Ventas, setVentas] = useState([])
+
+    const [ComentarioVenta, setComentarioVenta] = useState("")
+
     const [VentasTotales, setVentasTotales] = useState([])
-    const [Cortinas, setCortinas] = useState([])
+    const [CortinasRollers, setCortinasRollers] = useState([])
+    const [CortinasTradicionales1pano, SetCortinasTradicionales1pano] = useState([])
+    const [CortinasTradicionales2pano, setCortinasTradicionales2panos] = useState([])
     const [loadingTable, setloadingTable] = useState(true)
     const [FilteredVentas, setFilteredVentas] = useState([])
     const [open, setopen] = useState(false)
@@ -63,23 +68,26 @@ export const Ventas = ({ IdVentaView }) => {
 
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
-/*
+    
+
    const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
         const UrlTelas = "/TipoTela"
         const UrlAddCor = "/Cortinas/Roller/Add"
         const UrlEditCor = "/Cortinas/Edit"
-   */
-
-    const UrlTelas = "/TipoTela";
-    const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
-    const UrlVenta = "/Ventas/DtoVentaCor/"
-    const UrlInstalada = "/Ventas/Instalado/"
-    const UrlEditCor = "/Cortinas"
-
+  
+        
+/*
+    const UrlTelas = "http://20.84.121.133:8085/TipoTela";
+    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
+    const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
+    const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
+*/
 
     function MostrarVenta(venta) {
+        setComentarioVenta("")
         setIdVenta(venta.IdVenata)
         if (venta.IdVenata !== IdVenta)
             CancelarAddCor()
@@ -126,6 +134,7 @@ export const Ventas = ({ IdVentaView }) => {
         p: 4,
         textAlign: 'center',
     };
+    /*
     useEffect(() => {
         OrderCor();
     }, [OrderBy]);
@@ -151,7 +160,7 @@ export const Ventas = ({ IdVentaView }) => {
             setCortinas(dataSort)
         }
     }
-
+*/
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -205,8 +214,14 @@ export const Ventas = ({ IdVentaView }) => {
             try {
                 const res = await fetch(UrlVenta + { IdVenta }.IdVenta)
                 const data = await res.json()
-                const dataSort = data.sort((a, b) => a.numeroCortina - b.numeroCortina)
-                setCortinas(dataSort);
+                console.log(data)
+                //const dataSortRollers = data.rollers.sort((a, b) => a.numeroCortina - b.numeroCortina)
+                setCortinasRollers(data);
+                /*const dataSortTradicionales1pano = data.tradicionals.filter(cor=>cor.panos===1)
+                const dataSortTradicionales2pano = data.tradicionals.filter(cor=>cor.panos===2)
+                //sort((a, b) => {a.numeroCortina - b.numeroCortina})
+                SetCortinasTradicionales1pano(dataSortTradicionales1pano);
+                setCortinasTradicionales2panos(dataSortTradicionales2pano);*/
                 setloadingTable(false)
                 console.log(data);
             } catch (error) {
@@ -401,11 +416,11 @@ export const Ventas = ({ IdVentaView }) => {
             <Loading tipo="all" />
         )
     }
-    const downloadTicket = async (Ven, Cortinas, numeroCor) => {
+    const downloadTicket = async (Ven, CortinasRoller,CortinasTradicional, numeroCor) => {
         // Generar el documento PDF utilizando la función `pdf`
         setloadingTicket(true)
         const blob = await pdf(
-            <TicketsCortinas Venta={Ven} Cortinas={Cortinas} NumeroCor={numeroCor} />
+            <TicketsCortinas Venta={Ven} Cortinasroller={CortinasRoller} Cortinastradicional={CortinasTradicional} NumeroCor={numeroCor}/>
         ).toBlob();
         
         // Crear un enlace de descarga
@@ -421,11 +436,12 @@ export const Ventas = ({ IdVentaView }) => {
         setloadingTicket(false)
     };
 
-    const downloadPDF = async (Ven, Cortinas) => {
+    const downloadPDF = async (Ven, CortinasRoller,CortinasTradicional) => {
         // Generar el documento PDF utilizando la función `pdf`
         setloadingpdf(true)
+        console.log(ComentarioVenta)
         const blob = await pdf(
-            <PDFTela Venta={Ven} Cortinas={Cortinas} />
+            <PDFTela Venta={Ven} Cortinasroller={CortinasRoller} Cortinastradicional={CortinasTradicional} ComentarioVen={ComentarioVenta}/>
         ).toBlob();
         
         // Crear un enlace de descarga
@@ -509,9 +525,12 @@ export const Ventas = ({ IdVentaView }) => {
                                             <Loading tipo="tab" />
                                         ) : (
                                             <>
+                                                {CortinasRollers.length !== 0 ?
+                                                <>
                                                 <Table responsive>
                                                     <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
                                                         <tr>
+                                                            <th>Tipo</th>
                                                             <th>Num</th>
                                                             <th>Ambiente</th>
                                                             <th>Tela</th>
@@ -532,8 +551,9 @@ export const Ventas = ({ IdVentaView }) => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {Cortinas.map(Cor => (
+                                                        {CortinasRollers.map(Cor => (
                                                             <tr key={Cor.idCortina}>
+                                                                <td>Roller</td>
                                                                 <td>{Cor.numeroCortina}</td>
                                                                 <td>{IdCorEdit === Cor.idCortina ? <input style={{ textAlign: "center" }} type="text" value={CortinaEdited.Ambiente} onChange={(e) => handleInputChange(e, 'Ambiente')} /> : Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
@@ -586,9 +606,153 @@ export const Ventas = ({ IdVentaView }) => {
                                                                     </NavDropdown>}
                                                             </tr>
                                                         ))}
-
+                                                        
                                                     </tbody>
                                                 </Table>
+                                                </>
+                                                :
+                                                null
+                                                }
+                                                {CortinasTradicionales1pano.length !== 0 ?
+                                                <>
+                                                <Table responsive>
+                                                    <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                        <tr>
+                                                        <th>Tipo</th>
+                                                        <th>Numero</th>
+                                                        <th>Area</th>
+                                                        <th>Tela</th>
+                                                        <th>Paños</th>                                 
+                                                        <th>Ancho</th>
+                                                        <th>Largo</th>
+                                                        <th>Lado Acumula</th>
+                                                        <th>Bastones</th>
+                                                        <th>Techo/Pared</th>
+                                                        <th>Motorizada</th>
+                                                        <th>Detalle</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {CortinasTradicionales1pano.map(Cor => (
+                                                            <tr key={Cor.idCortina}>
+                                                                <td>Tradicional</td>
+                                                                <td>{Cor.numeroCortina}</td>
+                                                                <td>{Cor.ambiente}</td>
+                                                                <td>{Cor.nombreTela}</td>
+                                                                <td>{Cor.panos}</td>
+                                                                    <td>{Cor.anchoCortina}</td>
+                                                                    <td>{Cor.altoCortina}</td>      
+                                                                    <td>{Cor.acumula}</td>
+                                                                    {Cor.bastones ? <td> Si</td> : <td>No</td>}
+                                                                    <td>{Cor.techoPared}</td>
+                                                                    {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                                                    <td>
+                                                                    <OverlayTrigger
+                                                                        key='top'
+                                                                        placement='top'
+                                                                        overlay={
+                                                                            <Tooltip id={`tooltip-top`}>
+                                                                                {Cor.detalle}
+                                                                            </Tooltip>
+                                                                        }
+                                                                    >
+                                                                        <Button
+                                                                            variant="secondary"
+                                                                            style={{ backgroundColor: 'transparent', color: '#6c757d' }} // Cambia el color y elimina el fondo gris
+                                                                        >
+                                                                            Comentario
+                                                                        </Button>
+                                                                    </OverlayTrigger>
+                                                                    </td>
+                                                                {IdCorEdit === Cor.idCortina ? <td className="Butooneditable" onClick={() => ConfirmEdit(Cor)}>Confirmar</td>
+                                                                    :
+                                                                    <NavDropdown title="Opciones" id="basic-nav-dropdown" className="drop-custom">
+                                                                        <NavDropdown.Item className="editable" onClick={() => Editar(Cor)}>Editar</NavDropdown.Item>
+                                                                        <NavDropdown.Item as="div">
+                                                                            <PDFDownloadLink document={<TicketCortina Venta={Ven} Cortina={Cor} />} fileName='Ticket'>
+                                                                                <Button>Ticket</Button>
+                                                                            </PDFDownloadLink>
+                                                                        </NavDropdown.Item>
+                                                                    </NavDropdown>}
+                                                            </tr>
+                                                        ))}
+                                                        
+                                                    </tbody>
+                                                </Table>
+                                                </>
+                                                :
+                                                null
+                                                }
+                                                {CortinasTradicionales2pano.length !== 0 ?
+                                                <>
+                                                <Table responsive>
+                                                    <thead style={{ justifyContent: "center", fontFamily: 'Arial, sans-serif' }}>
+                                                        <tr>
+                                                        <th>Tipo</th>
+                                                        <th>Numero</th>
+                                                        <th>Area</th>
+                                                        <th>Tela</th>
+                                                        <th>Paños</th>                                 
+                                                        <th>Ancho Izq</th>
+                                                        <th>Ancho Der</th>
+                                                        <th>Largo</th>
+                                                        <th>Bastones</th>
+                                                        <th>Techo/Pared</th>
+                                                        <th>Motorizada</th>
+                                                        <th>Detalle</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {CortinasTradicionales2pano.map(Cor => (
+                                                            <tr key={Cor.idCortina}>
+                                                                <td>Tradicional</td>
+                                                                <td>{Cor.numeroCortina}</td>
+                                                                <td>{Cor.ambiente}</td>
+                                                                <td>{Cor.nombreTela}</td>
+                                                                <td>{Cor.panos}</td>
+                                                                    <td>{Cor.anchoCortina}</td>
+                                                                    <td>{Cor.anchoDerecho}</td>
+                                                                    <td>{Cor.altoCortina}</td>      
+                                                                    {Cor.bastones ? <td> Si</td> : <td>No</td>}
+                                                                    <td>{Cor.techoPared}</td>
+                                                                    {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                                                                    <td>
+                                                                    <OverlayTrigger
+                                                                        key='top'
+                                                                        placement='top'
+                                                                        overlay={
+                                                                            <Tooltip id={`tooltip-top`}>
+                                                                                {Cor.detalle}
+                                                                            </Tooltip>
+                                                                        }
+                                                                    >
+                                                                        <Button
+                                                                            variant="secondary"
+                                                                            style={{ backgroundColor: 'transparent', color: '#6c757d' }} // Cambia el color y elimina el fondo gris
+                                                                        >
+                                                                            Comentario
+                                                                        </Button>
+                                                                    </OverlayTrigger>
+                                                                    </td>
+                                                                {IdCorEdit === Cor.idCortina ? <td className="Butooneditable" onClick={() => ConfirmEdit(Cor)}>Confirmar</td>
+                                                                    :
+                                                                    <NavDropdown title="Opciones" id="basic-nav-dropdown" className="drop-custom">
+                                                                        <NavDropdown.Item className="editable" onClick={() => Editar(Cor)}>Editar</NavDropdown.Item>
+                                                                        <NavDropdown.Item as="div">
+                                                                            <PDFDownloadLink document={<TicketCortina Venta={Ven} Cortina={Cor} />} fileName='Ticket'>
+                                                                                <Button>Ticket</Button>
+                                                                            </PDFDownloadLink>
+                                                                        </NavDropdown.Item>
+                                                                    </NavDropdown>}
+                                                            </tr>
+                                                        ))}
+                                                        
+                                                    </tbody>
+                                                </Table>
+                                                </>
+                                                :
+                                                null
+                                                }
                                                 {AgregarRollerBool ?
                                                     <>
                                                         <Row style={{ textAlign: "center" }}>
@@ -710,16 +874,36 @@ export const Ventas = ({ IdVentaView }) => {
                                                         </Col>
                                                     </Row>
                                                 }
+                                              
                                                 {AgregarRollerBool ? null :
                                                     <Row className="justify-content-center">
                                                         <Col className="text-center my-2">
-                                                            {loadingpdf ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadPDF(Ven,Cortinas)}} className="w-auto">PDF</Button>}
+                                                            {loadingpdf ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadPDF(Ven,CortinasRollers,CortinasTradicionales1pano)}} className="w-auto">PDF</Button>}
                                                         </Col>
                                                         <Col className="text-center my-2">
-                                                            
+                                                        <FloatingLabel controlId="floatingTextarea2" label="Comentario para PDF">
+                                                        <Form.Control
+                                                            as="textarea"
+                                                            placeholder="Leave a comment here"
+                                                            style={{
+                                                            borderRadius: "5px",
+                                                            overflow: "hidden", // Evita que aparezca una barra de desplazamiento
+                                                            }}
+                                                            value={ComentarioVenta}
+                                                            onChange={(e) => {
+                                                            const lines = e.target.value.split('\n');
+                                                            if (lines.length <= 3) {
+                                                                setComentarioVenta(e.target.value);
+                                                            } else {
+                                                                // Si se exceden las 3 líneas, trunca el texto
+                                                                setComentarioVenta(lines.slice(0, 3).join('\n'));
+                                                            }
+                                                            }}
+                                                        />
+                                                        </FloatingLabel>
                                                         </Col>
                                                         <Col className="text-center my-2">
-                                                            {loadingTicket ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadTicket(Ven,Cortinas,false)}} className="w-auto">Tickets S/Numero</Button>}
+                                                            {loadingTicket ? <Loading tipo="Ticket" /> : <Button variant="primary" onClick={()=>{downloadTicket(Ven,CortinasRollers,CortinasTradicionales1pano,false)}} className="w-auto">Tickets S/Numero</Button>}
                                                         </Col>
                                                     </Row>}
                                             </>
