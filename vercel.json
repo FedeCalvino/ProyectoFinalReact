@@ -151,6 +151,9 @@
     },{
       "source": "/Ventas/Datos/Tela",
       "destination": "http://annedecor.ddns.net:8085/Ventas/Datos/Tela"
+    },{
+      "source": "/Ventas/Datos/Tela/Metros",
+      "destination": "http://annedecor.ddns.net:8085/Ventas/Datos/Tela/Metros"
     }
   ]
 }
