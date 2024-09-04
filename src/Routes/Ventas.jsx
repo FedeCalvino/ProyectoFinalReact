@@ -70,7 +70,7 @@ export const Ventas = ({ IdVentaView }) => {
     const [selectedColorRoler, setselectedColorRoler] = useState('')
     
 
-   const UrlVentas = "/Ventas/DtoVentaCor/NoInstalado"
+        const UrlVentas = "/Ventas/Page"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
         const UrlTelas = "/TipoTela"

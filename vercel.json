@@ -136,7 +136,7 @@
       "source": "/Usuario/:Mail/:Pass",
       "destination": "http://190.135.199.200:8085/Usuario/:Mail/:Pass"
     },{
-      "source": "/Ventas/DtoVentaCor/NoInstalado",
+      "source": "/Ventas/Page",
       "destination": "http://annedecor.ddns.net:8085/Ventas/Dto"
     },{
       "source": "/Ventas/Instalado/:IdVenta",
