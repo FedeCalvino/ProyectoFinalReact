@@ -90,12 +90,11 @@ export const CrearVenta = () => {
     FetchTelas();
   }, []);
 
-  const UrlCliente = "http://localhost:8085/Cliente";
-  const UrlVentas = "http://localhost:8085/Ventas";
-  const URLCortinaRollerVenta = "http://localhost:8085/Cortinas/Rollers/";
-  const URLCortinaTradicionalVenta =
-    "http://localhost:8085/Cortinas/Tradicionales/";
-  const UrlTelas = "http://localhost:8085/TipoTela";
+  const UrlCliente = "/Cliente";
+  const UrlVentas = "/Ventas";
+  const URLCortinaRollerVenta = "/Cortinas/Rollers/";
+  const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
+  const UrlTelas = "/TipoTela";
 
   function AgregarTradicional() {
     setRollerTradicional("Tradicional");

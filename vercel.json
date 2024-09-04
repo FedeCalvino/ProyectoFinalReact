@@ -58,6 +58,10 @@
       "destination": "http://annedecor.ddns.net:8085/Cortinas/Rollers/:idVenta"
     },
     {
+      "source": "/Cortinas/Tradicionales/:idVenta",
+      "destination": "http://annedecor.ddns.net:8085/Cortinas/Tradicionales/:idVenta"
+    },
+    {
       "source": "/Ventas/Dto",
       "destination": "http://annedecor.ddns.net:8085/Ventas/Dto"
     },
