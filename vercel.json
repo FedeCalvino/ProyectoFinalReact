@@ -137,10 +137,10 @@
       "destination": "http://190.135.199.200:8085/Usuario/:Mail/:Pass"
     },{
       "source": "/Ventas/DtoVentaCor/NoInstalado",
-      "destination": "http://190.135.199.200:8085/Ventas/Dto"
+      "destination": "http://annedecor.ddns.net:8085/Ventas/Dto"
     },{
       "source": "/Ventas/Instalado/:IdVenta",
-      "destination": "http://190.135.199.200:8085/Ventas/Instalado/:IdVenta"
+      "destination": "http://annedecor.ddns.net:8085/Ventas/Instalado/:IdVenta"
     },{
       "source": "/Cliente/Provedores",
       "destination": "http://190.135.199.200:8085/Cliente/Provedores"
