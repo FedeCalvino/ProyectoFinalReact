@@ -1054,7 +1054,7 @@ export const CrearVenta = () => {
     };
 
     try {
-      const response = await fetch(UrlCliente+"sdds", requestOptionsCliente);
+      const response = await fetch(UrlCliente, requestOptionsCliente);
 
       if (!response.ok) {
         // Verifica el código de estado HTTP y lanza un error con un mensaje apropiado

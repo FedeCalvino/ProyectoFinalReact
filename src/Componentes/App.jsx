@@ -34,8 +34,8 @@ const App = () => {
 
     const login = async (usuario) => {
         try {
-            //const url = `/Usuario/${usuario.mail}/${usuario.Pass}`;
-            const url = `http://192.168.1.130:8085/Usuario/${usuario.mail}/${usuario.Pass}`;
+            const url = `/Usuario/${usuario.mail}/${usuario.Pass}`;
+            //const url = `http://192.168.1.130:8085/Usuario/${usuario.mail}/${usuario.Pass}`;
             console.log(url);
     
             const requestOptions = {
