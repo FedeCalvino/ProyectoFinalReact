@@ -91,7 +91,7 @@ export const CrearVenta = () => {
   }, []);
 
   const UrlCliente = "/Cliente";
-  const UrlVentas = "/Ventas";
+  const UrlVentas = "/SaveVentas";
   const URLCortinaRollerVenta = "/Cortinas/Rollers/";
   const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
   const UrlTelas = "/TipoTela";
