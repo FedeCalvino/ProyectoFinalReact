@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export const TicketsCortinas = ({ Venta, Cortinas = [] , NumeroCor}) => {
+export const TicketsCortinas = ({ Venta, Cortinasroller = [] , NumeroCor}) => {
   const [fontSize, setFontSize] = useState(2);
   const [fontSizeMedidas, setfontSizeMedidas] = useState(2);
   const [fontSizeAmbiente, setfontSizeAmbiente] = useState(2);
@@ -109,7 +109,7 @@ export const TicketsCortinas = ({ Venta, Cortinas = [] , NumeroCor}) => {
 
   return (
     <Document>
-      {Cortinas.map(cor => (
+      {Cortinasroller.map(cor => (
         
         <Page size={[34, 12]} style={styles.page} key={cor.idCortina}>
           <View style={styles.tableContainer1}>
