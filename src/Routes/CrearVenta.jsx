@@ -23,13 +23,16 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { Toaster, toast } from "react-hot-toast";
 import "./Css/CrearVenta.css";
 import { TicketPreview } from "../Componentes/TicketPreview";
+import { FormRieles } from "../Componentes/FormRieles";
+import { useSelector } from 'react-redux';
+import { TablaRieles } from "../Componentes/TablaRieles";
 
 export const CrearVenta = () => {
   const [RollerTradicional, setRollerTradicional] = useState("Roller");
-
+  const Rieles = useSelector((state)=>state.Rieles)
   const [IdVentaView, setIdVentaView] = useState(null);
   const [MensajeAlert, setMensajeAlert] = useState("");
-
+  const [selectedTradicional,SetselectedTradicional]=useState([])
   const [NumAntes, setNumAntes] = useState(null);
   const [isValid, setisValid] = useState(null);
   const [loading, setloading] = useState(false);
@@ -52,15 +55,16 @@ export const CrearVenta = () => {
   const [Cortinas, setCortinas] = useState([]);
 
   const [TelasDelTipo, SetTelasDelTipo] = useState([]);
+  const [TelasDelTipoTradicional, SetTelasDelTipoTradicional] = useState([]);
   const [TiposTelas, SetTiposTelas] = useState([]);
-
+  const [TelaTradicional, SetTelaTradicional] = useState([]);
   const [CambioNumAntBool, setCambioNumAntBool] = useState(false);
 
   //Datos Cortina
   const [motorizada, setMotorizada] = useState(false);
   const [selectedTelaRoler, SetselectedTelaRoler] = useState([]);
   const [selectedTelaMostrarRoler, SetselectedTelaMostrarRoler] = useState([]);
-  const [selectedTelaRolerNombre, SetselectedTelaRolerNombre] = useState("");
+  const [selectedTelaMostrarTradicional, SetselectedTelaMostrarTradicional] = useState([]);
   const [selectedAreaRoler, SetselectedAreaRoler] = useState("");
   const [ComentarioCor, SetComentarioCor] = useState("");
   const [AnchoRoller, setAnchoRoller] = useState("");
@@ -71,7 +75,6 @@ export const CrearVenta = () => {
   const [Cadena, setCadena] = useState("");
   const [NumeroCor, setNumeroCor] = useState(1);
   const [selectedColorRoler, setselectedColorRoler] = useState("");
-
   const [idCor, setidCor] = useState(0);
 
   //Tradicional
@@ -83,7 +86,7 @@ export const CrearVenta = () => {
   const [IzqDerTradicional, setIzqDerTradicional] = useState("");
 
   const [BastonesTradicional, setBastonesTradicional] = useState(false);
-  const [TechoPared, setTechoPared] = useState("");
+  const [Pinza, setPinza] = useState("");
   const [motorizadaTradicional, setMotorizadaTradicional] = useState(false);
 
   useEffect(() => {
@@ -98,20 +101,20 @@ export const CrearVenta = () => {
 
   function AgregarTradicional() {
     setRollerTradicional("Tradicional");
+    console.log(selectedTradicional)
     const nuevaCortinaTradicional = {
       RollerTradicional: "Tradicional",
       Id: idCor,
       Ambiente: selectedAreaRoler,
-      IdTipoTela: selectedTelaRoler.Id,
+      IdTipoTela: selectedTradicional.Id,
       ancho: AnchoTradicional,
       AnchoDerecho: AnchoTradicionalDer,
       alto: LargoTradicional,
       CantidadPanos: Paños,
       Acumula: Paños === "1" ? IzqDerTradicional : null,
-      Bastones: BastonesTradicional,
-      TechoPared: TechoPared,
+      Pinza: Pinza,
       motorizada: motorizadaTradicional,
-      TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
+      TelaNombre: selectedTradicional.Nombre + " "+selectedTradicional.Descripcion,
       detalle: ComentarioCor,
       numeroCortina: NumeroCor,
     };
@@ -170,7 +173,7 @@ export const CrearVenta = () => {
       cadena: Cadena,
       Tubo: CanoRoller,
       motorizada: motorizada,
-      TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
+      TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.Descripcion,
       detalle: ComentarioCor,
       numeroCortina: NumeroCor,
     };
@@ -225,6 +228,16 @@ export const CrearVenta = () => {
     // Obtener el Nombre del objeto seleccionado
     selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
   };
+  const handleSelectTelaTradicional = (e) => {
+    //console.log(e.target.value)
+    const selectedValue = parseInt(e.target.value, 10);
+    const selectedTela = Telas.find((tela) => tela.Id === selectedValue);
+    SetselectedTradicional(selectedTela);
+    console.log(selectedTela);
+    setselectedColorRoler(e.target.value);
+    // Obtener el Nombre del objeto seleccionado
+    selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
+  };
   const setNuevoNumeroCor = (numero) => {
     if (!CambioNumAntBool) {
       const numero = NumeroCor;
@@ -243,26 +256,23 @@ export const CrearVenta = () => {
     try {
       const res = await fetch(UrlTelas);
       const data = await res.json();
-      const tipos = data.filter(
+      const tiposRoller = data.filter(
         (tipo, index, self) =>
-          index === self.findIndex((t) => t.nombre === tipo.nombre)
+          index === self.findIndex((t) => t.nombre === tipo.nombre && t.Color==1)
       );
-      SetTiposTelas(tipos);
+      const tiposTradi = data.filter(
+        (tipo, index, self) =>
+          index === self.findIndex((t) => t.nombre === tipo.nombre && t.Color==2)
+      );
+      SetTiposTelas(tiposRoller);
+      SetTelaTradicional(tiposTradi)
       setTelas(data);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
-  /*
-  if (loading) {
-    return (
-      <div>
-        <Loading tipo="all" />
-      </div>
-    );
-  }
-    */
+
   const FormCortinaTradicional = () => {
     return (
       <>
@@ -303,11 +313,11 @@ export const CrearVenta = () => {
               as={Col}
               md="1"
               aria-label="Default select example"
-              onChange={handleSelectChange}
-              value={selectedTelaMostrarRoler}
+              onChange={handleSelectChangeTradicional}
+              value={selectedTelaMostrarTradicional}
             >
               <option style={{ textAlign: "center" }}></option>
-              {TiposTelas.map((Tel) => (
+              {TelaTradicional.map((Tel) => (
                 <option
                   style={{ textAlign: "center" }}
                   value={Tel.id}
@@ -332,17 +342,17 @@ export const CrearVenta = () => {
               as={Col}
               md="1"
               aria-label="Default select example"
-              onChange={handleSelectTela}
+              onChange={handleSelectTelaTradicional}
               value={selectedColorRoler}
             >
               <option style={{ textAlign: "center" }}></option>
-              {TelasDelTipo.map((Tel) => (
+              {TelasDelTipoTradicional.map((Tel) => (
                 <option
                   style={{ textAlign: "center" }}
                   value={Tel.id}
                   key={Tel.id}
                 >
-                  {Tel.descripcion}
+                  {Tel.Descripcion}
                 </option>
               ))}
             </Form.Select>
@@ -510,7 +520,7 @@ export const CrearVenta = () => {
           <Form.Group
             style={{ marginLeft: "2em" }}
             as={Col}
-            md="1"
+            md="2"
             controlId="validationCustom01"
             noValidate
           >
@@ -521,37 +531,28 @@ export const CrearVenta = () => {
                 justifyContent: "center",
               }}
             >
-              Techo/Pared
+              Pinza
             </Form.Label>
             <Form.Select
               as={Col}
               md="1"
               aria-label="Default select example"
               onChange={(e) => {
-                setTechoPared(e.target.value);
+                setPinza(e.target.value);
               }}
-              value={TechoPared}
+              value={Pinza}
             >
               <option style={{ textAlign: "center" }} value=""></option>
-              <option style={{ textAlign: "center" }} value="Techo">
-                Techo
-              </option>
-              <option style={{ textAlign: "center" }} value="Pared">
-                Pared
-              </option>
+              <option style={{ textAlign: "center" }} value="Americana 3 pinzas">Americana 3 pinzas</option>
+              <option style={{ textAlign: "center" }} value="Americana 2 pinzas">Americana 2 pinzas</option>
+              <option style={{ textAlign: "center" }} value="Americana 1 pinzas">Americana 1 pinzas</option>
+              <option style={{ textAlign: "center" }} value="Italiana">Italiana</option>s
+              <option style={{ textAlign: "center" }} value="Plisadora">Plisadora</option>
+              <option style={{ textAlign: "center" }} value="Ondas">Ondas</option>
+              <option style={{ textAlign: "center" }} value="Italiana x 1.80">Italiana x 1.80</option>
+              <option style={{ textAlign: "center" }} value="Italiana x 2.00">Italiana x 2.00</option>
+              <option style={{ textAlign: "center" }} value="Italiana x 2.50">Italiana x 2.50</option>
             </Form.Select>
-          </Form.Group>
-          <Form.Group as={Col} md="1" controlId="validationCustom01">
-            <Form.Check
-              style={{ marginLeft: "2em", marginTop: "2em", transform: 'scale(1.2)' }} // prettier-ignore
-              type="switch"
-              checked={motorizadaTradicional}
-              onChange={(e) => {
-                setMotorizadaTradicional(e.target.checked);
-              }}
-              id="custom-switch"
-              label="Motorizada"
-            />
           </Form.Group>
         </Row>
         <Row>
@@ -599,18 +600,18 @@ export const CrearVenta = () => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group as={Col} md="1" controlId="validationCustom01">
-              <Form.Check
-                style={{ marginLeft: "5em", marginTop: "2em", transform: 'scale(1.2)' }} // prettier-ignore
-                type="switch"
-                checked={BastonesTradicional}
-                onChange={(e) => {
-                  setBastonesTradicional(e.target.checked);
-                }}
-                id="custom-switch"
-                label="Bastones"
-              />
-            </Form.Group>
+          <Form.Group as={Col} md="1" controlId="validationCustom01">
+            <Form.Check
+              style={{ marginLeft: "2em", marginTop: "2em", transform: 'scale(1.2)' }} // prettier-ignore
+              type="switch"
+              checked={motorizadaTradicional}
+              onChange={(e) => {
+                setMotorizadaTradicional(e.target.checked);
+              }}
+              id="custom-switch"
+              label="Motorizada"
+            />
+          </Form.Group>
           </Col>
         </Row>
       </>
@@ -630,8 +631,20 @@ export const CrearVenta = () => {
     const SetTelas = Telas.filter(
       (Tela) => Tela.Nombre === selectedTela.Nombre
     );
-    SetTelas.sort((a, b) => a.Color.localeCompare(b.Color));
+    SetTelas.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
     SetTelasDelTipo(SetTelas);
+  };
+
+  const handleSelectChangeTradicional = (e) => {
+    const selectedValue = parseInt(e.target.value, 10);
+    const selectedTela = TelaTradicional.find((tela) => tela.Id === selectedValue);
+
+    SetselectedTelaMostrarTradicional(e.target.value);
+    const SetTelasTradicional = Telas.filter(
+      (Tela) => Tela.Nombre === selectedTela.Nombre
+    );
+    SetTelasTradicional.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
+    SetTelasDelTipoTradicional(SetTelasTradicional);
   };
 
   const FormCortinaRoller = () => {
@@ -712,7 +725,7 @@ export const CrearVenta = () => {
                   value={Tel.id}
                   key={Tel.id}
                 >
-                  {Tel.descripcion}
+                  {Tel.Descripcion}
                 </option>
               ))}
             </Form.Select>
@@ -943,8 +956,7 @@ export const CrearVenta = () => {
                 cadena: Cadena,
                 Tubo: CanoRoller,
                 motorizada: motorizada,
-                TelaNombre:
-                selectedTelaRoler.Nombre + selectedTelaRoler.descripcion,
+                TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.Descripcion,
                 detalle: ComentarioCor,
                 numeroCortina: NumeroCor,
               }}
@@ -1421,7 +1433,7 @@ export const CrearVenta = () => {
                 defaultActiveKey="Roll"
                 id="fill-tab-example"
                 className="mb-2"
-                fill // This prop ensures that tabs take up equal width
+                fill 
               >
                 <Tab eventKey="Roll" title="Roller">
                   {FormCortinaRoller()}
@@ -1485,8 +1497,8 @@ export const CrearVenta = () => {
                     </Form.Group>
                   </Row>
                 </Tab>
-                <Tab eventKey="Pan" title="Panel">
-                  Tab content for Panel
+                <Tab eventKey="Pan" title="Rieles">
+                  <FormRieles/>
                 </Tab>
               </Tabs>
             </Row>
@@ -1517,6 +1529,20 @@ export const CrearVenta = () => {
                   }}
                 >
                   Tradicional
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  className={
+                    RollerTradicional === "Rieles"
+                      ? "custom-button3active"
+                      : "custom-button3"
+                  }
+                  onClick={() => {
+                    setRollerTradicional("Rieles");
+                  }}
+                >
+                  Rieles
                 </Button>
               </Col>
             </Row>
@@ -1631,7 +1657,9 @@ export const CrearVenta = () => {
                 </tbody>
               </Table>
             )}
-
+            {RollerTradicional === "Rieles" && (
+              <TablaRieles/>
+            )}
             <div className="d-flex flex-row align-items-center justify-content-center">
                 {loading ?
             <Loading tipo={"tab"} />

@@ -29,6 +29,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: "center",
     },
+    title2: {
+        fontSize: 22,
+        marginBottom: 10,
+        fontWeight: 'bold',
+        textAlign: "start",
+    },
     subtitle: {
         fontSize: 12,
         marginBottom: 5,
@@ -104,6 +110,7 @@ const FormatearFecha = ({ fecha }) => {
 
 const Header = ({ Venta }) => (
     <>
+        <Text style={styles.title2}>{Venta.IdVenata}</Text>
         <Text style={styles.title1}>Fecha Instalación: <FormatearFecha fecha={Venta.DiaInstalacion} /></Text>
         <View style={styles.logoContainer}>
             <Image style={styles.logo} src="ImgLogo.png" />
@@ -129,6 +136,33 @@ const TableHeader = () => (
         <Text style={[styles.tableHeaderCell, styles.subtitle]}>Detalle</Text>
     </View>
 );
+const TableHeaderTradicional1Paño = () => (
+    <View style={styles.tableHeader}>
+        <Text style={[styles.tableHeaderCell1, styles.subtitle]}>Ambiente</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Paños</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Largo</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Lado Acumula</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Bastones</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Techo/Pared</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Motorizada</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Detalle</Text>
+    </View>
+);
+const TableHeaderTradicional2Paños = () => (
+    <View style={styles.tableHeader}>
+        <Text style={[styles.tableHeaderCell1, styles.subtitle]}>Ambiente</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Paños</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho Izq</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Ancho Der</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Largo</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Lado Acumula</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Bastones</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Techo/Pared</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Motorizada</Text>
+        <Text style={[styles.tableHeaderCell, styles.subtitle]}>Detalle</Text>
+    </View>
+);
 
 const TelaTitle = ({ tela }) => (
     <Text style={styles.title}>Tela: {tela}</Text>
@@ -138,16 +172,23 @@ export const PDFTela = ({ Venta,Cortinasroller = [] ,Cortinastradicional= [],Com
     if (!Venta || !Cortinasroller) {
         throw new Error("Faltan datos necesarios para generar el PDF");
     }
-    console.log(ComentarioVen)
-    if (Cortinasroller.length > 9) {
-        // Agrupamos las cortinas por nombre y color de tela
-        const groupedCortinas = Object.entries(Cortinasroller.reduce((groups, cortina) => {
-            const key = `${cortina.nombreTela} ${cortina.colorTela}`;
-            if (!groups[key]) groups[key] = [];
-            groups[key].push(cortina);
-            return groups;
-        }, {}));
+    const groupedCortinasTradicional = Object.entries(Cortinastradicional.reduce((groups, cortina) => {
+        const key = `${cortina.nombreTela} ${cortina.colorTela}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(cortina);
+        return groups;
+    }, {}));
 
+    const groupedCortinas = Object.entries(Cortinasroller.reduce((groups, cortina) => {
+        const key = `${cortina.nombreTela} ${cortina.colorTela}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(cortina);
+        return groups;
+    }, {}));
+
+    console.log(ComentarioVen)
+
+    if (Cortinasroller.length > 9) {
         const pages = [];
 
         groupedCortinas.forEach(([key, cortinas]) => {
@@ -190,17 +231,38 @@ export const PDFTela = ({ Venta,Cortinasroller = [] ,Cortinastradicional= [],Com
                         </Text>
                     </Page>
                 ))}
+                <Page size="A4" style={styles.page} orientation="landscape">
+                <Header Venta={Venta} />
+                {groupedCortinasTradicional.map(([key, cortinas], index) => (
+                    <React.Fragment key={index}>
+                        <TelaTitle tela={key} />
+                        <TableHeader />
+                        {cortinas.map((cortina, cortinaIndex) => (
+                            <View style={styles.tableRow} key={cortinaIndex}>
+                                <Text style={[styles.tableCell1, styles.text]}>{cortina.ambiente}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoAfuerAfuera}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCortina}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCaño}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.cano}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.altoCortina}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.altoTela}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.cadena}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.posicion}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.ladoCadena}</Text>
+                                <Text style={[styles.tableCell, styles.text2]}>{cortina.detalle}</Text>
+                            </View>
+                        ))}
+                    </React.Fragment>
+                ))}
+                <Text style={styles.comment}>
+                    <Text style={styles.commentTitle}>Comentario</Text>
+                    {"\n"}
+                    <Text style={styles.commentText}>{ComentarioVen}</Text>
+                </Text>
+            </Page>
             </Document>
         );
     } else {
-        // Agrupamos las cortinas por tela
-        const groupedCortinas = Object.entries(Cortinasroller.reduce((groups, cortina) => {
-            const key = `${cortina.nombreTela} ${cortina.colorTela}`;
-            if (!groups[key]) groups[key] = [];
-            groups[key].push(cortina);
-            return groups;
-        }, {}));
-
         return (
             <Document>
                 <Page size="A4" style={styles.page} orientation="landscape">
@@ -233,6 +295,35 @@ export const PDFTela = ({ Venta,Cortinasroller = [] ,Cortinastradicional= [],Com
                         <Text style={styles.commentText}>{ComentarioVen}</Text>
                     </Text>
                 </Page>
+                <Page size="A4" style={styles.page} orientation="landscape">
+                <Header Venta={Venta} />
+                {groupedCortinasTradicional.map(([key, cortinas], index) => (
+                    <React.Fragment key={index}>
+                        <TelaTitle tela={key} />
+                        <TableHeader />
+                        {cortinas.map((cortina, cortinaIndex) => (
+                            <View style={styles.tableRow} key={cortinaIndex}>
+                                <Text style={[styles.tableCell1, styles.text]}>{cortina.ambiente}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoAfuerAfuera}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCortina}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.anchoCaño}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.cano}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.altoCortina}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.altoTela}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.cadena}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.posicion}</Text>
+                                <Text style={[styles.tableCell, styles.text]}>{cortina.ladoCadena}</Text>
+                                <Text style={[styles.tableCell, styles.text2]}>{cortina.detalle}</Text>
+                            </View>
+                        ))}
+                    </React.Fragment>
+                ))}
+                <Text style={styles.comment}>
+                    <Text style={styles.commentTitle}>Comentario</Text>
+                    {"\n"}
+                    <Text style={styles.commentText}>{ComentarioVen}</Text>
+                </Text>
+            </Page>
             </Document>
         );
     }

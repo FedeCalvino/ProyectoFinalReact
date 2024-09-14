@@ -22,6 +22,11 @@
     background-color: #010201; /* Color de fondo al hacer hover */
 }
 
-.custom-button3:active {
-    background-color: #d40c9f; /* Color de fondo al hacer click */
+.custom-button3active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cd27a0; /* Color de fondo al hacer click */
+    width: 100%;
+    border: none
 }

@@ -79,13 +79,12 @@ export const Ventas = ({ IdVentaView }) => {
   
         
 /*
-    const UrlTelas = "http://20.84.121.133:8085/TipoTela";
-    const UrlVentas = "http://20.84.121.133:8085/Ventas/DtoVentaCor/NoInstalado"
-    const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
-    const UrlInstalada = "http://20.84.121.133:8085/Ventas/Instalado/"
-    const UrlEditCor = "http://20.84.121.133:8085/Cortinas"
+    const UrlTelas = "http://annedecor.ddns.net:8085/TipoTela";
+    const UrlVentas = "http://annedecor.ddns.net:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVenta = "http://annedecor.ddns.net:8085/Ventas/DtoVentaCor/"
+    const UrlInstalada = "http://annedecor.ddns.net:8085/Ventas/Instalado/"
+    const UrlEditCor = "http://annedecor.ddns.net:8085/Cortinas"
 */
-
     function MostrarVenta(venta) {
         setComentarioVenta("")
         setIdVenta(venta.IdVenata)
@@ -417,6 +416,10 @@ export const Ventas = ({ IdVentaView }) => {
         )
     }
     const downloadTicket = async (Ven, CortinasRoller,CortinasTradicional, numeroCor) => {
+        console.log("Ven",Ven)
+        console.log("CortinasRoller",CortinasRoller)
+        console.log("CortinasTradicional",CortinasTradicional)
+        console.log("numeroCor",numeroCor)
         // Generar el documento PDF utilizando la función `pdf`
         setloadingTicket(true)
         const blob = await pdf(
@@ -622,6 +625,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                         <th>Numero</th>
                                                         <th>Area</th>
                                                         <th>Tela</th>
+                                                        <th>Color</th>
                                                         <th>Paños</th>                                 
                                                         <th>Ancho</th>
                                                         <th>Largo</th>
@@ -639,6 +643,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                 <td>{Cor.numeroCortina}</td>
                                                                 <td>{Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
+                                                                <td>{Cor.colorTela}</td>
                                                                 <td>{Cor.panos}</td>
                                                                     <td>{Cor.anchoCortina}</td>
                                                                     <td>{Cor.altoCortina}</td>      
@@ -692,6 +697,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                         <th>Numero</th>
                                                         <th>Area</th>
                                                         <th>Tela</th>
+                                                        <th>Color</th>
                                                         <th>Paños</th>                                 
                                                         <th>Ancho Izq</th>
                                                         <th>Ancho Der</th>
@@ -709,6 +715,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                                 <td>{Cor.numeroCortina}</td>
                                                                 <td>{Cor.ambiente}</td>
                                                                 <td>{Cor.nombreTela}</td>
+                                                                <td>{Cor.colorTela}</td>
                                                                 <td>{Cor.panos}</td>
                                                                     <td>{Cor.anchoCortina}</td>
                                                                     <td>{Cor.anchoDerecho}</td>
