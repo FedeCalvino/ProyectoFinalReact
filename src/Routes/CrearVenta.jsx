@@ -72,8 +72,6 @@ export const CrearVenta = () => {
         (tipo, index, self) =>
           index === self.findIndex((t) => t.nombre === tipo.nombre && t.Color==2)
       );
-      SetTiposTelas(tiposRoller);
-      SetTelaTradicional(tiposTradi)
       dispatch(setTelasRollerFeature(tiposRoller));
       dispatch(setTelasTradicionalFeature(tiposRoller));
       console.log(data);
