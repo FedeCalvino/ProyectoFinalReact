@@ -16,20 +16,23 @@ import Spinner from 'react-bootstrap/Spinner';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Container from 'react-bootstrap/Container'
-export const SelecctCliente = React.memo(({ ClienteData }) => {
-
+import { useDispatch, useSelector } from 'react-redux';
+import {setClienteFeature} from "../Features/ClienteReducer"
+import {selectCliente} from "../Features/ClienteReducer"
+export const SelecctCliente = React.memo(() => {
+    
+    const dispatch = useDispatch();
+    const ClienteData = useSelector(selectCliente)
     //CrearCliente
-    const [NombreCliN, setCliNomN] = useState('');
-    const [TelefonoCliN, setCliTelN] = useState('');
-    const [RutCliN, setCliRutN] = useState('');
-    const [DireccCliN, setCliDireccN] = useState('');
-    const [NroCuentaCli, setNroCuentaCli] = useState('');
+    const [NombreCliN, setCliNomN] = useState(ClienteData.Name);
+    const [TelefonoCliN, setCliTelN] = useState(ClienteData.Tel);
+    const [RutCliN, setCliRutN] = useState(ClienteData.Rut);
+    const [DireccCliN, setCliDireccN] = useState(ClienteData.Direcc);
+
     const [loadingSearch, setloadingSearch] = useState(false);
     //SeleccCliente
     const [Tipo, setTipo] = useState('Cliente');
 
-
-    const UrlClientes = "http://localhost:8085/Cliente"
     const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
 
     const [SearchText, setSearchText] = useState('');
@@ -65,9 +68,10 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
             Direcc: DireccCliN,
             Tel: TelefonoCliN,
             Rut: RutCliN,
-            Tipo: Tipo // Assuming `Tipo` is a simple value, not an object
+            Tipo: Tipo,
+            set:true
         }
-        ClienteData(NewClienteData);
+        dispatch(setClienteFeature(NewClienteData));
     }
 
 
@@ -92,9 +96,10 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
             Direcc: Cli.direccion,
             Tel: Cli.numeroTelefono,
             Rut: Cli.rut,
-            Tipo: Cli.Tipo // Assuming `Tipo` is a simple value, not an object
+            Tipo: Cli.Tipo,
+            set:true
         }
-        ClienteData(NewClienteData);
+        dispatch(setClienteFeature(NewClienteData));
     };
 
     return (
@@ -165,7 +170,6 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                                             <Form.Group controlId="Telefono">
                                                 <Form.Label>Telefono</Form.Label>
                                                 <Form.Control
-                                                    required
                                                     type="number"
                                                     value={TelefonoCliN}
                                                     onChange={(e) => setCliTelN(e.target.value)}
@@ -211,7 +215,7 @@ export const SelecctCliente = React.memo(({ ClienteData }) => {
                                     </Row>
                                     <Row className="justify-content-center">
                                         <Col md="2">
-                                            <Button type="submit" onClick={CrearCliente} className="w-100">Crear Cliente</Button>
+                                            <Button onClick={CrearCliente} className="w-100">Crear Cliente</Button>
                                         </Col>
                                     </Row>
                                 </Form>

@@ -5,8 +5,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useDispatch, useSelector } from "react-redux";
-import { setRielesFeature } from "../Features/RielesReducer"; 
-
+import { addRiel } from "../../Features/CortinasReducer"; 
+import { TablaRieles } from "../Tables/TablaRieles";
+import { GoCheckCircle } from "react-icons/go";
 export const FormRieles = () => {
   const dispatch = useDispatch();
   const [Tipo, setTipo] = useState("");
@@ -36,7 +37,7 @@ export const FormRieles = () => {
     setRieles(nuevosRieles);
   
     // Despachamos el nuevo estado de Rieles
-    dispatch(setRielesFeature(nuevosRieles));
+    dispatch(addRiel(nuevoRiel));
   };
   
   return (
@@ -61,7 +62,7 @@ export const FormRieles = () => {
           <Form.Group controlId="ancho">
             <Form.Label className="text-center w-100">Ancho</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               value={Ancho}
               style={{ textAlign: "center" }}
               onChange={(e) => {
@@ -190,6 +191,9 @@ export const FormRieles = () => {
         </Col>
         <Col></Col>
         <Col></Col>
+      </Row>
+      <Row>
+        <TablaRieles/>
       </Row>
     </>
   );

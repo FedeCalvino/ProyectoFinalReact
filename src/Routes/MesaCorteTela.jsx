@@ -12,6 +12,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { PDFTela } from '../Componentes/PDFTela';
 
+
 export const MesaCorteTela = () => {
     
     const urlIP = import.meta.env.REACT_APP__IPSQL;

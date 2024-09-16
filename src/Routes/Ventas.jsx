@@ -606,7 +606,8 @@ export const Ventas = ({ IdVentaView }) => {
                                                                                 <Button>Ticket</Button>
                                                                             </PDFDownloadLink>
                                                                         </NavDropdown.Item>
-                                                                    </NavDropdown>}
+                                                                    </NavDropdown>
+                                                                    }
                                                             </tr>
                                                         ))}
                                                         
@@ -877,7 +878,7 @@ export const Ventas = ({ IdVentaView }) => {
                                                             <Button type="submit" onClick={() => { SetAgregarRollerBool(true) }}>Agergar Cortina</Button>
                                                         </Col>
                                                         <Col className="text-center my-2">
-                                                       
+                                                                        
                                                         </Col>
                                                     </Row>
                                                 }

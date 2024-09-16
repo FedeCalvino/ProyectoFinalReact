@@ -1,0 +1,11 @@
+.multi-line-text {
+    white-space: normal; /* Permite que el texto se envuelva en varias líneas */
+    word-wrap: break-word; /* Corta las palabras largas si es necesario */
+    max-width: 150px; /* Ajusta el ancho de las celdas según tus necesidades */
+    vertical-align: middle; /* Alinea el texto verticalmente en el centro */
+    padding: 0.5rem; /* Añade espacio para que el texto no se vea apretado */
+}
+
+td {
+    vertical-align: middle; /* Alinea el contenido de las celdas verticalmente */
+}

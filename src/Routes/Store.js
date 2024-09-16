@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import RielesReducer from '../Features/RielesReducer'; // Asegúrate de que la ruta es correcta
+import CortinasReducer from '../Features/CortinasReducer'; // Asegúrate de que la ruta es correcta
+import TelasReducer from '../Features/TelasReducer';
+import ClienteReducer from '../Features/ClienteReducer'
 
 export const store = configureStore({
   reducer: {
-    Rieles: RielesReducer,
+    Cortinas: CortinasReducer,
+    Telas:TelasReducer,
+    Cliente:ClienteReducer
   },
 });
 
