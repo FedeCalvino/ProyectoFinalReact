@@ -37,7 +37,7 @@ export const FormRollers = () => {
     const handleSelectTela = (e) => {
         //console.log(e.target.value)
         const selectedValue = parseInt(e.target.value, 10);
-        const selectedTela = Telas.find((tela) => tela.Id === selectedValue);
+        const selectedTela = TiposTelas.find((tela) => tela.Id === selectedValue);
         SetselectedTelaRoler(selectedTela);
         console.log(selectedTela);
         setselectedColorRoler(e.target.value);
@@ -49,14 +49,14 @@ export const FormRollers = () => {
       };
     const handleSelectChange = (e) => {
         const selectedValue = parseInt(e.target.value, 10);
-        const selectedTela = Telas.find((tela) => tela.Id === selectedValue);
+        const selectedTela = TiposTelas.find((tela) => tela.Id === selectedValue);
     
         SetselectedTelaMostrarRoler(e.target.value);
-        const SetTelas = Telas.filter(
+        const SetTelas = TiposTelas.filter(
           (Tela) => Tela.Nombre === selectedTela.Nombre
         );
         SetTelas.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
-        SetTelasDelTipo(SetTelas);
+        setTelasDelTipo(SetTelas);
       };
 
     function AgregarRoller() {

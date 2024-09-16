@@ -33,7 +33,7 @@ export const FormTradicional = () => {
     const handleSelectTelaTradicional = (e) => {
         //console.log(e.target.value)
         const selectedValue = parseInt(e.target.value, 10);
-        const selectedTela = Telas.find((tela) => tela.Id === selectedValue);
+        const selectedTela = TelaTradicional.find((tela) => tela.Id === selectedValue);
         SetselectedTradicional(selectedTela);
         console.log(selectedTela);
         setselectedColorRoler(e.target.value);
@@ -50,7 +50,7 @@ export const FormTradicional = () => {
         const selectedTela = TelaTradicional.find((tela) => tela.Id === selectedValue);
     
         SetselectedTelaMostrarTradicional(e.target.value);
-        const SetTelasTradicional = Telas.filter(
+        const SetTelasTradicional = TelaTradicional.filter(
           (Tela) => Tela.Nombre === selectedTela.Nombre
         );
         SetTelasTradicional.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));

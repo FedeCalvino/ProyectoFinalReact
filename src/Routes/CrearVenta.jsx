@@ -53,11 +53,11 @@ export const CrearVenta = () => {
     FetchTelas();
   }, []);
 
-  const UrlCliente = "/Cliente";
-  const UrlVentas = "/SaveVentas";
-  const URLCortinaRollerVenta = "/Cortinas/Rollers/";
-  const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
-  const UrlTelas = "/TipoTela";
+  const UrlCliente = "http://annedecor.ddns.net:8085/Cliente";
+  const UrlVentas = "http://annedecor.ddns.net:8085/SaveVentas";
+  const URLCortinaRollerVenta = "http://annedecor.ddns.net:8085/Cortinas/Rollers/";
+  const URLCortinaTradicionalVenta ="http://annedecor.ddns.net:8085/Cortinas/Tradicionales/";
+  const UrlTelas = "http://annedecor.ddns.net:8085/TipoTela";
 
 
   const FetchTelas = async () => {
