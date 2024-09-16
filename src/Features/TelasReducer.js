@@ -13,10 +13,11 @@ export const TelasReducer = createSlice({
     initialState,
     reducers: {
         setTelasRollerFeature: (state, action) => {
-            state.Cortinas.TelasRoller = action.payload;
+            console.log(action.payload)
+            state.Telas.TelasRoller = action.payload;
         },
         setTelasTradicionalFeature: (state, action) => {
-            state.Cortinas.TelasTradicional = action.payload;
+            state.Telas.TelasTradicional = action.payload;
         }
     }
 });
