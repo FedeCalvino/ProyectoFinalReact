@@ -53,27 +53,21 @@ export const CrearVenta = () => {
     FetchTelas();
   }, []);
 
-  const UrlCliente = "http://annedecor.ddns.net:8085/Cliente";
-  const UrlVentas = "http://annedecor.ddns.net:8085/SaveVentas";
-  const URLCortinaRollerVenta = "http://annedecor.ddns.net:8085/Cortinas/Rollers/";
-  const URLCortinaTradicionalVenta ="http://annedecor.ddns.net:8085/Cortinas/Tradicionales/";
-  const UrlTelas = "http://annedecor.ddns.net:8085/TipoTela";
+  const UrlCliente = "/Cliente";
+  const UrlVentas = "/SaveVentas";
+  const URLCortinaRollerVenta = "/Cortinas/Rollers/";
+  const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
+  const UrlTelas = "/TipoTela";
 
 
   const FetchTelas = async () => {
     try {
       const res = await fetch(UrlTelas);
       const data = await res.json();
-      const tiposRoller = data.filter(
-        (tipo, index, self) =>
-          index === self.findIndex((t) => t.nombre === tipo.nombre && t.Color==1)
-      );
-      const tiposTradi = data.filter(
-        (tipo, index, self) =>
-          index === self.findIndex((t) => t.nombre === tipo.nombre && t.Color==2)
-      );
+      const tiposRoller = data.filter(tela=>tela.Tipo===1);
+      const tiposTradi = data.filter(tela=>tela.Tipo===2);
       dispatch(setTelasRollerFeature(tiposRoller));
-      dispatch(setTelasTradicionalFeature(tiposRoller));
+      dispatch(setTelasTradicionalFeature(tiposTradi));
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -194,7 +188,7 @@ export const CrearVenta = () => {
     setloading(true);
     console.log("handle", result);
     AgregarCortinasRollers(result.id);
-    AgregarCortinasTradicionales(result.id);
+    //AgregarCortinasTradicionales(result.id);
     setIdVentaView(result.id);
     /*setTimeout(() => {
             setVentaCreada(false);

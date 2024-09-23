@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from 'react-redux';
 import {selectRollers,removeRoller} from "../../Features/CortinasReducer"
@@ -7,8 +7,12 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 export const TableRollers = () => {
     const dispatch = useDispatch()
+
     const Rollers = useSelector(selectRollers)
+
     function BorrarCor(num) {dispatch(removeRoller({numeroCortina:num}))}
+
+    useEffect(()=>{console.log("Rollers",Rollers)},[Rollers])
   return (
     <Table responsive>
                 <thead>
@@ -28,7 +32,6 @@ export const TableRollers = () => {
                 <tbody>
                   {Rollers.map(
                     (Cor, index) =>
-                      Cor.RollerTradicional === "Roller" && (
                         <tr key={index} style={{ marginBottom: "1em" }}>
                           <td>{Cor.numeroCortina}</td>
                           <td>{Cor.Ambiente}</td>
@@ -58,7 +61,7 @@ export const TableRollers = () => {
                             </Button>
                           </td>
                         </tr>
-                      )
+                      
                   )}
                 </tbody>
               </Table>

@@ -8,7 +8,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import "../../Routes/Css/CrearVenta.css";
 import { TicketPreview } from "../../Componentes/TicketPreview";
 import { useDispatch, useSelector } from 'react-redux';
-import {selectTelasRoller} from "../../Features/TelasReducer"
+import {selectTelasRoller,selectTelas} from "../../Features/TelasReducer"
 import {selectCliente} from "../../Features/ClienteReducer"
 import {addRoller,removeRoller} from "../../Features/CortinasReducer"
 import { TableRollers } from "../Tables/TableRollers";
@@ -33,64 +33,65 @@ export const FormRollers = () => {
     const [TelasDelTipo,setTelasDelTipo]=useState([])
     const dispatch = useDispatch()
     const TiposTelas = useSelector(selectTelasRoller)
+    const NombreTelas = [];
+    TiposTelas.forEach(tela => {
+        let esta = false;
+        NombreTelas.forEach(nombre => {
+            if (nombre.nombre === tela.nombre) {
+                esta = true;
+            }
+        });
+        if (!esta) {
+            NombreTelas.push(tela);
+        }
+    });
+    const nuevaCortinaRoler = {
+        Ambiente: selectedAreaRoler,
+        IdTipoTela: selectedTelaRoler.Id,
+        ancho: AnchoRoller,
+        alto: LargoRoller,
+        Posicion: AdlAtr,
+        LadoCadena: IzqDer,
+        cadena: Cadena,
+        Tubo: CanoRoller,
+        motorizada: motorizada,
+        TelaNombre: selectedTelaRoler.nombre + selectedTelaRoler.Color,
+        detalle: ComentarioCor,
+        numeroCortina: NumeroCor,
+    };
+    
+    console.log("NombreTelas",NombreTelas)
 
     const handleSelectTela = (e) => {
         //console.log(e.target.value)
         const selectedValue = parseInt(e.target.value, 10);
+        console.log(selectedValue)
         const selectedTela = TiposTelas.find((tela) => tela.Id === selectedValue);
+        console.log(selectedTela)
+        console.log("nuevaCortinaRoler",nuevaCortinaRoler)
         SetselectedTelaRoler(selectedTela);
-        console.log(selectedTela);
+        console.log("selectedTelaID",selectedTela.Id);
         setselectedColorRoler(e.target.value);
-        // Obtener el Nombre del objeto seleccionado
-        selectedTela ? SetselectedTelaRolerNombre(selectedTela.Nombre) : "";
-      };
+    };
+
       const AlertaCorA = () => {
         return <GoCheckCircle style={{ color: "green" }} size={30} />;
       };
     const handleSelectChange = (e) => {
+
         const selectedValue = parseInt(e.target.value, 10);
         const selectedTela = TiposTelas.find((tela) => tela.Id === selectedValue);
-    
+        console.log("selectedTela",selectedTela)
         SetselectedTelaMostrarRoler(e.target.value);
         const SetTelas = TiposTelas.filter(
           (Tela) => Tela.Nombre === selectedTela.Nombre
         );
-        SetTelas.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
+        console.log("SetTelas",SetTelas)
+        //SetTelas.sort((a, b) => a.Color.localeCompare(b.Color));
         setTelasDelTipo(SetTelas);
       };
 
     function AgregarRoller() {
-        const nuevaCortinaRoler = {
-          RollerTradicional: "Roller",
-          Ambiente: selectedAreaRoler,
-          IdTipoTela: selectedTelaRoler.Id,
-          ancho: AnchoRoller,
-          alto: LargoRoller,
-          Posicion: AdlAtr,
-          LadoCadena: IzqDer,
-          cadena: Cadena,
-          Tubo: CanoRoller,
-          motorizada: motorizada,
-          TelaNombre: selectedTelaRoler.Nombre + selectedTelaRoler.Descripcion,
-          detalle: ComentarioCor,
-          numeroCortina: NumeroCor,
-        };
-    
-        console.log(nuevaCortinaRoler);
-
-    /*
-        if (NumAntes !== null) {
-          setNumeroCor(Number(NumAntes));
-          setNumAntes(null);
-        }
-    
-        setNumeroCor((prevNumeroCor) => prevNumeroCor + 1);
-        setCambioNumAntBool(false);
-        setAlertaCorAdd(true);
-        setTimeout(() => {
-          setAlertaCorAdd(false);
-        }, 2000);
-        */
         dispatch(addRoller(nuevaCortinaRoler))
     }
 
@@ -135,7 +136,7 @@ export const FormRollers = () => {
               value={selectedTelaMostrarRoler}
             >
               <option style={{ textAlign: "center" }}></option>
-              {TiposTelas.map((Tel) => (
+              {Array.isArray(NombreTelas) && NombreTelas.map((Tel) => (
                 <option
                   style={{ textAlign: "center" }}
                   value={Tel.id}
@@ -170,7 +171,7 @@ export const FormRollers = () => {
                   value={Tel.id}
                   key={Tel.id}
                 >
-                  {Tel.Descripcion}
+                  {Tel.Color}
                 </option>
               ))}
             </Form.Select>

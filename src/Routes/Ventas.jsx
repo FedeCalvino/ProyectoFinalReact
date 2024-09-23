@@ -69,7 +69,7 @@ export const Ventas = ({ IdVentaView }) => {
 
     const [selectedColorRoler, setselectedColorRoler] = useState('')
     
-
+/*
         const UrlVentas = "/Ventas/Page"
         const UrlVenta = "/Ventas/DtoVentaCor/"
         const UrlInstalada = "/Ventas/Instalado/"
@@ -78,13 +78,13 @@ export const Ventas = ({ IdVentaView }) => {
         const UrlEditCor = "/Cortinas/Edit"
   
         
-/*
-    const UrlTelas = "http://annedecor.ddns.net:8085/TipoTela";
-    const UrlVentas = "http://annedecor.ddns.net:8085/Ventas/DtoVentaCor/NoInstalado"
-    const UrlVenta = "http://annedecor.ddns.net:8085/Ventas/DtoVentaCor/"
-    const UrlInstalada = "http://annedecor.ddns.net:8085/Ventas/Instalado/"
-    const UrlEditCor = "http://annedecor.ddns.net:8085/Cortinas"
 */
+    const UrlTelas = "http://200.40.89.254:8085:8085/TipoTela";
+    const UrlVentas = "http://200.40.89.254:8085/Ventas/DtoVentaCor/NoInstalado"
+    const UrlVenta = "http://200.40.89.254:8085/Ventas/DtoVentaCor/"
+    const UrlInstalada = "http://200.40.89.254:8085/Ventas/Instalado/"
+    const UrlEditCor = "http://200.40.89.254:8085/Cortinas"
+
     function MostrarVenta(venta) {
         setComentarioVenta("")
         setIdVenta(venta.IdVenata)
