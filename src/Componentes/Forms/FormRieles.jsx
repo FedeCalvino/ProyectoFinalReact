@@ -16,18 +16,20 @@ export const FormRieles = () => {
   const [Ancho, setAncho] = useState("");
   const [Armado, setArmado] = useState("");
   const [Soportes, setSoportes] = useState("");
+  const [Comentario, setComentario] = useState("");
   const [Bastones, setBastones] = useState("");
   const [Rieles,setRieles] = useState([])
   
   const AgregarRiel = () => {
     const nuevoRiel = {
-      Tipo: Tipo,
-      Area: selectedAreaRoler,
-      Accionamiento: Accionamiento,
-      Ancho: Ancho,
-      Armado: Armado,
-      Soportes: Soportes,
-      Bastones: Bastones,
+      tipo: Tipo,
+      ambiente: selectedAreaRoler,
+      accionamiento: Accionamiento,
+      ancho: Ancho,
+      armado: Armado,
+      soportes: Soportes,
+      bastones: Bastones,
+      Comentario: Comentario
     };
   
     // Creamos una nueva copia del estado con el nuevo Riel

@@ -30,6 +30,18 @@ export const FormTradicional = () => {
     const [selectedTelaMostrarTradicional, SetselectedTelaMostrarTradicional] = useState([]);
     const [selectedColorRoler, setselectedColorRoler] = useState("");
     const [TelasDelTipoTradicional, SetTelasDelTipoTradicional] = useState([]);
+    const NombreTelas = [];
+    TelaTradicional.forEach(tela => {
+        let esta = false;
+        NombreTelas.forEach(nombre => {
+            if (nombre.nombre === tela.nombre) {
+                esta = true;
+            }
+        });
+        if (!esta) {
+            NombreTelas.push(tela);
+        }
+    });
     const handleSelectTelaTradicional = (e) => {
         //console.log(e.target.value)
         const selectedValue = parseInt(e.target.value, 10);
@@ -47,13 +59,16 @@ export const FormTradicional = () => {
 
     const handleSelectChangeTradicional = (e) => {
         const selectedValue = parseInt(e.target.value, 10);
+
         const selectedTela = TelaTradicional.find((tela) => tela.Id === selectedValue);
-    
+        console.log("tela",selectedTela)
+
         SetselectedTelaMostrarTradicional(e.target.value);
         const SetTelasTradicional = TelaTradicional.filter(
           (Tela) => Tela.Nombre === selectedTela.Nombre
         );
-        SetTelasTradicional.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
+
+        //SetTelasTradicional.sort((a, b) => a.Descripcion.localeCompare(b.Descripcion));
         SetTelasDelTipoTradicional(SetTelasTradicional);
       };
       
@@ -63,13 +78,13 @@ export const FormTradicional = () => {
           Ambiente: selectedAreaRoler,
           IdTipoTela: selectedTradicional.Id,
           ancho: AnchoTradicional,
-          AnchoDerecho: AnchoTradicionalDer,
+          AnchoDerecho: Paños === "1" ? null : AnchoTradicionalDer,
           alto: LargoTradicional,
           CantidadPanos: Paños,
           Acumula: Paños === "1" ? IzqDerTradicional : null,
           Pinza: Pinza,
           motorizada: motorizadaTradicional,
-          TelaNombre: selectedTradicional.Nombre + " "+selectedTradicional.Descripcion,
+          TelaNombre: selectedTradicional.Nombre + " "+selectedTradicional.Color,
           detalle: ComentarioCor,
         };
     /*
@@ -156,7 +171,7 @@ export const FormTradicional = () => {
               value={selectedTelaMostrarTradicional}
             >
               <option style={{ textAlign: "center" }}></option>
-              {TelaTradicional.map((Tel) => (
+              {NombreTelas.map((Tel) => (
                 <option
                   style={{ textAlign: "center" }}
                   value={Tel.id}
@@ -191,7 +206,7 @@ export const FormTradicional = () => {
                   value={Tel.id}
                   key={Tel.id}
                 >
-                  {Tel.Descripcion}
+                  {Tel.Color}
                 </option>
               ))}
             </Form.Select>

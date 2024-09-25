@@ -55,7 +55,7 @@ export const FormRollers = () => {
         cadena: Cadena,
         Tubo: CanoRoller,
         motorizada: motorizada,
-        TelaNombre: selectedTelaRoler.nombre + selectedTelaRoler.Color,
+        TelaNombre: selectedTelaRoler.nombre + " "+selectedTelaRoler.Color,
         detalle: ComentarioCor,
         numeroCortina: NumeroCor,
     };

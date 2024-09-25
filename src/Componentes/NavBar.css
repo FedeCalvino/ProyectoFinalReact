@@ -38,9 +38,10 @@
 .container_nav {
   padding: 0%;
   width: 100%;
+  max-height: 65px;
 }
 .navb {
-  width: 1200px;
+  width: 100%;
 }
 .nav-link-custom {
   display: flex;

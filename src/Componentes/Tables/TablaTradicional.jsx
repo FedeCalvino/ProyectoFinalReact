@@ -23,8 +23,7 @@ const dispatch = useDispatch()
                     <th>Largo</th>
                     <th>Paños</th>
                     <th>Lado Acumula</th>
-                    <th>Bastones</th>
-                    <th>Techo/Pared</th>
+                    <th>Pinza</th>
                     <th>Motorizada</th>
                     <th>Detalle</th>
                   </tr>
@@ -42,8 +41,7 @@ const dispatch = useDispatch()
                           <td>{Cor.alto}</td>
                           <td>{Cor.CantidadPanos}</td>
                           <td>{Cor.Acumula}</td>
-                          {Cor.Bastones ? <td> Si</td> : <td>No</td>}
-                          <td>{Cor.TechoPared}</td>
+                          <td>{Cor.Pinza}</td>
                           {Cor.motorizada ? <td> Si</td> : <td>No</td>}
                           <td>
                             <OverlayTrigger

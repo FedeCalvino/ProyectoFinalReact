@@ -18,6 +18,12 @@
     transition: background-color 0.3s ease; /* Transición suave para el cambio de color de fondo */
 }
 
+.custom-tabs .nav-link {
+    font-size: 1.2rem; /* Ajusta el tamaño según tus necesidades */
+    font-weight: 500;
+  }
+
+  
 .custom-button3:hover {
     background-color: #010201; /* Color de fondo al hacer hover */
 }

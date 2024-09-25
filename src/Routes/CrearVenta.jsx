@@ -56,6 +56,7 @@ export const CrearVenta = () => {
   const UrlCliente = "/Cliente";
   const UrlVentas = "/SaveVentas";
   const URLCortinaRollerVenta = "/Cortinas/Rollers/";
+  const URLRielesVenta = "/Cortinas/Riel/";
   const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
   const UrlTelas = "/TipoTela";
 
@@ -187,8 +188,10 @@ export const CrearVenta = () => {
   const handleResult = (result) => {
     setloading(true);
     console.log("handle", result);
+    console.log("Rollers.length>1",Rollers.length>1)
     AgregarCortinasRollers(result.id);
-    //AgregarCortinasTradicionales(result.id);
+    AgregarCortinasTradicionales(result.id);
+    AgregarRieles(result.id)
     setIdVentaView(result.id);
     /*setTimeout(() => {
             setVentaCreada(false);
@@ -196,8 +199,7 @@ export const CrearVenta = () => {
     setloading(false);
   };
 
-  async function AgregarCortinasRollers(idVenta) {
-
+  async function AgregarCortinasRollers(idVenta){
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -214,6 +216,64 @@ export const CrearVenta = () => {
       }
       const result = await response.json();
       console.log("result de cortina", result);
+      // AgregarCortinaRollerAVenta(result.id, idVenta);
+    } catch (error) {
+      console.error("Error en cortinas roller:", error);
+      toast.error("Error al agregar cortinas roller", {
+        style: {
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    }
+  }
+  async function AgregarCortinasTradicionales(idVenta){
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Tradicionales),
+    };
+
+    try {
+      const response = await fetch(
+        URLCortinaTradicionalVenta + idVenta,
+        requestOptions
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      console.log("result de cortina", result);
+      // AgregarCortinaRollerAVenta(result.id, idVenta);
+    } catch (error) {
+      console.error("Error en cortinas roller:", error);
+      toast.error("Error al agregar cortinas roller", {
+        style: {
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    }
+  }
+
+  async function AgregarRieles(idVenta) {
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Rieles),
+    };
+
+    try {
+      const response = await fetch(
+        URLRielesVenta + idVenta,
+        requestOptions
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      console.log("result de rieles", result);
       // AgregarCortinaRollerAVenta(result.id, idVenta);
     } catch (error) {
       console.error("Error en cortinas roller:", error);
@@ -324,18 +384,17 @@ export const CrearVenta = () => {
               <Tabs
                 defaultActiveKey="Roll"
                 id="fill-tab-example"
-                className="mb-2"
-                fill 
+                className="mb-2 custom-tabs"
+                fill
               >
                 <Tab eventKey="Roll" title="Roller">
-                  <FormRollers/>
+                  <FormRollers />
                 </Tab>
                 <Tab eventKey="Tra" title="Tradicional">
-                <FormTradicional/>
-                  
+                  <FormTradicional />
                 </Tab>
                 <Tab eventKey="Pan" title="Rieles">
-                  <FormRieles/>
+                  <FormRieles />
                 </Tab>
               </Tabs>
             </Row>

@@ -34,13 +34,13 @@ export const TablaRieles = () => {
                             {Rieles.map((Riel, index) => (
                                 <tr key={index} style={{ marginBottom: "1em" }}>
                                     <td>{Riel.numeroCortina}</td>
-                                    <td>{Riel.Area}</td>
-                                    <td>{Riel.Ancho}</td>
-                                    <td>{Riel.Tipo}</td>
-                                    <td>{Riel.Accionamiento}</td>
-                                    <td className="multi-line-text">{Riel.Armado}</td>
-                                    <td className="multi-line-text">{Riel.Soportes}</td>
-                                    <td className="multi-line-text">{Riel.Bastones}</td>
+                                    <td>{Riel.ambiente}</td>
+                                    <td>{Riel.ancho}</td>
+                                    <td>{Riel.tipo}</td>
+                                    <td>{Riel.accionamiento}</td>
+                                    <td className="multi-line-text">{Riel.armado}</td>
+                                    <td className="multi-line-text">{Riel.soportes}</td>
+                                    <td className="multi-line-text">{Riel.bastones}</td>
                                     <td>
                                         <Button onClick={() => BorrarCor(Riel.numeroCortina)}>
                                             Borrar

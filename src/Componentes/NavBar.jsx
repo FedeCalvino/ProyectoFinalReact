@@ -73,11 +73,13 @@ export const NavBar = ({ logged, onLogout }) => {
                   <div>Instalaciones</div>
                 </div>
               </Nav.Link>
+              {/*
               <NavDropdown title="Seguimiento Estaciones" id="basic-nav-dropdown" className="nav-link-custom">
                 <NavDropdown.Item href="MesaCorteTela">Tela</NavDropdown.Item>
                 <NavDropdown.Item href="MesaCorteCano">Caño</NavDropdown.Item>
                 <NavDropdown.Item href="MesaArmado">Armado</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown>*/
+              }
             </Nav>
             {logged ? (
               <Button variant='danger' onClick={handleLogout}>LogOut</Button>

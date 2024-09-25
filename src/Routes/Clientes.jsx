@@ -16,6 +16,8 @@ export const Clientes = () => {
   const [EditCliId, setEditCliId] = useState(null);
   const [CliChanged, setCliChanged] = useState(false);
 
+  
+
   useEffect(() => {
     FetchClientes();
   }, []);
