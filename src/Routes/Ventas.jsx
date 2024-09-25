@@ -17,8 +17,8 @@ export const Ventas = ({ IdVentaView }) => {
   const [VentasTotales, setVentasTotales] = useState([]);
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   let lastDay = "";
-  const UrlVentas = "http://localhost:8081/Ventas/Dto";
-  const UrlVenta = "http://localhost:8081/Ventas/DtoVentaCor/";
+  const UrlVentas = "/Ventas/Dto";
+  const UrlVenta = "/Ventas/DtoVentaCor/";
   const VentaSelector = useSelector(selectVenta);
   const setVentaView = async (Venta) => {
     if (Venta.IdVenata != null) {
@@ -80,8 +80,8 @@ export const Ventas = ({ IdVentaView }) => {
   const MostrarDia = ({ Day }) => {
     const formatDate = (dateString) => {
       const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0"); // Get day and pad with zero
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // Get month and pad with zero
+      const day = String(date.getDate()+ 1).padStart(2, "0"); 
+      const month = String(date.getMonth() + 1).padStart(2, "0");
       return `${day}/${month}`; // Return formatted date
     };
 
