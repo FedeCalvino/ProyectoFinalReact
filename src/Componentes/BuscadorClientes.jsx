@@ -11,7 +11,7 @@ import { debounce } from 'lodash';
 
 export const BuscadorClientes = () => {
 
-  const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
+  const UrlCLientesLike = "/Cliente/strL/"
   const [ClienteSeleccBoolean, SetClienteSeleccBoolean] = useState(false);
   const [Clientes, setClientes] = useState([]);
   const [SearchText, setSearchText] = useState('');
