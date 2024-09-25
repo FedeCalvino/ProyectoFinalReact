@@ -19,6 +19,7 @@ export const Ventas = ({ IdVentaView }) => {
   let lastDay = "";
   const UrlVentas = "/Ventas/Dto";
   const UrlVenta = "/Ventas/DtoVentaCor/";
+  //
   const VentaSelector = useSelector(selectVenta);
   const setVentaView = async (Venta) => {
     if (Venta.IdVenata != null) {
