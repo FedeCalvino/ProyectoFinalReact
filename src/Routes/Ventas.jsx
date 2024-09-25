@@ -17,8 +17,8 @@ export const Ventas = ({ IdVentaView }) => {
   const [VentasTotales, setVentasTotales] = useState([]);
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   let lastDay = "";
-  const UrlVentas = "/Ventas/Dto";
-  const UrlVenta = "/Ventas/DtoVentaCor/";
+  const UrlVentas = "http://localhost:8081/Ventas/Dto";
+  const UrlVenta = "http://localhost:8081/Ventas/DtoVentaCor/";
   const VentaSelector = useSelector(selectVenta);
   const setVentaView = async (Venta) => {
     if (Venta.IdVenata != null) {

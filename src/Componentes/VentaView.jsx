@@ -20,6 +20,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSelector } from "react-redux";
 import { selectCortinas, selectVenta } from "../Features/VentaViewReucer";
+import { FormRollers } from "./Forms/FormRollers";
 
 export const VentaView = () => {
   const tableRef = useRef(null);
@@ -778,6 +779,7 @@ export const VentaView = () => {
                         Editar
                       </NavDropdown.Item>
                       <NavDropdown.Item as="div">
+
                         <PDFDownloadLink
                           document={<TicketCortina Venta={Ven} Cortina={Cor} />}
                           fileName="Ticket"
@@ -795,189 +797,13 @@ export const VentaView = () => {
       ) : null}
       {AgregarRollerBool ? (
         <>
-          <Row style={{ textAlign: "center" }}>
-            <Col>
-              <Form.Label style={{ textAlign: "center" }}>Ambiente</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label style={{ textAlign: "center" }}>
-                Tipo de Tela
-              </Form.Label>
-            </Col>
-            <Col md="2">
-              <Form.Label style={{ textAlign: "center" }}>
-                Color de Tela
-              </Form.Label>
-            </Col>
-            <Col>
-              <Form.Label style={{ textAlign: "center" }}>Ancho</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label style={{ textAlign: "center" }}>Largo</Form.Label>
-            </Col>
-            <Col md="1">
-              <Form.Label style={{ textAlign: "center" }}>Adl/Atr</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label style={{ textAlign: "center" }}>Cadena</Form.Label>
-            </Col>
-            <Col md="1">
-              <Form.Label style={{ textAlign: "center" }}>Caño</Form.Label>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={selectedAreaRoler}
-                onChange={(e) => {
-                  SetselectedAreaRoler(e.target.value);
-                }}
-                placeholder="Ambiente"
-              />
-            </Col>
-            <Col>
-              <Form.Select
-                aria-label="Default select example"
-                onChange={handleSelectChange}
-                value={selectedTelaMostrarRoler}
-              >
-                <option style={{ textAlign: "center" }}></option>
-                {TiposTelas.map((Tel) => (
-                  <option
-                    style={{ textAlign: "center" }}
-                    value={Tel.id}
-                    key={Tel.id}
-                  >
-                    {Tel.Nombre}
-                  </option>
-                ))}
-              </Form.Select>
-            </Col>
-            <Col md="2">
-              <Form.Select
-                aria-label="Default select example"
-                onChange={handleSelectTela}
-                value={selectedColorRoler}
-              >
-                <option style={{ textAlign: "center" }}></option>
-                {TelasDelTipo.map((Tel) => (
-                  <option
-                    style={{ textAlign: "center" }}
-                    value={Tel.id}
-                    key={Tel.id}
-                  >
-                    {Tel.descripcion}
-                  </option>
-                ))}
-              </Form.Select>
-            </Col>
-            <Col>
-              <Form.Control
-                type="number"
-                style={{ textAlign: "center" }}
-                value={AnchoRoller}
-                onChange={(e) => {
-                  setAnchoRoller(e.target.value);
-                }}
-                placeholder="Ancho"
-              />
-            </Col>
-            <Col>
-              <Form.Control
-                type="number"
-                style={{ textAlign: "center" }}
-                value={LargoRoller}
-                onChange={(e) => {
-                  setLargoRoller(e.target.value);
-                }}
-                placeholder="Largo"
-              />
-            </Col>
-            <Col md="1">
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) => {
-                  setAdlAtr(e.target.value);
-                }}
-                value={AdlAtr}
-              >
-                <option style={{ textAlign: "center" }} value=""></option>
-                <option style={{ textAlign: "center" }} value="Adl">
-                  Adl
-                </option>
-                <option style={{ textAlign: "center" }} value="Atr">
-                  Atr
-                </option>
-              </Form.Select>
-            </Col>
-            <Col>
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) => {
-                  setIzqDer(e.target.value);
-                }}
-                value={IzqDer}
-              >
-                <option style={{ textAlign: "center" }} value=""></option>
-                <option style={{ textAlign: "center" }} value="Izq">
-                  Izquierda
-                </option>
-                <option style={{ textAlign: "center" }} value="Der">
-                  Derecha
-                </option>
-              </Form.Select>
-            </Col>
-            <Col md="1">
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) => {
-                  setCanoRoller(e.target.value);
-                }}
-                value={CanoRoller}
-              >
-                <option value=""></option>
-                <option style={{ textAlign: "center" }} value="30">
-                  30
-                </option>
-                <option style={{ textAlign: "center" }} value="38">
-                  38
-                </option>
-                <option style={{ textAlign: "center" }} value="43">
-                  43
-                </option>
-                <option style={{ textAlign: "center" }} value="45">
-                  45
-                </option>
-              </Form.Select>
-            </Col>
-          </Row>
-          <Row className="justify-content-center mt-4">
-            <Col md="3" className="d-flex justify-content-center">
-              <Button
-                onClick={() => AddCor(Ven.IdVenata)}
-                variant="success"
-                className="w-auto"
-              >
-                Agregar
-              </Button>
-            </Col>
-            <Col md="3" className="d-flex justify-content-center">
-              <Button
-                onClick={() => CancelarAddCor()}
-                variant="danger"
-                className="w-auto"
-              >
-                Cancelar
-              </Button>
-            </Col>
-          </Row>
+          <FormRollers/>
         </>
       ) : (
         <Row className="justify-content-center">
           <Col className="text-center my-2"></Col>
           <Col className="text-center my-2">
+            {/*
             <Button
               type="submit"
               onClick={() => {
@@ -985,7 +811,7 @@ export const VentaView = () => {
               }}
             >
               Agergar Cortina
-            </Button>
+            </Button>*/}
           </Col>
           <Col className="text-center my-2"></Col>
         </Row>
@@ -993,21 +819,23 @@ export const VentaView = () => {
 
       {AgregarRollerBool ? null : (
         <Row className="justify-content-center">
-          <Col className="text-center my-2">
-            {loadingpdf ? (
-              <Loading tipo="Ticket" />
-            ) : (
-              <Button
-                variant="primary"
-                onClick={() => {
-                  downloadPDF(Ven, CortinasRollers, CortinasTradi);
-                }}
-                className="w-auto"
-              >
-                PDF
-              </Button>
-            )}
-          </Col>
+         <Col style={{width:"100%"}} className="text-center my-2">
+          {loadingpdf ? (
+            <Loading tipo="Ticket" />
+          ) : (
+            <Button
+              variant="primary"
+              style={{width:"250px", fontSize: "18px"}} 
+              onClick={() => {
+                downloadPDF(Ven, CortinasRollers, CortinasTradi);
+              }}
+              className="w-auto"
+            >
+              PDF
+            </Button>
+          )}
+        </Col>
+
           <Col className="text-center my-2">
             <FloatingLabel
               controlId="floatingTextarea2"
