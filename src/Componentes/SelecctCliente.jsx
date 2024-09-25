@@ -33,7 +33,7 @@ export const SelecctCliente = React.memo(() => {
     //SeleccCliente
     const [Tipo, setTipo] = useState('Cliente');
 
-    const UrlCLientesLike = "http://localhost:8085/Cliente/strL/"
+    const UrlCLientesLike = "/Cliente/strL/"
 
     const [SearchText, setSearchText] = useState('');
 

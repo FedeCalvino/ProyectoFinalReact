@@ -11,7 +11,7 @@ import { debounce } from 'lodash';
 
 export const BuscadorClientes = () => {
 
-  const UrlCLientesLike = "/Cliente/strL/"
+  const UrlCLientesLike = "http://localhost:8081/Cliente/strL/"
   const [ClienteSeleccBoolean, SetClienteSeleccBoolean] = useState(false);
   const [Clientes, setClientes] = useState([]);
   const [SearchText, setSearchText] = useState('');
@@ -24,14 +24,16 @@ export const BuscadorClientes = () => {
   const [DireccCli, setCliDirecc] = useState('');
 
   useEffect(() => {
-    FetchClientesLike();
     console.log(SearchText)
+    FetchClientesLike();
   }, [SearchText]);
 
 
   const FetchClientesLike = async () => {
     try {
+      console.log(SearchText)
       if (SearchText.trim() !== '') {
+        console.log(SearchText)
         const res = await fetch(UrlCLientesLike + SearchText)
         const data = await res.json()
         setClientes(data);
