@@ -78,7 +78,7 @@ export const CrearVenta = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         IdCliente: idCliente,
-        PrecioFinal: precioFinal,
+        PrecioFinal: 0,
         Obra: obra,
         FechaInstalacion: fechaInstalacion,
       }),
@@ -152,10 +152,12 @@ export const CrearVenta = () => {
   }
 
   async function CrearNuevaVenta() {
+    console.log(DataCli)
     setloading(true)
-    if (DataCli.id) {
+    
+    if (DataCli.Id) {
       console.log("Cliente con id", DataCli);
-      await crearVenta(DataCli.id, "eafae", Obra, FechaInstalacion);
+      await crearVenta(DataCli.id, "0", Obra, FechaInstalacion);
     } else {
       console.log("Cliente sin id", DataCli);
       const clienteId = await crearCliente(DataCli);
@@ -163,6 +165,7 @@ export const CrearVenta = () => {
         await crearVenta(clienteId, 0, Obra, FechaInstalacion);
       }
     }
+
   }
 
   const handleResult = (result) => {

@@ -141,8 +141,7 @@ export const VentaView = () => {
       const response = await fetch(url, requestOptions);
 
       if (response.ok) {
-        console.error("Error en la solicitud PUT:", response.statusText);
-        await FetchVentaCortinas(); // Asegúrate de que FetchVentaCortinas es una función asíncrona
+        await FetchVentaCortinas();
         setIdCorEdit(null);
         return;
       }
@@ -224,6 +223,18 @@ export const VentaView = () => {
       //AgregarCortinaRollerAVenta(result.id, idVenta);
     } catch (error) {
       console.error("Error en cortinas roller:", error);
+    }
+  };
+  const CreateETicket = async () => {
+    const RequestOptions={
+      headers:{ "Content-Type": "application/json" }
+    }
+    RequestOptions.body = JSON.stringify(Cortinas);
+    try{
+    const response = await fetch("http://localhost:8085/print/ETicket",RequestOptions)
+    console.log(response)
+    }catch(e){
+
     }
   };
 
@@ -800,7 +811,9 @@ export const VentaView = () => {
         </>
       ) : (
         <Row className="justify-content-center">
-          <Col className="text-center my-2"></Col>
+          <Col className="text-center my-2">      <Button style={{width:"80px",height:"50px",fontSize:"10px"}} variant="secondary" onClick={CreateETicket}>
+            E-Ticket
+          </Button></Col>
           <Col className="text-center my-2">
             <Button
               variant="primary"
