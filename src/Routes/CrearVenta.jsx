@@ -26,7 +26,6 @@ import { TicketPreview } from "../Componentes/TicketPreview";
 import { FormRieles } from "../Componentes/Forms/FormRieles";
 import { useDispatch, useSelector } from 'react-redux';
 import { TablaRieles } from "../Componentes/Tables/TablaRieles";
-import { setTelasRollerFeature,setTelasTradicionalFeature } from "../Features/TelasReducer";
 import { FormRollers } from "../Componentes/Forms/FormRollers";
 import {selectCliente} from "../Features/ClienteReducer"
 import { TableRollers } from "../Componentes/Tables/TableRollers";
@@ -49,31 +48,12 @@ export const CrearVenta = () => {
  const Rollers = useSelector(selectRollers)
  const Tradicionales = useSelector(selectTradicional)
 
-  useEffect(() => {
-    FetchTelas();
-  }, []);
-
   const UrlCliente = "/Cliente";
   const UrlVentas = "/SaveVentas";
   const URLCortinaRollerVenta = "/Cortinas/Rollers/";
   const URLRielesVenta = "/Cortinas/Riel/";
   const URLCortinaTradicionalVenta ="/Cortinas/Tradicionales/";
-  const UrlTelas = "/TipoTela";
 
-
-  const FetchTelas = async () => {
-    try {
-      const res = await fetch(UrlTelas);
-      const data = await res.json();
-      const tiposRoller = data.filter(tela=>tela.Tipo===1);
-      const tiposTradi = data.filter(tela=>tela.Tipo===2);
-      dispatch(setTelasRollerFeature(tiposRoller));
-      dispatch(setTelasTradicionalFeature(tiposTradi));
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   function getErrorMessage(status) {
     switch (status) {

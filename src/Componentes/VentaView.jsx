@@ -21,6 +21,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { useSelector } from "react-redux";
 import { selectCortinas, selectVenta } from "../Features/VentaViewReucer";
 import { FormRollers } from "./Forms/FormRollers";
+import { EditarCortina } from "./EditarCortina";
 
 export const VentaView = () => {
   const tableRef = useRef(null);
@@ -30,21 +31,26 @@ export const VentaView = () => {
   const [IdVenta, setIdVenta] = useState(null);
   const [SearchText, setSearchText] = useState("");
   const [Ventas, setVentas] = useState([]);
-
+  const [NumeroCor, setNumeroCor] = useState(false);
   const [ComentarioVenta, setComentarioVenta] = useState("");
-
+  const [showModal, setShowModal] = useState(false);
   const Cortinas = useSelector(selectCortinas);
-
   const CortinasRollers = Cortinas.Rollers;
+  console.log("CortinasRollers", CortinasRollers);
   const CortinasTradicionales1pano = Cortinas.Tradicionales1P;
   const CortinasTradicionales2pano = Cortinas.Tradicionales2P;
-  const CortinasTradi = [...CortinasTradicionales1pano, ...CortinasTradicionales2pano];
-  const Rieles = Cortinas.Rieles
+  const CortinasTradi = [
+    ...CortinasTradicionales1pano,
+    ...CortinasTradicionales2pano,
+  ];
+  const Rieles = Cortinas.Rieles;
   const [loadingTable, setloadingTable] = useState(true);
   const [FilteredVentas, setFilteredVentas] = useState([]);
   const [open, setopen] = useState(false);
+  const [openEdit, setopenEdit] = useState(false);
   const [IdCorEdit, setIdCorEdit] = useState(null);
   const [CortinaEdited, setCortrtinaEdited] = useState([]);
+  const [CortrtinaTrtyEdited, setCortrtinaTrtyEdited] = useState([]);
   const [OrderBy, setOrderBy] = useState("Num");
   const [loadingTicket, setloadingTicket] = useState(false);
   const [loadingpdf, setloadingpdf] = useState(false);
@@ -73,17 +79,26 @@ export const VentaView = () => {
   const UrlAddCor = "/Cortinas/Roller/Add";
   const UrlEditCor = "/Cortinas/Edit";
 
+  const handleShow = (Cor) => {
+    setCortrtinaTrtyEdited(Cor);
+    setShowModal(true);
+  };
+  const ShowModalCallB = ()=>{
+    setCortrtinaEdited(null);
+    setShowModal(true)
+  };
+  const handleClose = () => setShowModal(false);
+
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: "80%",
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-    textAlign: "center",
   };
 
   const SetInstalada = async () => {
@@ -107,6 +122,7 @@ export const VentaView = () => {
       FetchVentas();
     }
   };
+
   const FetchVentaCortinas = () => {};
 
   const ConfirmEdit = async () => {
@@ -211,26 +227,57 @@ export const VentaView = () => {
     }
   };
 
-  const handleInputChange = (e, field) => {
-    setCortrtinaEdited((prevState) => ({
-      ...prevState,
-      [field]: e.target.value,
-    }));
-  };
-
-  const handleSelectChange = (e) => {
-    const selectedValue = parseInt(e.target.value, 10);
-    const selectedTela = Telas.find((tela) => tela.Id === selectedValue);
-    SetselectedTelaMostrarRoler(e.target.value);
-    const SetTelas = Telas.filter(
-      (Tela) => Tela.Nombre === selectedTela.Nombre
-    );
-    SetTelasDelTipo(SetTelas);
+  const EditCor = () => {
+    setopenEdit(true);
+    setCortrtinaEdited(CortrtinaTrtyEdited);
+    handleClose()
   };
 
   useEffect(() => {
     FetchVentaCortinas();
   }, [IdVenta]);
+
+  const blobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]); // Retorna solo la parte Base64
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(blob); // Lee el blob como Data URL
+    });
+  };
+
+  const PrintNode = async (pdfBase64) => {
+    const apiKey = "kv9za48VObUEOGQaYKt6AwPt2SihkOiwj3T0sL_bFe4"; // Replace with your actual API key
+    const printerId = 73714764; // Replace with your actual Printer ID
+
+    const data = {
+      printerId: printerId,
+      title: "Mi Documento PDF",
+      contentType: "pdf_base64",
+      content: pdfBase64, // The base64 string of the PDF
+      source: "Aplicación React",
+    };
+
+    try {
+      const response = await fetch("https://api.printnode.com/printjobs", {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${btoa(apiKey + ":")}`, // API key in Base64
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el trabajo de impresión");
+      }
+
+      const result = await response.json();
+      console.log("Trabajo de impresión enviado correctamente:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const downloadTicket = async (
     Ven,
@@ -252,7 +299,7 @@ export const VentaView = () => {
         NumeroCor={numeroCor}
       />
     ).toBlob();
-
+    const base64PDF = await blobToBase64(blob);
     // Crear un enlace de descarga
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -264,6 +311,31 @@ export const VentaView = () => {
     // Liberar la URL del objeto
     URL.revokeObjectURL(link.href);
     setloadingTicket(false);
+  };
+
+  const PrintNodeFunction = async (
+    Ven,
+    CortinasRoller,
+    CortinasTradicional,
+    numeroCor
+  ) => {
+    console.log("Ven", Ven);
+    console.log("CortinasRoller", CortinasRoller);
+    console.log("CortinasTradicional", CortinasTradicional);
+    console.log("numeroCor", numeroCor);
+    // Generar el documento PDF utilizando la función `pdf`
+    setloadingTicket(true);
+    const blob = await pdf(
+      <TicketsCortinas
+        Venta={Ven}
+        Cortinasroller={CortinasRoller}
+        Cortinastradicional={CortinasTradicional}
+        NumeroCor={numeroCor}
+      />
+    ).toBlob();
+    const base64PDF = await blobToBase64(blob);
+
+    PrintNode(base64PDF);
   };
 
   const downloadPDF = async (Ven, CortinasRoller, CortinasTradicional) => {
@@ -308,47 +380,99 @@ export const VentaView = () => {
 
   return (
     <>
-      <div>
-        <Modal
-          open={open}
-          onClose={() => {
-            setopen(false);
-          }}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div>
-              <h2>Venta Instalada</h2>
-            </div>
-            <div>
-              <Row className="justify-content-center mt-3">
-                <Col xs="auto">
-                  <Button
-                    onClick={SetInstalada}
-                    variant="success"
-                    className="w-auto"
-                  >
-                    Aceptar
-                  </Button>
-                </Col>
-                <Col xs="auto">
-                  <Button
-                    onClick={() => {
-                      setopen(false);
-                    }}
-                    variant="danger"
-                    className="w-auto"
-                  >
-                    Cancelar
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          </Box>
-        </Modal>
-      </div>
-        <h1>{Ven.NombreCliente}</h1>
+      <Modal
+        open={showModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div>
+            <h2>Cortina</h2>
+          </div>
+          
+            <>
+              <Table responsive>
+                <thead
+                  style={{
+                    justifyContent: "center",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                >
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Num</th>
+                    <th>Ambiente</th>
+                    <th>Tela</th>
+                    <th>Color</th>
+                    <th>Ancho AF-AF</th>
+                    <th>Ancho tela</th>
+                    <th>Ancho Caño</th>
+                    <th>caño</th>
+                    <th>Alto Cortina</th>
+                    <th>Alto Tela</th>
+                    <th>cant</th>
+                    <th>Cadena</th>
+                    <th>Lado Cadena</th>
+                    <th>posicion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr key={CortrtinaTrtyEdited.idCortina}>
+                    <td>Roller</td>
+                    <td>{CortrtinaTrtyEdited.numeroCortina}</td>
+                    <td>{CortrtinaTrtyEdited.ambiente}</td>
+                    <td>{CortrtinaTrtyEdited.nombreTela}</td>
+                    <td>{CortrtinaTrtyEdited.colorTela}</td>
+                    <td>{CortrtinaTrtyEdited.anchoAfuerAfuera}</td>
+                    <td>{CortrtinaTrtyEdited.anchoCortina}</td>
+                    <td>{CortrtinaTrtyEdited.anchoCaño}</td>
+                    <td>{CortrtinaTrtyEdited.cano}</td>
+                    <td>{CortrtinaTrtyEdited.altoCortina}</td>
+                    <td>{CortrtinaTrtyEdited.altoTela}</td>
+                    <td>1</td>
+                    <td>{CortrtinaTrtyEdited.cadena}</td>
+                    <td>{CortrtinaTrtyEdited.ladoCadena}</td>
+                    <td>{CortrtinaTrtyEdited.posicion}</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "20px",
+                }}
+              >
+                <Button variant="secondary" onClick={handleClose}>
+                  Cancelar
+                </Button>
+                <Button variant="primary" onClick={() => EditCor()}>
+                  Editar
+                </Button>
+                <Button
+                  variant="success"
+                  onClick={() => alert("Ticket Clicked")}
+                >
+                  Ticket
+                </Button>
+              </div>
+            </>
+          
+        </Box>
+      </Modal>
+
+      {/*<div style={buttonStyle}>
+                            <PDFDownloadLink document={<TicketCortina Venta={VentaImp} Cortina={CortinaCor} NumeroCor={false} />} fileName='Pdf'>
+                                <Button variant="primary">Ticket</Button>
+                            </PDFDownloa
+                            dLink>
+  </div>*/}
+  {CortinaEdited.idCortina ? (
+            <EditarCortina callBackCancel={ShowModalCallB} cortinaEdited={CortinaEdited} />
+          ) :
+            <>
+      <h1>{Ven.NombreCliente}</h1>
       {CortinasRollers.length !== 0 ? (
         <>
           <Table responsive>
@@ -375,121 +499,26 @@ export const VentaView = () => {
                 <th>Lado Cadena</th>
                 <th>posicion</th>
                 <th>Comentarios</th>
-                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
               {CortinasRollers.map((Cor) => (
-                <tr key={Cor.idCortina}>
+                <tr key={Cor.idCortina} onClick={() => handleShow(Cor)}>
                   <td>Roller</td>
                   <td>{Cor.numeroCortina}</td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <input
-                        style={{ textAlign: "center" }}
-                        type="text"
-                        value={CortinaEdited.Ambiente}
-                        onChange={(e) => handleInputChange(e, "Ambiente")}
-                      />
-                    ) : (
-                      Cor.ambiente
-                    )}
-                  </td>
+                  <td>{Cor.ambiente}</td>
                   <td>{Cor.nombreTela}</td>
                   <td>{Cor.colorTela}</td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <input
-                        style={{ width: "100px", textAlign: "center" }}
-                        type="text"
-                        value={CortinaEdited.ancho}
-                        onChange={(e) =>
-                          handleInputChange(e, "anchoAfuerAfuera")
-                        }
-                      />
-                    ) : (
-                      Cor.anchoAfuerAfuera
-                    )}
-                  </td>
+                  <td>{Cor.anchoAfuerAfuera}</td>
                   <td>{Cor.anchoCortina}</td>
                   <td>{Cor.anchoCaño}</td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <input
-                        style={{ width: "100px", textAlign: "center" }}
-                        type="text"
-                        value={CortinaEdited.Tubo}
-                        onChange={(e) => handleInputChange(e, "Tubo")}
-                      />
-                    ) : (
-                      Cor.cano
-                    )}
-                  </td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <input
-                        style={{ width: "100px", textAlign: "center" }}
-                        type="text"
-                        value={CortinaEdited.alto}
-                        onChange={(e) => handleInputChange(e, "alto")}
-                      />
-                    ) : (
-                      Cor.altoCortina
-                    )}
-                  </td>
+                  <td>{Cor.cano}</td>
+                  <td>{Cor.altoCortina}</td>
                   <td>{Cor.altoTela}</td>
                   <td>1</td>
                   <td>{Cor.cadena}</td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <Form.Select
-                        as={Col}
-                        md="3"
-                        aria-label="Default select example"
-                        onChange={(e) => handleInputChange(e, "LadoCadena")}
-                        value={CortinaEdited.LadoCadena}
-                      >
-                        <option
-                          style={{ textAlign: "center" }}
-                          value=""
-                        ></option>
-                        <option style={{ textAlign: "center" }} value="Izq">
-                          Izq
-                        </option>
-                        <option style={{ textAlign: "center" }} value="Der">
-                          Der
-                        </option>
-                      </Form.Select>
-                    ) : (
-                      Cor.ladoCadena
-                    )}
-                  </td>
-                  <td>
-                    {IdCorEdit === Cor.idCortina ? (
-                      <Form.Select
-                        as={Col}
-                        md="2"
-                        aria-label="Default select example"
-                        onChange={(e) => {
-                          handleInputChange(e, "Posicion");
-                        }}
-                        value={CortinaEdited.Posicion}
-                      >
-                        <option
-                          style={{ textAlign: "center" }}
-                          value=""
-                        ></option>
-                        <option style={{ textAlign: "center" }} value="Adl">
-                          Adelante
-                        </option>
-                        <option style={{ textAlign: "center" }} value="Atr">
-                          Atras
-                        </option>
-                      </Form.Select>
-                    ) : (
-                      Cor.posicion
-                    )}
-                  </td>
+                  <td>{Cor.ladoCadena}</td>
+                  <td>{Cor.posicion}</td>
                   <td>
                     <OverlayTrigger
                       key="top"
@@ -509,35 +538,6 @@ export const VentaView = () => {
                       </Button>
                     </OverlayTrigger>
                   </td>
-                  {IdCorEdit === Cor.idCortina ? (
-                    <td
-                      className="Butooneditable"
-                      onClick={() => ConfirmEdit(Cor)}
-                    >
-                      Confirmar
-                    </td>
-                  ) : (
-                    <NavDropdown
-                      title="Opciones"
-                      id="basic-nav-dropdown"
-                      className="drop-custom"
-                    >
-                      <NavDropdown.Item
-                        className="editable"
-                        onClick={() => Editar(Cor)}
-                      >
-                        Editar
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as="div">
-                        <PDFDownloadLink
-                          document={<TicketCortina Venta={Ven} Cortina={Cor} />}
-                          fileName="Ticket"
-                        >
-                          <Button>Ticket</Button>
-                        </PDFDownloadLink>
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  )}
                 </tr>
               ))}
             </tbody>
@@ -779,7 +779,6 @@ export const VentaView = () => {
                         Editar
                       </NavDropdown.Item>
                       <NavDropdown.Item as="div">
-
                         <PDFDownloadLink
                           document={<TicketCortina Venta={Ven} Cortina={Cor} />}
                           fileName="Ticket"
@@ -797,21 +796,26 @@ export const VentaView = () => {
       ) : null}
       {AgregarRollerBool ? (
         <>
-          <FormRollers/>
+          <FormRollers />
         </>
       ) : (
         <Row className="justify-content-center">
           <Col className="text-center my-2"></Col>
           <Col className="text-center my-2">
-            {/*
             <Button
-              type="submit"
+              variant="primary"
               onClick={() => {
-                SetAgregarRollerBool(true);
+                PrintNodeFunction(
+                  Ven,
+                  CortinasRollers,
+                  CortinasTradicionales1pano,
+                  false
+                );
               }}
+              className="w-auto"
             >
-              Agergar Cortina
-            </Button>*/}
+              Tickets automatico
+            </Button>
           </Col>
           <Col className="text-center my-2"></Col>
         </Row>
@@ -819,22 +823,22 @@ export const VentaView = () => {
 
       {AgregarRollerBool ? null : (
         <Row className="justify-content-center">
-         <Col style={{width:"100%"}} className="text-center my-2">
-          {loadingpdf ? (
-            <Loading tipo="Ticket" />
-          ) : (
-            <Button
-              variant="primary"
-              style={{width:"250px", fontSize: "18px"}} 
-              onClick={() => {
-                downloadPDF(Ven, CortinasRollers, CortinasTradi);
-              }}
-              className="w-auto"
-            >
-              PDF
-            </Button>
-          )}
-        </Col>
+          <Col style={{ width: "100%" }} className="text-center my-2">
+            {loadingpdf ? (
+              <Loading tipo="Ticket" />
+            ) : (
+              <Button
+                variant="primary"
+                style={{ width: "250px", fontSize: "18px" }}
+                onClick={() => {
+                  downloadPDF(Ven, CortinasRollers, CortinasTradi);
+                }}
+                className="w-auto"
+              >
+                PDF
+              </Button>
+            )}
+          </Col>
 
           <Col className="text-center my-2">
             <FloatingLabel
@@ -865,24 +869,54 @@ export const VentaView = () => {
             {loadingTicket ? (
               <Loading tipo="Ticket" />
             ) : (
-              <Button
-                variant="primary"
-                onClick={() => {
-                  downloadTicket(
-                    Ven,
-                    CortinasRollers,
-                    CortinasTradicionales1pano,
-                    false
-                  );
-                }}
-                className="w-auto"
-              >
-                Tickets S/Numero
-              </Button>
+              <>
+                <Row
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: "2em",
+                  }}
+                >
+                  <Col>
+                    <Form.Label style={{ fontSize: "20px" }}>
+                      Numero Cortina
+                    </Form.Label>
+                    <Form.Check
+                      style={{ transform: 'scale(1.2)'}} // prettier-ignore
+                      type="switch"
+                      checked={NumeroCor}
+                      onChange={(e) => {
+                        setNumeroCor(e.target.checked);
+                      }}
+                      className="w-auto"
+                      id="custom-switch"
+                    />
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        downloadTicket(
+                          Ven,
+                          CortinasRollers,
+                          CortinasTradicionales1pano,
+                          NumeroCor
+                        );
+                      }}
+                      className="w-auto"
+                    >
+                      Tickets
+                    </Button>
+                  </Col>
+                </Row>
+              </>
             )}
           </Col>
         </Row>
       )}
+          </>
+        }
     </>
   );
 };

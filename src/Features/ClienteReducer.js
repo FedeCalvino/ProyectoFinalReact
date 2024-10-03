@@ -18,6 +18,7 @@ export const ClienteReducer = createSlice({
     reducers: {
         setClienteFeature: (state, action) => {
             state.Cliente = action.payload;
+            console.log(state.Cliente)
         },
     }
 });

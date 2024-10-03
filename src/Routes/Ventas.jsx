@@ -8,9 +8,7 @@ import { selectVenta } from "../Features/VentaViewReucer";
 export const Ventas = ({ IdVentaView }) => {
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
 
-  const tableRef = useRef(null);
   const dispatch = useDispatch();
-  const [IdVenta, setIdVenta] = useState(null);
   const [SearchText, setSearchText] = useState("");
   const [Tamano, setTamano] = useState("1");
   const [Ventas, setVentas] = useState([]);
@@ -19,8 +17,53 @@ export const Ventas = ({ IdVentaView }) => {
   let lastDay = "";
   const UrlVentas = "/Ventas/Dto";
   const UrlVenta = "/Ventas/DtoVentaCor/";
-  //
+
   const VentaSelector = useSelector(selectVenta);
+
+  const CreateETicket = () => {
+    const ambiente = "test";
+    const Token = "7zvujaJIot1B4cCFD8gA";
+    const Sucursal = "496";
+    const Url = `https://${ambiente}.biller.uy/v2/comprobantes/crear?`;
+  
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${Token}`);
+  
+    var raw = JSON.stringify({
+      "tipo_comprobante": 101,
+      "forma_pago": 1,
+      "sucursal": Sucursal,
+      "moneda": "UYU",
+      "montos_brutos": 0,
+      "cliente": "-",
+      "items": [
+        {
+          "codigo": "esteCodigo",
+          "cantidad": 1,
+          "concepto": "Pelota de fútbol",
+          "precio": 200,
+          "indicador_facturacion": 3
+        }
+      ]
+    });
+  
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+      mode: "cors",  // Enable CORS mode
+    };
+  
+    fetch(Url, requestOptions)
+      .then((response) => response.json())  // Handle the response as JSON
+      .then((result) => console.log(result))
+      .catch((error) => console.error("Error:", error));
+  };
+  
+
+
   const setVentaView = async (Venta) => {
     if (Venta.IdVenata != null) {
       setShowModal(true); // Abre el modal inmediatamente
@@ -130,7 +173,6 @@ export const Ventas = ({ IdVentaView }) => {
 
   const handleClose = () => {
     setShowModal(false);
-    setIdVenta(null); // Reset selected venta
     setIsLoading(false); // Restablece el estado de carga
   };
 
@@ -138,6 +180,11 @@ export const Ventas = ({ IdVentaView }) => {
     <div className="container">
       <Row style={{ marginTop: "80px" }}>
         <h1 className="title">VENTAS</h1>
+        <Button style={{width:"80px",height:"50px",fontSize:"10px"}} variant="secondary" onClick={CreateETicket}>
+            E-Ticket
+          </Button>
+          <p>no lo toquen
+          </p>
       </Row>
         <Row>
             <Col></Col>

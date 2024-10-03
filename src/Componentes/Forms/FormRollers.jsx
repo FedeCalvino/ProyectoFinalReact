@@ -13,7 +13,9 @@ import {selectCliente} from "../../Features/ClienteReducer"
 import {addRoller,removeRoller} from "../../Features/CortinasReducer"
 import { TableRollers } from "../Tables/TableRollers";
 import { GoCheckCircle } from "react-icons/go";
+
 export const FormRollers = () => {
+
     const [AlertaCorAdd, setAlertaCorAdd] = useState(false);
     const DataCli = useSelector(selectCliente)
     const [motorizada, setMotorizada] = useState(false);

@@ -15,11 +15,13 @@ import { MesaCorteTela } from '../Routes/MesaCorteTela';
 import { MesaCorteCano } from '../Routes/MesaCorteCano';
 import { MesaArmado } from '../Routes/MesaArmado';
 import Home from '../Routes/Home';
+import { useDispatch } from 'react-redux';
+import { setTelasRollerFeature,setTelasTradicionalFeature } from "../Features/TelasReducer";
 
 const App = () => {
-
+    const UrlTelas = "/TipoTela";
     const [Loginerror,setLoginError]= useState(false)
-
+    const dispatch = useDispatch()
     const [User, setUser] = useState(() => {
         const storedUser = localStorage.getItem('user');
         return storedUser ? JSON.parse(storedUser) : null;
@@ -27,7 +29,24 @@ const App = () => {
 
     const urlIP = import.meta.env.REACT_APP__IPSQL;
 
+    useEffect(() => {
+        FetchTelas();
+    }, []);
 
+
+    const FetchTelas = async () => {
+        try {
+          const res = await fetch(UrlTelas);
+          const data = await res.json();
+          const tiposRoller = data.filter(tela=>tela.Tipo===1);
+          const tiposTradi = data.filter(tela=>tela.Tipo===2);
+          dispatch(setTelasRollerFeature(tiposRoller));
+          dispatch(setTelasTradicionalFeature(tiposTradi));
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
     useEffect(() => {
         localStorage.setItem('user', JSON.stringify(User));
     }, [User]);

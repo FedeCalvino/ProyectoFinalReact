@@ -24,11 +24,11 @@ export const SelecctCliente = React.memo(() => {
     const dispatch = useDispatch();
     const ClienteData = useSelector(selectCliente)
     //CrearCliente
-    const [NombreCliN, setCliNomN] = useState(ClienteData.Name);
-    const [TelefonoCliN, setCliTelN] = useState(ClienteData.Tel);
-    const [RutCliN, setCliRutN] = useState(ClienteData.Rut);
-    const [DireccCliN, setCliDireccN] = useState(ClienteData.Direcc);
-
+    const [NombreCliN, setCliNomN] = useState(ClienteData.Id ? "":ClienteData.Name);
+    const [TelefonoCliN, setCliTelN] = useState(ClienteData.Id ?  "":ClienteData.Tel);
+    const [RutCliN, setCliRutN] = useState( ClienteData.Id ?  "":ClienteData.Rut);
+    const [DireccCliN, setCliDireccN] = useState(ClienteData.Id ?  "":ClienteData.Direcc);
+    const [KeyTab,setKeyTab]=useState("Crear")
     const [loadingSearch, setloadingSearch] = useState(false);
     //SeleccCliente
     const [Tipo, setTipo] = useState('Cliente');
@@ -96,9 +96,10 @@ export const SelecctCliente = React.memo(() => {
             Direcc: Cli.direccion,
             Tel: Cli.numeroTelefono,
             Rut: Cli.rut,
-            Tipo: Cli.Tipo,
+            Tipo: Cli.tipo,
             set:true
         }
+        setKeyTab("Selecc")
         dispatch(setClienteFeature(NewClienteData));
     };
 
@@ -106,7 +107,7 @@ export const SelecctCliente = React.memo(() => {
         <>
                 
                     <Tabs
-                        defaultActiveKey="Crear"
+                        defaultActiveKey={KeyTab}
                         id="fill-tab-example"
                         as={Col}
                         className="mb-2"

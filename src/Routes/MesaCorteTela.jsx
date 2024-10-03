@@ -58,9 +58,9 @@ export const MesaCorteTela = () => {
     };
 
 
-        const UrlVentas = "/Ventas/DtoVentaCor/MesaTela"
-        const UrlVenta = "/Ventas/DtoVentaCor/"
-        const telaCortada = "/EstadoCortina/"
+        const UrlVentas = "http://200.40.89.254:8085/Ventas/DtoVentaCor/MesaTela"
+        const UrlVenta = "http://200.40.89.254:8085/Ventas/DtoVentaCor/"
+        const telaCortada = "http://200.40.89.254:8085/EstadoCortina/"
 /*
     const UrlVentas = "http://:8085/Ventas/DtoVentaCor/MesaTela"
     const UrlVenta = "http://20.84.121.133:8085/Ventas/DtoVentaCor/"
@@ -289,6 +289,7 @@ export const MesaCorteTela = () => {
                         <h1>nada....</h1>
                     )}
                 </Col>
+                {/*
                 <Col xs={9}>
                     <div className="table-container">
                         {loadingTable ? (
@@ -330,7 +331,7 @@ export const MesaCorteTela = () => {
                             </div>
                         )}
                     </div>
-                </Col>
+                                    </Col>*/}
             </Row>
         </>
     );

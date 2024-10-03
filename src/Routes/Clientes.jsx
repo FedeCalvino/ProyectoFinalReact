@@ -91,7 +91,8 @@ export const Clientes = () => {
     try {
       const res = await fetch(UrlClientes);
       const data = await res.json();
-      setClientes(data);
+
+      setClientes(data.reverse());
       setLoading(false);
       console.log(data);
     } catch (error) {
