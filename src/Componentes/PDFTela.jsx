@@ -324,11 +324,13 @@ export const PDFTela = ({
                 </Text>
               </View>
             ))}
+            { ComentarioVen &&
             <Text style={styles.comment}>
               <Text style={styles.commentTitle}>Comentario</Text>
               {"\n"}
               <Text style={styles.commentText}>{ComentarioVen}</Text>
             </Text>
+          }
           </Page>
         ))}
         <Page size="A4" style={styles.page} orientation="landscape">
@@ -366,9 +368,7 @@ export const PDFTela = ({
                   </View>
                 ))
               ) : (
-                <Text style={styles.noDataText}>
-                  No hay cortinas con 1 paño
-                </Text>
+                null
               )}
 
               {/* Tabla para panos = 2 */}
@@ -406,12 +406,13 @@ export const PDFTela = ({
               )}
             </React.Fragment>
           ))}
-
+{ ComentarioVen &&
           <Text style={styles.comment}>
             <Text style={styles.commentTitle}>Comentario</Text>
             {"\n"}
             <Text style={styles.commentText}>{ComentarioVen}</Text>
           </Text>
+  }
         </Page>
       </Document>
     );
@@ -477,12 +478,13 @@ export const PDFTela = ({
             </React.Fragment>
           ))}
 
-          {/* Comment Section */}
+          { ComentarioVen &&
           <Text style={styles.comment}>
             <Text style={styles.commentTitle}>Comentario</Text>
             {"\n"}
             <Text style={styles.commentText}>{ComentarioVen}</Text>
           </Text>
+        }
         </Page>
         )
         }
@@ -556,12 +558,13 @@ export const PDFTela = ({
         </>
       )}
 
-      {/* Comment Section */}
+      { ComentarioVen &&
       <Text style={styles.comment}>
         <Text style={styles.commentTitle}>Comentario</Text>
         {"\n"}
         <Text style={styles.commentText}>{ComentarioVen}</Text>
       </Text>
+      }
     </Page>
   ) : null
 ))}
