@@ -20,6 +20,8 @@ import { setTelasRollerFeature,setTelasTradicionalFeature } from "../Features/Te
 
 const App = () => {
     const UrlTelas = "/TipoTela";
+    const UrlVentas = "http://200.40.89.254:8085/Ventas/Dto";
+    
     const [Loginerror,setLoginError]= useState(false)
     const dispatch = useDispatch()
     const [User, setUser] = useState(() => {

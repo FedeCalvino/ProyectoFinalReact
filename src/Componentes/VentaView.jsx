@@ -83,9 +83,9 @@ export const VentaView = () => {
     setCortrtinaTrtyEdited(Cor);
     setShowModal(true);
   };
-  const ShowModalCallB = ()=>{
+  const ShowModalCallB = () => {
     setCortrtinaEdited(null);
-    setShowModal(true)
+    setShowModal(true);
   };
   const handleClose = () => setShowModal(false);
 
@@ -226,22 +226,41 @@ export const VentaView = () => {
     }
   };
   const CreateETicket = async () => {
-    const RequestOptions={
-      headers:{ "Content-Type": "application/json" }
-    }
-    RequestOptions.body = JSON.stringify(Cortinas);
-    try{
-    const response = await fetch("http://localhost:8085/print/ETicket",RequestOptions)
-    console.log(response)
-    }catch(e){
-
-    }
+    const RequestOptions = {
+      headers: { "Content-Type": "application/json" },
+      method:"POST"
+    };
+    const dtoTick = {
+      tipoDocumento: 3,
+      documento: "47395795",
+      nombre_fantasia: "Santiago Israel",
+      itemTicket: [],
+    };
+    CortinasRollers.forEach(element => {
+      const ItemTick = {
+        cantidad: 1,
+        concepto:"Roller "+element.colorTela+element.nombreTela+"medidas "+element.anchoAfuerAfuera+"X"+element.altoCortina ,
+        precio: 100,
+        indicador_facturacion: 3,
+      }
+      dtoTick.itemTicket.push(ItemTick)
+    });
+    console.log(JSON.stringify(dtoTick))
+    RequestOptions.body = JSON.stringify(dtoTick);
+    try {
+      console.log("entro");
+      const response = await fetch(
+        "http://localhost:8085/print/ETicket",
+        RequestOptions
+      );
+      console.log(response);
+    } catch (e) {}
   };
 
   const EditCor = () => {
     setopenEdit(true);
     setCortrtinaEdited(CortrtinaTrtyEdited);
-    handleClose()
+    handleClose();
   };
 
   useEffect(() => {
@@ -401,7 +420,89 @@ export const VentaView = () => {
           <div>
             <h2>Cortina</h2>
           </div>
-          
+
+          <>
+            <Table responsive>
+              <thead
+                style={{
+                  justifyContent: "center",
+                  fontFamily: "Arial, sans-serif",
+                }}
+              >
+                <tr>
+                  <th>Tipo</th>
+                  <th>Num</th>
+                  <th>Ambiente</th>
+                  <th>Tela</th>
+                  <th>Color</th>
+                  <th>Ancho AF-AF</th>
+                  <th>Ancho tela</th>
+                  <th>Ancho Caño</th>
+                  <th>caño</th>
+                  <th>Alto Cortina</th>
+                  <th>Alto Tela</th>
+                  <th>cant</th>
+                  <th>Cadena</th>
+                  <th>Lado Cadena</th>
+                  <th>posicion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr key={CortrtinaTrtyEdited.idCortina}>
+                  <td>Roller</td>
+                  <td>{CortrtinaTrtyEdited.numeroCortina}</td>
+                  <td>{CortrtinaTrtyEdited.ambiente}</td>
+                  <td>{CortrtinaTrtyEdited.nombreTela}</td>
+                  <td>{CortrtinaTrtyEdited.colorTela}</td>
+                  <td>{CortrtinaTrtyEdited.anchoAfuerAfuera}</td>
+                  <td>{CortrtinaTrtyEdited.anchoCortina}</td>
+                  <td>{CortrtinaTrtyEdited.anchoCaño}</td>
+                  <td>{CortrtinaTrtyEdited.cano}</td>
+                  <td>{CortrtinaTrtyEdited.altoCortina}</td>
+                  <td>{CortrtinaTrtyEdited.altoTela}</td>
+                  <td>1</td>
+                  <td>{CortrtinaTrtyEdited.cadena}</td>
+                  <td>{CortrtinaTrtyEdited.ladoCadena}</td>
+                  <td>{CortrtinaTrtyEdited.posicion}</td>
+                </tr>
+              </tbody>
+            </Table>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "20px",
+              }}
+            >
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="primary" onClick={() => EditCor()}>
+                Editar
+              </Button>
+              <Button variant="success" onClick={() => alert("Ticket Clicked")}>
+                Ticket
+              </Button>
+            </div>
+          </>
+        </Box>
+      </Modal>
+
+      {/*<div style={buttonStyle}>
+                            <PDFDownloadLink document={<TicketCortina Venta={VentaImp} Cortina={CortinaCor} NumeroCor={false} />} fileName='Pdf'>
+                                <Button variant="primary">Ticket</Button>
+                            </PDFDownloa
+                            dLink>
+  </div>*/}
+      {CortinaEdited.idCortina ? (
+        <EditarCortina
+          callBackCancel={ShowModalCallB}
+          cortinaEdited={CortinaEdited}
+        />
+      ) : (
+        <>
+          <h1>{Ven.NombreCliente}</h1>
+          {CortinasRollers.length !== 0 ? (
             <>
               <Table responsive>
                 <thead
@@ -426,510 +527,440 @@ export const VentaView = () => {
                     <th>Cadena</th>
                     <th>Lado Cadena</th>
                     <th>posicion</th>
+                    <th>Comentarios</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr key={CortrtinaTrtyEdited.idCortina}>
-                    <td>Roller</td>
-                    <td>{CortrtinaTrtyEdited.numeroCortina}</td>
-                    <td>{CortrtinaTrtyEdited.ambiente}</td>
-                    <td>{CortrtinaTrtyEdited.nombreTela}</td>
-                    <td>{CortrtinaTrtyEdited.colorTela}</td>
-                    <td>{CortrtinaTrtyEdited.anchoAfuerAfuera}</td>
-                    <td>{CortrtinaTrtyEdited.anchoCortina}</td>
-                    <td>{CortrtinaTrtyEdited.anchoCaño}</td>
-                    <td>{CortrtinaTrtyEdited.cano}</td>
-                    <td>{CortrtinaTrtyEdited.altoCortina}</td>
-                    <td>{CortrtinaTrtyEdited.altoTela}</td>
-                    <td>1</td>
-                    <td>{CortrtinaTrtyEdited.cadena}</td>
-                    <td>{CortrtinaTrtyEdited.ladoCadena}</td>
-                    <td>{CortrtinaTrtyEdited.posicion}</td>
-                  </tr>
+                  {CortinasRollers.map((Cor) => (
+                    <tr key={Cor.idCortina} onClick={() => handleShow(Cor)}>
+                      <td>Roller</td>
+                      <td>{Cor.numeroCortina}</td>
+                      <td>{Cor.ambiente}</td>
+                      <td>{Cor.nombreTela}</td>
+                      <td>{Cor.colorTela}</td>
+                      <td>{Cor.anchoAfuerAfuera}</td>
+                      <td>{Cor.anchoCortina}</td>
+                      <td>{Cor.anchoCaño}</td>
+                      <td>{Cor.cano}</td>
+                      <td>{Cor.altoCortina}</td>
+                      <td>{Cor.altoTela}</td>
+                      <td>1</td>
+                      <td>{Cor.cadena}</td>
+                      <td>{Cor.ladoCadena}</td>
+                      <td>{Cor.posicion}</td>
+                      <td>
+                        <OverlayTrigger
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
+                          }
+                        >
+                          <Button
+                            variant="secondary"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#6c757d",
+                            }} // Cambia el color y elimina el fondo gris
+                          >
+                            Comentario
+                          </Button>
+                        </OverlayTrigger>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "20px",
-                }}
-              >
-                <Button variant="secondary" onClick={handleClose}>
-                  Cancelar
-                </Button>
-                <Button variant="primary" onClick={() => EditCor()}>
-                  Editar
-                </Button>
-                <Button
-                  variant="success"
-                  onClick={() => alert("Ticket Clicked")}
-                >
-                  Ticket
-                </Button>
-              </div>
             </>
-          
-        </Box>
-      </Modal>
-
-      {/*<div style={buttonStyle}>
-                            <PDFDownloadLink document={<TicketCortina Venta={VentaImp} Cortina={CortinaCor} NumeroCor={false} />} fileName='Pdf'>
-                                <Button variant="primary">Ticket</Button>
-                            </PDFDownloa
-                            dLink>
-  </div>*/}
-  {CortinaEdited.idCortina ? (
-            <EditarCortina callBackCancel={ShowModalCallB} cortinaEdited={CortinaEdited} />
-          ) :
+          ) : null}
+          {CortinasTradicionales1pano.length !== 0 ? (
             <>
-      <h1>{Ven.NombreCliente}</h1>
-      {CortinasRollers.length !== 0 ? (
-        <>
-          <Table responsive>
-            <thead
-              style={{
-                justifyContent: "center",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <tr>
-                <th>Tipo</th>
-                <th>Num</th>
-                <th>Ambiente</th>
-                <th>Tela</th>
-                <th>Color</th>
-                <th>Ancho AF-AF</th>
-                <th>Ancho tela</th>
-                <th>Ancho Caño</th>
-                <th>caño</th>
-                <th>Alto Cortina</th>
-                <th>Alto Tela</th>
-                <th>cant</th>
-                <th>Cadena</th>
-                <th>Lado Cadena</th>
-                <th>posicion</th>
-                <th>Comentarios</th>
-              </tr>
-            </thead>
-            <tbody>
-              {CortinasRollers.map((Cor) => (
-                <tr key={Cor.idCortina} onClick={() => handleShow(Cor)}>
-                  <td>Roller</td>
-                  <td>{Cor.numeroCortina}</td>
-                  <td>{Cor.ambiente}</td>
-                  <td>{Cor.nombreTela}</td>
-                  <td>{Cor.colorTela}</td>
-                  <td>{Cor.anchoAfuerAfuera}</td>
-                  <td>{Cor.anchoCortina}</td>
-                  <td>{Cor.anchoCaño}</td>
-                  <td>{Cor.cano}</td>
-                  <td>{Cor.altoCortina}</td>
-                  <td>{Cor.altoTela}</td>
-                  <td>1</td>
-                  <td>{Cor.cadena}</td>
-                  <td>{Cor.ladoCadena}</td>
-                  <td>{Cor.posicion}</td>
-                  <td>
-                    <OverlayTrigger
-                      key="top"
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
-                      }
-                    >
-                      <Button
-                        variant="secondary"
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "#6c757d",
-                        }} // Cambia el color y elimina el fondo gris
-                      >
-                        Comentario
-                      </Button>
-                    </OverlayTrigger>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </>
-      ) : null}
-      {CortinasTradicionales1pano.length !== 0 ? (
-        <>
-          <Table responsive>
-            <thead
-              style={{
-                justifyContent: "center",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <tr>
-                <th>Tipo</th>
-                <th>Numero</th>
-                <th>Area</th>
-                <th>Tela</th>
-                <th>Color</th>
-                <th>Paños</th>
-                <th>Ancho</th>
-                <th>Largo</th>
-                <th>Lado Acumula</th>
-                <th>Pinza</th>
-                <th>Motorizada</th>
-                <th>Detalle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {CortinasTradicionales1pano.map((Cor) => (
-                <tr key={Cor.idCortina}>
-                  <td>Tradicional</td>
-                  <td>{Cor.numeroCortina}</td>
-                  <td>{Cor.ambiente}</td>
-                  <td>{Cor.nombreTela}</td>
-                  <td>{Cor.colorTela}</td>
-                  <td>{Cor.panos}</td>
-                  <td>{Cor.anchoCortina}</td>
-                  <td>{Cor.altoCortina}</td>
-                  <td>{Cor.acumula}</td>
-                  <td>{Cor.pinza}</td>
-                  {Cor.motorizada ? <td> Si</td> : <td>No</td>}
-                  <td>
-                    <OverlayTrigger
-                      key="top"
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
-                      }
-                    >
-                      <Button
-                        variant="secondary"
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "#6c757d",
-                        }} // Cambia el color y elimina el fondo gris
-                      >
-                        Comentario
-                      </Button>
-                    </OverlayTrigger>
-                  </td>
-                  {IdCorEdit === Cor.idCortina ? (
-                    <td
-                      className="Butooneditable"
-                      onClick={() => ConfirmEdit(Cor)}
-                    >
-                      Confirmar
-                    </td>
-                  ) : (
-                    <NavDropdown
-                      title="Opciones"
-                      id="basic-nav-dropdown"
-                      className="drop-custom"
-                    >
-                      <NavDropdown.Item
-                        className="editable"
-                        onClick={() => Editar(Cor)}
-                      >
-                        Editar
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as="div">
-                        <PDFDownloadLink
-                          document={<TicketCortina Venta={Ven} Cortina={Cor} />}
-                          fileName="Ticket"
-                        >
-                          <Button>Ticket</Button>
-                        </PDFDownloadLink>
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </>
-      ) : null}
-      {CortinasTradicionales2pano.length !== 0 ? (
-        <>
-          <Table responsive>
-            <thead
-              style={{
-                justifyContent: "center",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <tr>
-                <th>Tipo</th>
-                <th>Numero</th>
-                <th>Area</th>
-                <th>Tela</th>
-                <th>Color</th>
-                <th>Paños</th>
-                <th>Ancho Izq</th>
-                <th>Ancho Der</th>
-                <th>Largo</th>
-                <th>Pinza</th>
-                <th>Motorizada</th>
-                <th>Detalle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {CortinasTradicionales2pano.map((Cor) => (
-                <tr key={Cor.idCortina}>
-                  <td>Tradicional</td>
-                  <td>{Cor.numeroCortina}</td>
-                  <td>{Cor.ambiente}</td>
-                  <td>{Cor.nombreTela}</td>
-                  <td>{Cor.colorTela}</td>
-                  <td>{Cor.panos}</td>
-                  <td>{Cor.anchoCortina}</td>
-                  <td>{Cor.anchoDerecho}</td>
-                  <td>{Cor.altoCortina}</td>
-                  <td>{Cor.pinza}</td>
-                  {Cor.motorizada ? <td> Si</td> : <td>No</td>}
-                  <td>
-                    <OverlayTrigger
-                      key="top"
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
-                      }
-                    >
-                      <Button
-                        variant="secondary"
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "#6c757d",
-                        }} // Cambia el color y elimina el fondo gris
-                      >
-                        Comentario
-                      </Button>
-                    </OverlayTrigger>
-                  </td>
-                  {IdCorEdit === Cor.idCortina ? (
-                    <td
-                      className="Butooneditable"
-                      onClick={() => ConfirmEdit(Cor)}
-                    >
-                      Confirmar
-                    </td>
-                  ) : (
-                    <NavDropdown
-                      title="Opciones"
-                      id="basic-nav-dropdown"
-                      className="drop-custom"
-                    >
-                      <NavDropdown.Item
-                        className="editable"
-                        onClick={() => Editar(Cor)}
-                      >
-                        Editar
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as="div">
-                        <PDFDownloadLink
-                          document={<TicketCortina Venta={Ven} Cortina={Cor} />}
-                          fileName="Ticket"
-                        >
-                          <Button>Ticket</Button>
-                        </PDFDownloadLink>
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </>
-      ) : null}
-      {Rieles.length !== 0 ? (
-        <>
-          <Table responsive>
-            <thead
-              style={{
-                justifyContent: "center",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <tr>
-                <th>Tipo</th>
-                <th>Ambiente</th>
-                <th>Ancho</th>
-                <th>Tipo de Riel</th>
-                <th>Accionamiento</th>
-                <th>Armado</th>
-                <th>Soportes</th>
-                <th>Bastones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Rieles.map((Cor) => (
-                <tr key={Cor.idCortina}>
-                  <td>Rieles</td>
-                  <td>{Cor.ambiente}</td>
-                  <td>{Cor.ancho}</td>
-                  <td>{Cor.tipo}</td>
-                  <td>{Cor.acc}</td>
-                  <td>{Cor.armado}</td>
-                  <td>{Cor.soportes}</td>
-                  <td>{Cor.bastones}</td>
-                  {IdCorEdit === Cor.idCortina ? (
-                    <td
-                      className="Butooneditable"
-                      onClick={() => ConfirmEdit(Cor)}
-                    >
-                      Confirmar
-                    </td>
-                  ) : (
-                    <NavDropdown
-                      title="Opciones"
-                      id="basic-nav-dropdown"
-                      className="drop-custom"
-                    >
-                      <NavDropdown.Item
-                        className="editable"
-                        onClick={() => Editar(Cor)}
-                      >
-                        Editar
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as="div">
-                        <PDFDownloadLink
-                          document={<TicketCortina Venta={Ven} Cortina={Cor} />}
-                          fileName="Ticket"
-                        >
-                          <Button>Ticket</Button>
-                        </PDFDownloadLink>
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </>
-      ) : null}
-      {AgregarRollerBool ? (
-        <>
-          <FormRollers />
-        </>
-      ) : (
-        <Row className="justify-content-center">
-          <Col className="text-center my-2">      <Button style={{width:"80px",height:"50px",fontSize:"10px"}} variant="secondary" onClick={CreateETicket}>
-            E-Ticket
-          </Button></Col>
-          <Col className="text-center my-2">
-            <Button
-              variant="primary"
-              onClick={() => {
-                PrintNodeFunction(
-                  Ven,
-                  CortinasRollers,
-                  CortinasTradicionales1pano,
-                  false
-                );
-              }}
-              className="w-auto"
-            >
-              Tickets automatico
-            </Button>
-          </Col>
-          <Col className="text-center my-2"></Col>
-        </Row>
-      )}
-
-      {AgregarRollerBool ? null : (
-        <Row className="justify-content-center">
-          <Col style={{ width: "100%" }} className="text-center my-2">
-            {loadingpdf ? (
-              <Loading tipo="Ticket" />
-            ) : (
-              <Button
-                variant="primary"
-                style={{ width: "250px", fontSize: "18px" }}
-                onClick={() => {
-                  downloadPDF(Ven, CortinasRollers, CortinasTradi);
-                }}
-                className="w-auto"
-              >
-                PDF
-              </Button>
-            )}
-          </Col>
-
-          <Col className="text-center my-2">
-            <FloatingLabel
-              controlId="floatingTextarea2"
-              label="Comentario para PDF"
-            >
-              <Form.Control
-                as="textarea"
-                placeholder="Leave a comment here"
-                style={{
-                  borderRadius: "5px",
-                  overflow: "hidden", // Evita que aparezca una barra de desplazamiento
-                }}
-                value={ComentarioVenta}
-                onChange={(e) => {
-                  const lines = e.target.value.split("\n");
-                  if (lines.length <= 3) {
-                    setComentarioVenta(e.target.value);
-                  } else {
-                    // Si se exceden las 3 líneas, trunca el texto
-                    setComentarioVenta(lines.slice(0, 3).join("\n"));
-                  }
-                }}
-              />
-            </FloatingLabel>
-          </Col>
-          <Col className="text-center my-2">
-            {loadingTicket ? (
-              <Loading tipo="Ticket" />
-            ) : (
-              <>
-                <Row
+              <Table responsive>
+                <thead
                   style={{
-                    display: "flex",
                     justifyContent: "center",
-                    alignItems: "center",
-                    marginLeft: "2em",
+                    fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  <Col>
-                    <Form.Label style={{ fontSize: "20px" }}>
-                      Numero Cortina
-                    </Form.Label>
-                    <Form.Check
-                      style={{ transform: 'scale(1.2)'}} // prettier-ignore
-                      type="switch"
-                      checked={NumeroCor}
-                      onChange={(e) => {
-                        setNumeroCor(e.target.checked);
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Numero</th>
+                    <th>Area</th>
+                    <th>Tela</th>
+                    <th>Color</th>
+                    <th>Paños</th>
+                    <th>Ancho</th>
+                    <th>Largo</th>
+                    <th>Lado Acumula</th>
+                    <th>Pinza</th>
+                    <th>Motorizada</th>
+                    <th>Detalle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {CortinasTradicionales1pano.map((Cor) => (
+                    <tr key={Cor.idCortina}>
+                      <td>Tradicional</td>
+                      <td>{Cor.numeroCortina}</td>
+                      <td>{Cor.ambiente}</td>
+                      <td>{Cor.nombreTela}</td>
+                      <td>{Cor.colorTela}</td>
+                      <td>{Cor.panos}</td>
+                      <td>{Cor.anchoCortina}</td>
+                      <td>{Cor.altoCortina}</td>
+                      <td>{Cor.acumula}</td>
+                      <td>{Cor.pinza}</td>
+                      {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                      <td>
+                        <OverlayTrigger
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
+                          }
+                        >
+                          <Button
+                            variant="secondary"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#6c757d",
+                            }} // Cambia el color y elimina el fondo gris
+                          >
+                            Comentario
+                          </Button>
+                        </OverlayTrigger>
+                      </td>
+                      {IdCorEdit === Cor.idCortina ? (
+                        <td
+                          className="Butooneditable"
+                          onClick={() => ConfirmEdit(Cor)}
+                        >
+                          Confirmar
+                        </td>
+                      ) : (
+                        <NavDropdown
+                          title="Opciones"
+                          id="basic-nav-dropdown"
+                          className="drop-custom"
+                        >
+                          <NavDropdown.Item
+                            className="editable"
+                            onClick={() => Editar(Cor)}
+                          >
+                            Editar
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as="div">
+                            <PDFDownloadLink
+                              document={
+                                <TicketCortina Venta={Ven} Cortina={Cor} />
+                              }
+                              fileName="Ticket"
+                            >
+                              <Button>Ticket</Button>
+                            </PDFDownloadLink>
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </>
+          ) : null}
+          {CortinasTradicionales2pano.length !== 0 ? (
+            <>
+              <Table responsive>
+                <thead
+                  style={{
+                    justifyContent: "center",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                >
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Numero</th>
+                    <th>Area</th>
+                    <th>Tela</th>
+                    <th>Color</th>
+                    <th>Paños</th>
+                    <th>Ancho Izq</th>
+                    <th>Ancho Der</th>
+                    <th>Largo</th>
+                    <th>Pinza</th>
+                    <th>Motorizada</th>
+                    <th>Detalle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {CortinasTradicionales2pano.map((Cor) => (
+                    <tr key={Cor.idCortina}>
+                      <td>Tradicional</td>
+                      <td>{Cor.numeroCortina}</td>
+                      <td>{Cor.ambiente}</td>
+                      <td>{Cor.nombreTela}</td>
+                      <td>{Cor.colorTela}</td>
+                      <td>{Cor.panos}</td>
+                      <td>{Cor.anchoCortina}</td>
+                      <td>{Cor.anchoDerecho}</td>
+                      <td>{Cor.altoCortina}</td>
+                      <td>{Cor.pinza}</td>
+                      {Cor.motorizada ? <td> Si</td> : <td>No</td>}
+                      <td>
+                        <OverlayTrigger
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`tooltip-top`}>{Cor.detalle}</Tooltip>
+                          }
+                        >
+                          <Button
+                            variant="secondary"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#6c757d",
+                            }} // Cambia el color y elimina el fondo gris
+                          >
+                            Comentario
+                          </Button>
+                        </OverlayTrigger>
+                      </td>
+                      {IdCorEdit === Cor.idCortina ? (
+                        <td
+                          className="Butooneditable"
+                          onClick={() => ConfirmEdit(Cor)}
+                        >
+                          Confirmar
+                        </td>
+                      ) : (
+                        <NavDropdown
+                          title="Opciones"
+                          id="basic-nav-dropdown"
+                          className="drop-custom"
+                        >
+                          <NavDropdown.Item
+                            className="editable"
+                            onClick={() => Editar(Cor)}
+                          >
+                            Editar
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as="div">
+                            <PDFDownloadLink
+                              document={
+                                <TicketCortina Venta={Ven} Cortina={Cor} />
+                              }
+                              fileName="Ticket"
+                            >
+                              <Button>Ticket</Button>
+                            </PDFDownloadLink>
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </>
+          ) : null}
+          {Rieles.length !== 0 ? (
+            <>
+              <Table responsive>
+                <thead
+                  style={{
+                    justifyContent: "center",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                >
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Ambiente</th>
+                    <th>Ancho</th>
+                    <th>Tipo de Riel</th>
+                    <th>Accionamiento</th>
+                    <th>Armado</th>
+                    <th>Soportes</th>
+                    <th>Bastones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Rieles.map((Cor) => (
+                    <tr key={Cor.idCortina}>
+                      <td>Rieles</td>
+                      <td>{Cor.ambiente}</td>
+                      <td>{Cor.ancho}</td>
+                      <td>{Cor.tipo}</td>
+                      <td>{Cor.acc}</td>
+                      <td>{Cor.armado}</td>
+                      <td>{Cor.soportes}</td>
+                      <td>{Cor.bastones}</td>
+                      {IdCorEdit === Cor.idCortina ? (
+                        <td
+                          className="Butooneditable"
+                          onClick={() => ConfirmEdit(Cor)}
+                        >
+                          Confirmar
+                        </td>
+                      ) : (
+                        <NavDropdown
+                          title="Opciones"
+                          id="basic-nav-dropdown"
+                          className="drop-custom"
+                        >
+                          <NavDropdown.Item
+                            className="editable"
+                            onClick={() => Editar(Cor)}
+                          >
+                            Editar
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as="div">
+                            <PDFDownloadLink
+                              document={
+                                <TicketCortina Venta={Ven} Cortina={Cor} />
+                              }
+                              fileName="Ticket"
+                            >
+                              <Button>Ticket</Button>
+                            </PDFDownloadLink>
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </>
+          ) : null}
+          {AgregarRollerBool ? (
+            <>
+              <FormRollers />
+            </>
+          ) : (
+            <Row className="justify-content-center">
+              <Col className="text-center my-2">
+                {" "}
+                <Button
+                  style={{ width: "80px", height: "50px", fontSize: "10px" }}
+                  variant="secondary"
+                  onClick={CreateETicket}
+                >
+                  E-Ticket
+                </Button>
+              </Col>
+              <Col className="text-center my-2">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    PrintNodeFunction(
+                      Ven,
+                      CortinasRollers,
+                      CortinasTradicionales1pano,
+                      false
+                    );
+                  }}
+                  className="w-auto"
+                >
+                  Tickets automatico
+                </Button>
+              </Col>
+              <Col className="text-center my-2"></Col>
+            </Row>
+          )}
+
+          {AgregarRollerBool ? null : (
+            <Row className="justify-content-center">
+              <Col style={{ width: "100%" }} className="text-center my-2">
+                {loadingpdf ? (
+                  <Loading tipo="Ticket" />
+                ) : (
+                  <Button
+                    variant="primary"
+                    style={{ width: "250px", fontSize: "18px" }}
+                    onClick={() => {
+                      downloadPDF(Ven, CortinasRollers, CortinasTradi);
+                    }}
+                    className="w-auto"
+                  >
+                    PDF
+                  </Button>
+                )}
+              </Col>
+
+              <Col className="text-center my-2">
+                <FloatingLabel
+                  controlId="floatingTextarea2"
+                  label="Comentario para PDF"
+                >
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Leave a comment here"
+                    style={{
+                      borderRadius: "5px",
+                      overflow: "hidden", // Evita que aparezca una barra de desplazamiento
+                    }}
+                    value={ComentarioVenta}
+                    onChange={(e) => {
+                      const lines = e.target.value.split("\n");
+                      if (lines.length <= 3) {
+                        setComentarioVenta(e.target.value);
+                      } else {
+                        // Si se exceden las 3 líneas, trunca el texto
+                        setComentarioVenta(lines.slice(0, 3).join("\n"));
+                      }
+                    }}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col className="text-center my-2">
+                {loadingTicket ? (
+                  <Loading tipo="Ticket" />
+                ) : (
+                  <>
+                    <Row
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginLeft: "2em",
                       }}
-                      className="w-auto"
-                      id="custom-switch"
-                    />
-                  </Col>
-                  <Col>
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        downloadTicket(
-                          Ven,
-                          CortinasRollers,
-                          CortinasTradicionales1pano,
-                          NumeroCor
-                        );
-                      }}
-                      className="w-auto"
                     >
-                      Tickets
-                    </Button>
-                  </Col>
-                </Row>
-              </>
-            )}
-          </Col>
-        </Row>
+                      <Col>
+                        <Form.Label style={{ fontSize: "20px" }}>
+                          Numero Cortina
+                        </Form.Label>
+                        <Form.Check
+                          style={{ transform: 'scale(1.2)'}} // prettier-ignore
+                          type="switch"
+                          checked={NumeroCor}
+                          onChange={(e) => {
+                            setNumeroCor(e.target.checked);
+                          }}
+                          className="w-auto"
+                          id="custom-switch"
+                        />
+                      </Col>
+                      <Col>
+                        <Button
+                          variant="primary"
+                          onClick={() => {
+                            downloadTicket(
+                              Ven,
+                              CortinasRollers,
+                              CortinasTradicionales1pano,
+                              NumeroCor
+                            );
+                          }}
+                          className="w-auto"
+                        >
+                          Tickets
+                        </Button>
+                      </Col>
+                    </Row>
+                  </>
+                )}
+              </Col>
+            </Row>
+          )}
+        </>
       )}
-          </>
-        }
     </>
   );
 };

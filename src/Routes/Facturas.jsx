@@ -37,6 +37,7 @@ export const Facturas = () => {
 
   const FacturaUrl = "/Factura";
   const UrlVentas = "/Ventas/Dto";
+  const UrlVenta = "http://200.40.89.254:8085/Ventas/DtoVentaCor/";
   const UrlRecibos = "/Factura/Recibos/";
     /*
     const FacturaUrl = "http://20.84.111.102:8085/Factura"
@@ -44,51 +45,27 @@ export const Facturas = () => {
     const UrlRecibos = "http://20.84.111.102:8085/Factura/Recibos/"
     */
 
-    const CreateETicket = () => {
-        const ambiente = "test";
-        const Token = "N1knpOXqtdxDATl4Q0G5";
-        const Sucursal = "496";
-        const Url = `https://${ambiente}.biller.uy`
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", `Bearer ${Token}`);
-      
-        var raw = JSON.stringify({
-          tipo_comprobante: 101,
-          numero_interno: "A1-1412",
-          forma_pago: 1,
-          sucursal: Sucursal,
-          moneda: "UYU",
-          montos_brutos: 0,
-          cliente: {
-            tipo_documento: 3,
-            documento: "47395795",
-            nombre_fantasia: "Santiago Israel",
-            sucursal: {
-              pais: "UY",
-            },
-          },
-          items: [
-            {
-              cantidad: 1,
-              concepto: "Pelota de fútbol",
-              precio: 100,
-              indicador_facturacion: 3,
-            },
-          ],
-        });
-      
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow",
+    const CreateETicket = async () => {
+        const RequestOptions = {
+          headers: { "Content-Type": "application/json" },
+          method:"POST"
         };
-       
-        fetch(`${Url}/v2/comprobantes/crear`, requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
+        const dtoTick = {
+          tipoDocumento: 3,
+          documento: "47395795",
+          nombre_fantasia: "Santiago Israel",
+          itemTicket: [],
+        };
+        console.log(JSON.stringify(dtoTick))
+        RequestOptions.body = JSON.stringify(dtoTick);
+        try {
+          console.log("entro");
+          const response = await fetch(
+            "http://localhost:8085/print/ETicket",
+            RequestOptions
+          );
+          console.log(response);
+        } catch (e) {}
     };      
 
   function MostrarVenta(venta) {
@@ -109,6 +86,47 @@ export const Facturas = () => {
       console.log(error);
     }
   };
+  const GetCortinas = async ()=>{
+    if (IdVenta != null) {
+        try {
+          const res = await fetch(UrlVenta + IdVenta);
+          const data = await res.json();
+          console.log("data", data);
+  
+          const dataSortRollers = data.rollers.sort(
+            (a, b) => a.numeroCortina - b.numeroCortina
+          );
+          const VentaCors = {
+            Rollers: [],
+          };
+          dataSortRollers.forEach(element => {
+            const ItemTick = {
+              cantidad: 1,
+              concepto:"Roller "+element.colorTela+element.nombreTela+"medidas "+element.anchoAfuerAfuera+"X"+element.altoCortina ,
+              precio: 0,
+              indicador_facturacion: 3,
+            }
+            VentaCors.Rollers.push(ItemTick)
+          });
+          /*
+          const dataSortTradicionales1pano = data.tradicionals.filter(
+            (cor) => cor.panos === 1
+          );
+          const dataSortTradicionales2pano = data.tradicionals.filter(
+            (cor) => cor.panos === 2
+          );
+          const dataRiel = data.rieles;
+        */
+       
+
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsLoading(false); // Desactiva el estado de carga cuando los datos se obtienen
+        }
+      }
+  }
+
 
   const FetchFacturaVenta = async () => {
     try {

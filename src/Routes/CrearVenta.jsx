@@ -157,7 +157,7 @@ export const CrearVenta = () => {
     
     if (DataCli.Id) {
       console.log("Cliente con id", DataCli);
-      await crearVenta(DataCli.id, "0", Obra, FechaInstalacion);
+      await crearVenta(DataCli.Id, "0", Obra, FechaInstalacion);
     } else {
       console.log("Cliente sin id", DataCli);
       const clienteId = await crearCliente(DataCli);
