@@ -18,7 +18,7 @@ const dispatch = useDispatch()
                     <th>Numero</th>
                     <th>Area</th>
                     <th>Tela</th>
-                    <th>Ancho</th>
+                    <th>Ancho / Ancho Izquierdo</th>
                     <th>Ancho Derecho</th>
                     <th>Largo</th>
                     <th>Paños</th>
